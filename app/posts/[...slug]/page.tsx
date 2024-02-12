@@ -3,17 +3,17 @@ import formatDate from '@/lib/formatDate';
 import Mdx from '@/mdx-components';
 import { notFound } from 'next/navigation';
 
-
-export async function getStaticParams() {
-    return allPosts.map(post => ({
-        slug: post.slugAsParams.split('/'),
-    }))
-}
-
 type Props = {
     params: {
         slug: string[]
     }
+}
+
+
+export async function generateStaticParams(): Promise<Props['params'][]> {
+    return allPosts.map(post => ({
+        slug: post.slugAsParams.split('/'),
+    }))
 }
 
 export default function PostPage({params}: Props) {
