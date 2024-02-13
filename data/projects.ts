@@ -36,8 +36,9 @@ export const projects = [
     description:
       "User draws their UI, post request to OpenAI, then returns usable TailwindCSS code",
     link: { 
-      href: "https://code-buddy-ten.vercel.app/", 
-      label: "code-buddy-ten.vercel.app" 
+      // href: "https://code-buddy-ten.vercel.app/", // hobby deployment that is has 10 sec timeout casuing api request to timeout
+      href: "https://code-buddy-iota.vercel.app/", 
+      label: "code-buddy-iota.vercel.app" 
     },
     icon: CodeIcon,
   },
