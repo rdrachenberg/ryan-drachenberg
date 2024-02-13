@@ -20,7 +20,7 @@ export default function PostCard({ post }: Props) {
                 </h2>
                 <span className='relative z-10 order-first mb-3 flex items-center text-xs text-zinc-900 uppercase font-semibold dark:text-zinc-500'>
                     <CalendarIcon className='w-3 h-3 mr-1'/>
-                    <span>{formatDate(post.date)}</span>
+                    <span suppressHydrationWarning={true}>{formatDate(post.date)}</span>
                 </span>
                 <p className='relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400'>
                     {post.description}

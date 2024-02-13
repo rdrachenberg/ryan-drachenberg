@@ -55,7 +55,7 @@ export default function AboutPage() {
                             <li key={link.text} className='flex'>
                                 <Link href={link.social} target="__blank" className='group flex text-base font-medium text-zinc-800 transition hover:text-blue-500 dark:text-zinc-200 dark:hover:text-blue-500 '>
                                     <link.icon className='h-6 w-6 flex-none transition group-hover:text-blue-500'/>
-                                    <span className='ml-4'>{`Follow on ${link.text}`}</span>
+                                    <span className='ml-4'>{`${link.text === 'Email' ? 'Send an': 'Follow on' } ${link.text}`}</span>
                                 </Link>
                             </li>
                         ))}

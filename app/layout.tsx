@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <body className={`${inter.className} flex h-full bg-blue-600 dark:bg-black`}>
+      <body className={`${inter.className} flex h-full bg-blue-600 dark:bg-black`} suppressHydrationWarning={true}>
         <SharedLayout>
           {children}
         </SharedLayout>

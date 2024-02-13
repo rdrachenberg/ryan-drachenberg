@@ -36,7 +36,7 @@ export default function PostPage({params}: Props) {
                         </h1>
                         <time dateTime={post.date} className='order-first flex items-center text-base text-zinc-400 dark:text-zinc-500'>
                             <span className='h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500'/>
-                            <span className='ml-3'>{formatDate(post.date)}</span>
+                            <span className='ml-3' suppressHydrationWarning={true}>{formatDate(post.date)}</span>
                         </time>
                     </header>
                     <div className='mt-8 prose dark:prose-invert pb-24 max-w-lg md:max-w-2xl'>
