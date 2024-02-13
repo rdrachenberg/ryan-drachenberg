@@ -12,7 +12,7 @@ export default function PostCard({ post }: Props) {
         <article className='md:grid md:grid-cols-4 md:items-baseline'>
             <div className='md:col-span-3 group relative flex flex-col items-start pl-5'>
                 <h2 className='text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100'>
-                    <div className='absolute z-0 bg-blue-300/50 -inset-x-4 -inset-y-6 scale-95 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-blue-80-0/20 sm:-inset-x-6 sm:rounded-2xl'/>
+                    <div className='absolute z-0 bg-blue-300/50 -inset-x-4 -inset-y-6 scale-95 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-blue-800/20 sm:-inset-x-6 sm:rounded-2xl'/>
                     <Link href={post.slug} className=''>
                         <span className='absolute -inset-x-4 -inset-y-6 z-20 sm:rounded-2xl'></span>
                         <span className='relative z-10'>{post.title}</span>
