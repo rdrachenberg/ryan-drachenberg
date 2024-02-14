@@ -1,13 +1,9 @@
 import {
-  CloudIcon,
   CodeIcon,
-  CpuIcon,
   HeartHandshakeIcon,
-  LeafIcon,
   RabbitIcon,
   ShieldCheckIcon,
   ShoppingCartIcon,
-  WavesIcon,
 } from "lucide-react";
 
 export const projects = [

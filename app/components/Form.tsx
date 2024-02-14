@@ -1,6 +1,6 @@
 'use client'
 import { RotateCwIcon } from "lucide-react";
-import {  signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -91,7 +91,7 @@ export default function Form({ type }: Props) {
                 className='text-black mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm'
                 />
             </div>
-            <button className={`${ isLoading ? 'cursor-not-allowed bg-gray-800/50' 
+            <button className={`${ isLoading ? 'cursor-not-allowed bg-blue-800/50' 
             : 
             'bg-black '} flex h-10 w-full items-center justify-center rounded-md border text-sm transition-colors focus:outline-none text-white bg-black shadow-sm border-white hover:bg-blue-600`}
             disabled={isLoading}

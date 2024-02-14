@@ -1,6 +1,5 @@
 import { allPosts } from '@/.contentlayer/generated';
 import PostCard from '@/components/PostCard';
-import formatDate from '@/lib/formatDate';
 
 export default function HomePage() {
   // console.log(allPosts);
