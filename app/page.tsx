@@ -1,9 +1,12 @@
 import { allPosts } from '@/.contentlayer/generated';
 import PostCard from '@/components/PostCard';
+import formatDate from '@/lib/formatDate';
 
 export default function HomePage() {
   // console.log(allPosts);
   // const post = allPosts;
+  let sorted = allPosts.sort((a,b) => Number(new Date(b.date)) - Number(new Date(a.date))) // sort decending with newest post at beging of array
+  
   return (
     <>
       <header className="max-w-2xl">
@@ -18,7 +21,7 @@ export default function HomePage() {
       <div className='mt-16 sm:mt-20'>
         <div className='md:border-l-2 md:border-zinc-700/40'>
           <div className='flex max-w-3xl flex-col mb-24 space-y-16'>
-            {allPosts.map(post => (
+            {sorted.map(post => (
               <PostCard key={post._id} post={post} />
             ))}
           </div>
