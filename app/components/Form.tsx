@@ -93,7 +93,7 @@ export default function Form({ type }: Props) {
             </div>
             <button className={`${ isLoading ? 'cursor-not-allowed bg-gray-800/50' 
             : 
-            'bg-black '} flex h-10 w-full items-center justify-center rounded-md border text-sm transition-colors focus:outline-none text-white bg-black shadow-sm border-white hover:bg-green-600`}
+            'bg-black '} flex h-10 w-full items-center justify-center rounded-md border text-sm transition-colors focus:outline-none text-white bg-black shadow-sm border-white hover:bg-blue-600`}
             disabled={isLoading}
             >
                 {isLoading ? (
