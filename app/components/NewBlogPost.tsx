@@ -30,7 +30,11 @@ export default function NewBlogPost() {
         blogPost(payload);
 
         console.log(payload);
-        // setisLoading(false);
+        
+        toast.success('Article submitted successfuly');
+        setisLoading(false);
+        router.push('/');
+        
 
         
     }

@@ -24,7 +24,7 @@ const links = [
 export default function Header() {
     const pathname = usePathname();
     return (
-        <header className='w-full relative top-8' suppressHydrationWarning={true}>
+        <header className='w-full relative top-8' suppressHydrationWarning>
             <div className='flex items-center mx-auto justify-between md:max-w-2xl max-w-lg sm:px-8 px-2'>
                 <Link href={'/'} className='rounded-full shadow border dark:border-gray-700 p-2'>
                     <HomeIcon className='text-black dark:text-white'/>

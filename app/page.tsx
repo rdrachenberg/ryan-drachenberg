@@ -1,6 +1,7 @@
 import { allPosts } from '@/.contentlayer/generated';
 import PostCard from '@/components/PostCard';
 
+
 export default function HomePage() {
   // console.log(allPosts);
   // const post = allPosts;
