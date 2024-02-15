@@ -1,12 +1,13 @@
 # 🏡 Ryan Drachenberg Hub
 
-Personal website and blog with Next.js, Contentlayer, TailwindCSS and Next Themes
+## Personal website and blog made with Next.js, Contentlayer, TailwindCSS and Next Themes
 
 <p align='center'>
     <img src='https://img.shields.io/badge/MDX-50.5%25-brightgreen?style=plastic&logo=markdown'>
     <img src='https://img.shields.io/badge/TypeScript-42.1%25-blue?style=plascit&logo=typescript&logoColor=blue'>
     <a href='https://github.com/rdrachenberg'>
         <img src='https://img.shields.io/badge/Node%20-.js-success?style=plastic&logo=Node.js&logoColor=success'>
+        <br>
         <img src='https://img.shields.io/badge/React%20-18-informational?style=plastic&logo=React&logoColor=#61DAFB'>
     </a>
     <a href='https://github.com/rdrachenberg'>
