@@ -10,7 +10,7 @@ export const projects = [
   {
     name: "aEComSolution.com",
     description:
-      "Advanced analytics suite for marine biologists and underwater explorers.",
+      "Nextjs app built for a client to dirve online bookings with Calendly.",
     link: {
       href: "http://www.aecomsolution.com",
       label: "aecomsolution.com",
