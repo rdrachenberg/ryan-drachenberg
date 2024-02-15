@@ -1,6 +1,6 @@
 # 🏡 Ryan Drachenberg Hub
 
-Personal website and blog with Next.js, Contentlayer, TailwindCSS and Next Themes
+## Personal website and blog with Next.js, Contentlayer, TailwindCSS and Next Themes
 
 <p align='center'>
     <img src='https://img.shields.io/badge/MDX-50.5%25-brightgreen?style=plastic&logo=markdown'>
