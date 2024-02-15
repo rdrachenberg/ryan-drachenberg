@@ -1,11 +1,29 @@
-# 🏡 Home Hub
+# 🏡 Ryan Drachenberg Hub
 
-A great base to build your own beautiful personal website and blog with Next.js, Contentlayer, TailwindCSS and Next Themes
+Personal website and blog with Next.js, Contentlayer, TailwindCSS and Next Themes
 
-#### ⚡️ Requirements
+<p align='center'>
+    <img src='https://img.shields.io/badge/MDX-50.5%25-brightgreen?style=plastic&logo=markdown'>
+    <img src='https://img.shields.io/badge/TypeScript-42.1%25-blue?style=plascit&logo=typescript&logoColor=blue'>
+    <a href='https://github.com/rdrachenberg'>
+        <img src='https://img.shields.io/badge/Node%20-.js-success?style=plastic&logo=Node.js&logoColor=success'>
+        <img src='https://img.shields.io/badge/React%20-18-informational?style=plastic&logo=React&logoColor=#61DAFB'>
+    </a>
+    <a href='https://github.com/rdrachenberg'>
+        <img src='https://img.shields.io/badge/Next%20-.js-success?style=plastic&logo=next.js&logoColor=white'>
+    </a>
+    <a href='https://github.com/rdrachenberg'>
+        <img src='https://img.shields.io/badge/Made%20by-rDrachenberg-blue?style=plastic&logo=visual-studio-code&logoColor=blue'>
+    </a> 
+    <img src= 'https://img.shields.io/github/issues/rdrachenberg/ryan-react-app?style=plastic' />
+    <a href='mailto:RyanDrachenberg@gmail.com'>
+        <img src='https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg?logo=minutemailer&logoColor=#29B99B'>
+    </a>
+</p>
+</br>
 
-- Install Node.js at [nodejs.org](https://nodejs.org)
-- Good code editor, preferably [VSCode](https://code.visualstudio.com)
+
+### [⚡️ Deployed App on Vercel Here](https://ryan-drachenberg.vercel.app/)
 
 #### 📚 Libraries/Services Used
 
@@ -15,33 +33,27 @@ A great base to build your own beautiful personal website and blog with Next.js,
 - [Lucide (icon library)](https://lucide.dev)
 - [TailwindCSS (css library)](https://tailwindcss.com)
 
+
+####  Home Page 
+<p align='center'>
+ <img src='https://github.com/rdrachenberg/ryan-react-app/blob/main/assets/ryan-drachenberg-home-light.png?raw=true'>
+</p>
+
+##### Dark mode support
+<p align='center'>
+ <img src='https://github.com/rdrachenberg/ryan-react-app/blob/main/assets/ryan-drachenberg-home-dark.png?raw=true'>
+</p>
+
+#### Projects Page 
+<p align='center'>
+ <img src='https://github.com/rdrachenberg/ryan-react-app/blob/main/assets/ryan-drachenberg-projects.png?raw=true'>
+</p>
+
+#### About Page 
+<p align='center'>
+ <img src='https://github.com/rdrachenberg/ryan-react-app/blob/main/assets/ryan-drachenberg-about.png?raw=true'>
+</p>
+
+
 Inspired by: https://github.com/shadcn/next-contentlayer
 
-#### Home Page
-
-```jsx
-<header className="max-w-2xl">
-  <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-    Writing on software design, company building, and the aerospace industry.
-  </h1>
-  <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-    All of my long-form thoughts on programming, leadership, product design, and
-    more, collected in chronological order.
-  </p>
-</header>
-```
-
-#### Projects Page
-
-```jsx
-<h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-  Projects That Shape My Journey
-</h1>
-<p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-  Throughout the years, I have dedicated my time to various ventures, each with
-  a unique impact. While some projects are just budding ideas, others have
-  flourished and continue to grow. They are all open-source, encouraging
-  collaborative development. Dive into the repositories, and if inspiration
-  strikes, join in and contribute to the innovation.
-</p>
-```
