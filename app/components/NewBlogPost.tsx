@@ -39,7 +39,7 @@ export default function NewBlogPost() {
         
     }
     return (
-        <form onSubmit={handleSubmit} className='flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16 border-black rounded-md' suppressHydrationWarning >
+        <form onSubmit={handleSubmit} className='flex flex-col space-y-4 bg-gray-50 px-4 py-8 sm:px-16 border-black rounded-md' >
             <div>
                 <label htmlFor='title' className='block text-xs text-gray-700 uppercase'>
                     Title

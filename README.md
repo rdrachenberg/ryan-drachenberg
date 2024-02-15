@@ -1,4 +1,4 @@
-# 🏡 Ryan Drachenberg Hub
+# 🏡 Ryan Drachenberg Home Hub 🏡
 
 ## Personal website and blog with Next.js, Contentlayer, TailwindCSS and Next Themes
 
