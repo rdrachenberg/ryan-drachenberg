@@ -22,7 +22,7 @@ export default function ProjectsPage() {
                                     <project.icon className="group-hover:text-white"/>
                                 </div>
                                 <h2 className='text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100 group-hover:text-gray-800 dark:group-hover:text-gray-100'>
-                                    <div className='absolute z-0 bg-blue-300/50 -inset-x-4 -inset-y-1 scale-95 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-blue-800/20 sm:-inset-x-6 sm:rounded-2xl '/>
+                                    <div className='absolute z-0 bg-blue-300/50 -inset-x-4 -inset-y-2 scale-95 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-blue-800/20 sm:-inset-x-6 sm:rounded-2xl '/>
                                     <Link href={project.link.href} target="_blank">
                                         <span className='absolute -inset-x-4 -inset-y-6 z-20 sm:rounded-2xl'></span>
                                         <span className='relative z-10'>{project.name}</span>
