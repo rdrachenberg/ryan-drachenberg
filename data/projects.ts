@@ -1,5 +1,6 @@
 import {
   CodeIcon,
+  GithubIcon,
   HeartHandshakeIcon,
   RabbitIcon,
   ShieldCheckIcon,
@@ -10,10 +11,15 @@ export const projects = [
   {
     name: "aEComSolution.com",
     description:
-      "Nextjs app built for a client to dirve online bookings with Calendly.",
+      "I was tasked with building a Nextjs app to dirve online bookings with Calendly.",
     link: {
       href: "http://www.aecomsolution.com",
       label: "aecomsolution.com",
+    },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/automated-e-solutions", 
+      label: "GitHub",
+      icon: GithubIcon
     },
     icon: HeartHandshakeIcon,
   },
@@ -25,6 +31,12 @@ export const projects = [
       href: "https://any-store-tau.vercel.app", 
       label: "any-store-tau.vercel.app" 
     },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/any-store", 
+      label: "GitHub",
+      icon: GithubIcon
+    },
+    
     icon: ShoppingCartIcon,
   },
   {
@@ -36,6 +48,11 @@ export const projects = [
       href: "https://code-buddy-iota.vercel.app/", 
       label: "code-buddy-iota.vercel.app" 
     },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/code-buddy", 
+      label: "GitHub",
+      icon: GithubIcon
+    },
     icon: CodeIcon,
   },
   {
@@ -46,6 +63,11 @@ export const projects = [
       href: "https://next-protector.vercel.app/", 
       label: "next-protector.vercel.app" 
     },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/next-protector", 
+      label: "GitHub",
+      icon: GithubIcon
+    },
     icon: ShieldCheckIcon,
   },
   {
@@ -55,6 +77,11 @@ export const projects = [
     link: { 
       href: "https://dashey.vercel.app/", 
       label: "dashey.vercel.app" 
+    },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/dashey", 
+      label: "GitHub",
+      icon: GithubIcon
     },
     icon: RabbitIcon,
   },
