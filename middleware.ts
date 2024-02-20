@@ -18,7 +18,7 @@ export default async function middleware(request: NextRequest) {
         return NextResponse.redirect(new URL('/login', request.url));
     
         // redirect to authorized pages if already logged in
-    } else if(session && (path === 'login' || path === '/register')) { 
+    } else if(session && (path === '/login' || path === '/register')) { 
         return NextResponse.redirect(new URL('/protected', request.url))
     }
 

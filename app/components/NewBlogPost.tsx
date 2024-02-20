@@ -6,28 +6,47 @@ import { signOut } from "next-auth/react";
 import { RotateCwIcon } from "lucide-react";
 import formatDateForMDFile from "@/lib/formatDateForMDFile";
 import blogPost from "@/lib/blogPost";
+import blogPostToDB from "./blogPostToDB";
+
+
+
 export default function NewBlogPost() {
     const [isLoading, setisLoading] = useState(false);
 
     const router = useRouter()
 
+    const authorId = 'clsl6nl9l00009y1z7b7gyriv';
+
+   
+
     function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         setisLoading(true);
-        console.log('handleSubmit kickin')
+        // console.log('handleSubmit kickin')
         let date = new Date();
-        date.toISOString().split('T')[0]
-        console.log(date)
+        date.toISOString().split('T')[0];
+
+        console.log(date);
         
         
         const payload = {
+            authorId: authorId,
             title: event.currentTarget.title.value,
             description: event.currentTarget.description.value,
             date: new Date(formatDateForMDFile(date.toString())),
             code: event.currentTarget.code.value,
         }
 
-        blogPost(payload);
+        if(process.env.NODE_ENV === 'development') {
+            // need to swap these function calls in actual production to blogPost(payload here)
+            console.log('we are in dev here')
+            // blogPostToDB(payload); // TESTING THIS FUNCTION. Needs to move to else statement 
+            blogPost(payload); // UNCOMMENT THIS FUNCTION FOR PRODUCTION
+        } else {
+            blogPostToDB(payload);
+        }
+
+        
 
         console.log(payload);
         
