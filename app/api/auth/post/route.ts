@@ -36,3 +36,16 @@ export async function POST(request: Request) {
         return NextResponse.json({success: true}, { status: 200 })
     }
 }
+
+export async function GET() {
+    const posts = await prisma.post.findMany({});
+    // console.log(posts);
+
+    if(!posts) {
+        return NextResponse.json({error: 'No post in DB'}, { status: 400 });
+
+    } 
+
+    return NextResponse.json({posts}, { status: 200})
+    
+}

@@ -1,10 +1,11 @@
 import { allPosts } from '@/.contentlayer/generated';
 import PostCard from '@/components/PostCard';
+import dbSync from '@/lib/dbSync';
 
+export default async function HomePage() {
 
-export default function HomePage() {
-  // console.log(allPosts);
-  // const post = allPosts;
+  // const sync = dbSync(); // call to seed from db
+  
   let sorted = allPosts.sort((a,b) => Number(new Date(b.date)) - Number(new Date(a.date))) // sort decending with newest post at beging of array
   
   return (

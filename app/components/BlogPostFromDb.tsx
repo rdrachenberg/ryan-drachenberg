@@ -1,21 +1,14 @@
 import toast from "react-hot-toast";
 
-type Props = {
-    authorId: string,
-    title: string,
-    description: string,
-    date: Date,
-    code: string,
-}
-export default async function blogPostToDB(data: Props) {
+
+export default async function BlogPostFromDb() {
     
     const rawPost = {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(data)
     };
 
     // console.log(rawPost);
@@ -26,8 +19,9 @@ export default async function blogPostToDB(data: Props) {
         :
             post = await fetch('https://ryan-drachenberg.vercel.app/api/auth/post', rawPost)
         
-        toast.success('Post to DB successful!')
-        
+        // toast.success('GET DB data successful!')
+
+        return post.json()
 
     } catch (error) {
         console.log('ERROR Here: ----> ')
