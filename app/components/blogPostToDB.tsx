@@ -21,9 +21,11 @@ export default async function blogPostToDB(data: Props) {
 
     console.log(rawPost);
     try {
-        
-        
-        const post = await fetch('http://localhost:3000/api/auth/post', rawPost)
+        let post;
+        process.env.NODE_ENV === 'development' ? 
+            post = await fetch('http://localhost:3000/api/auth/post', rawPost) 
+        :
+            post = await fetch('https://ryan-drachenberg.vercel.app/api/auth/post', rawPost)
         
         toast.success('Post to DB successful!')
 
