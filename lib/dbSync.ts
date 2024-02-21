@@ -1,4 +1,4 @@
-import BlogPostFromDb from "@/app/components/BlogPostFromDb";
+import BlogPostFromDb from "@/lib/blogPostFromDb";
 import blogPost from "./blogPost";
 
 export default async function dbSync(){
@@ -11,10 +11,10 @@ export default async function dbSync(){
     const title = value.title as string;
     const description = value.description as string;
     const date = value.date;
-    const code = value.code;
+    const code = value.code as string;
 
     const payload = {
-      title: title.split(' ').join('-'),
+      title: title.split(' ').join('-').toLocaleLowerCase(),
       description,
       date,
       code

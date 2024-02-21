@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react";
 import { RotateCwIcon } from "lucide-react";
 import formatDateForMDFile from "@/lib/formatDateForMDFile";
 import blogPost from "@/lib/blogPost";
-import blogPostToDB from "./blogPostToDB";
+import blogPostToDB from "@/lib/blogPostToDB";
 
 
 

@@ -1,15 +1,31 @@
+'use client'
 import { allPosts } from '@/.contentlayer/generated';
 import PostCard from '@/components/PostCard';
 import dbSync from '@/lib/dbSync';
+import { Loader2Icon } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
-export default async function HomePage() {
 
-  // const sync = dbSync(); // call to seed from db
+export default function HomePage() {
+  const [loading, isLoading] = useState(true);
+
+  useEffect(() => {
+    isLoading(true);
+    
+    // dbSync(); // call to seed from db
+    
+    isLoading(false);
+  }, [])
+  
   
   let sorted = allPosts.sort((a,b) => Number(new Date(b.date)) - Number(new Date(a.date))) // sort decending with newest post at beging of array
   
   return (
     <>
+    {loading? 
+        <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
+      :
+      <>
       <header className="max-w-2xl">
         <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
           Writing on software design, digital assets, and the blockchain industry.
@@ -28,6 +44,9 @@ export default async function HomePage() {
           </div>
         </div>
       </div>
+      </>
+    }
+      
     </>
   );
 }
