@@ -58,3 +58,9 @@
 
 Inspired by: https://github.com/shadcn/next-contentlayer
 
+TODO 
+- [ ] success checkout page
+- [ ] Integrate shopping cart
+- [ ] Remove payment link after cart Integration
+- [ ] crypto wallet donate page completed
+
