@@ -2,7 +2,7 @@
 export default function CryptoPage() {
     return (
         <div>
-            Here is the crypto page 
+            <w3m-button />
         </div>
     )
 } 
