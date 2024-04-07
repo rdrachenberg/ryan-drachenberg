@@ -11,7 +11,7 @@ if (!projectId) throw new Error('Project ID is not defined')
 const metadata = {
   name: 'Ryan Drachenberg Dev',
   description: 'Web3Modal',
-  url: 'https://ryan-drachenberg.vercel.app/', // origin must match your domain & subdomain
+  url: 'http://localhost:3000/' || 'https://ryan-drachenberg.vercel.app/', // origin must match your domain & subdomain
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
