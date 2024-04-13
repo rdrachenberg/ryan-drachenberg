@@ -1,8 +1,13 @@
+'use client'
+
+import CheckoutForm from "../components/CheckoutForm";
 
 export default function FiatPage() {
+  
+
     return (
-        <div>
-            Here is the fiat page 
+        <div className=' mx-auto flex'>        
+             <CheckoutForm uiMode="hosted" />
         </div>
     )
 } 

@@ -8,7 +8,7 @@ const paymentLinks = [
     {
         icon: DollarSignIcon,
         text: 'Credit Card',
-        social: 'https://buy.stripe.com/3cscPQdJr1Q0aHeaEE',
+        social: '/fiat',
         count: 1,
     },
     

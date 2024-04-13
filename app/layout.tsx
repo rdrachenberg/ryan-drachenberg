@@ -9,6 +9,7 @@ import { cookieToInitialState } from 'wagmi';
 import { config }from '@/config';
 import Web3ModalProvider from "@/context";
 
+const stripeKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   description: 'Ryan Drachenberg projects'
 };
 
-const stripeKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
+
 
 export default function RootLayout({
   children,
@@ -29,14 +30,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body className={`${inter.className} flex h-full bg-blue-600 dark:bg-black`} suppressHydrationWarning={true}>
-        {/* <CartProvider stripe={stripeKey} cartMode='checkout-session' currency='USD'> */}
-        <Web3ModalProvider initialState={initialState}>
-        <SharedLayout>
-          <Toaster />
-          {children}
-        </SharedLayout>
-        {/* </CartProvider> */}
-        </Web3ModalProvider>
+          <Web3ModalProvider initialState={initialState}>
+            <SharedLayout>
+              <Toaster />
+              {children}
+            </SharedLayout>
+          </Web3ModalProvider>
       </body>
     </html>
   );
