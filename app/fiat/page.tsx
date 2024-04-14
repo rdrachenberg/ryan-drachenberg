@@ -6,7 +6,7 @@ export default function FiatPage() {
   
 
     return (
-        <div className=' mx-auto flex'>        
+        <div className='flex items-center'>        
              <CheckoutForm uiMode="hosted" />
         </div>
     )

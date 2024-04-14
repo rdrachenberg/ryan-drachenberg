@@ -10,10 +10,7 @@ import { formatAmountForDisplay } from "@/utils/stripe-helpers";
 import * as config from "@/config";
 import { createCheckoutSession } from "@/app/actions/stripe";
 import getStripe from "@/utils/get-stripe";
-import {
-  EmbeddedCheckout,
-  EmbeddedCheckoutProvider,
-} from "@stripe/react-stripe-js";
+import { EmbeddedCheckout, EmbeddedCheckoutProvider,} from "@stripe/react-stripe-js";
 
 interface CheckoutFormProps {
   uiMode: Stripe.Checkout.SessionCreateParams.UiMode;
@@ -46,8 +43,8 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
   };
 
   return (
-    <div className='grid grid-col-2'>
-      <form action={formAction} className='mx-auto'>
+    <div className='flex flex-col justify-center items-center place-items-center'>
+      <form action={formAction}>
         <input type="hidden" name="uiMode" value={props.uiMode} />
         <CustomDonationInput
           className="checkout-style"
@@ -61,7 +58,7 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
         />
         
         <button
-          className="checkout-style-background bg-blue-500 hover:bg-blue-400 hover:border-2 hover:border-white border-2 border-black p-1 rounded-full m-4 "
+          className="checkout-style-background bg-blue-500 hover:bg-blue-400 hover:border-2 hover:border-white border-2 border-black p-2 rounded-full m-4 "
           type="submit"
           disabled={loading}
         >
