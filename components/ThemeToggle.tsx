@@ -16,12 +16,12 @@ export default function ThemeToggle() {
     }
 
     return (
-        <button onClick={() => setTheme(theme === 'light' ? 'dark': 'light')} className='border dark:border-gray-700 shadow rounded-full w-10 h-10 flex items-center justify-center' suppressHydrationWarning>
+        <button onClick={() => setTheme(theme === 'light' ? 'dark': 'light')} className='rounded-full shadow border dark:border-gray-700 p-2 flex items-center justify-center' suppressHydrationWarning>
             {theme === 'light' ? 
             (
-            <MoonIcon className='w-5 h-5'/>
+            <MoonIcon className='w-3 h-3 sm:w-5 sm:h-5'/>
             ) : (
-            <SunIcon className='w-5 h-5'/>
+            <SunIcon className='w-3 h-3 sm:w-5 sm:h-5'/>
             )}
             
         </button>
