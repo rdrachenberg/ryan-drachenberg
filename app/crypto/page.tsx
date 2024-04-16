@@ -127,7 +127,7 @@ export default function CryptoPage() {
     }, [])
     
     return (
-        <div className='flex flex-col relative min-h-screen'>
+        <div className='flex flex-col relative min-h-screen max-h-fit'>
             {loading ? (  
                 <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
             ) : (
@@ -140,43 +140,39 @@ export default function CryptoPage() {
                             {isPending || isConfirming ? (
                                 <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
                             ) : (
-                                <div className='flex flex-row min-w-screen min-h-full'>
+                                <div className='flex flex-row justify-center items-center mt-10'>
                                     {isConfirmed ? (
-                                            <div className='flex flex-col justify-start truncate space-y-4'>
+                                            <div className='flex flex-col justify-start truncate max-w-[300px] space-y-4'>
+                                                <div className='flex flex-row'>
+                                                    <div className='text-green-400'>Transaction confirmed.</div>
+                                                    <div>
+                                                        <CheckCircleIcon className='flex w-6 h-6 flex-shrink-0 text-green-400 ml-2 transition-opacity ease-in-out delay-150 duration-300' />
+                                                    </div>    
+                                                </div>
                                                 {hash && 
                                                     <div className='flex flex-row'>
-                                                        <Tooltip content={hash}>
-                                                            <Button radius='none' className='px-0 py-0'>Transaction Hash: {hash}</Button>
+                                                        <Tooltip content={hash} color='foreground' className='bg-black p-4 rounded-lg'>
+                                                            <Button radius='none' className='px-0 py-0 text-white'>Transaction Hash: {hash}...</Button>
                                                         </Tooltip>
                                                         <div className='flex flex-col justify-center align-middle ml-2' onClick={() => handleCopyClick(hash)}>
                                                             {copied ? 
-                                                                <CopyCheck className='w-5 h-5 text-green-500'/> 
+                                                                <Tooltip content={'Copied'}>
+                                                                    <CopyCheck className='w-5 h-5 text-green-500'/> 
+                                                                </Tooltip>
                                                                 : 
-                                                                <CopyIcon className='w-5 h-5 '/>
+                                                                <Tooltip content={'Copy'}>
+                                                                    <CopyIcon className='w-5 h-5 text-white'/>
+                                                                </Tooltip>
                                                             }
                                                         </div>
                                                     </div>
                                                 }
                                                 
                                                 <div className='space-y-4 rounded-md '>
-                                                    
-                                                    {isConfirmed && 
-                                                    <div>
-                                                        <div className='flex flex-row'>
-                                                            <div className='text-green-400'>Transaction confirmed.</div>
-                                                            <div>
-                                                                <CheckCircleIcon className='flex w-6 h-6 flex-shrink-0 text-green-400 ml-2' />
-                                                            </div>    
-                                                        </div>
-                                                        <div className='flex flex-col'>
-                                                            
-                                                        </div>
-                                                        </div>
-                                                    }
                                                     {logsState && 
                                                         <div>
                                                             <Link href={explorer+hash} target='_blank'>
-                                                                <div className='flex flex-row hover:text-blue-500'>
+                                                                <div className='flex flex-row text-white hover:text-blue-500'>
                                                                 Transaction Block Explorer <ArrowLeftCircle className='ml-2 hover:text-blue-500'/>
                                                                 </div>
                                                                 
