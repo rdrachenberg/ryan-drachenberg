@@ -133,8 +133,8 @@ export default function CryptoPage() {
             ) : (
                 <div className='relative flex flex-col'>
                     {isConnected ? ( 
-                        <div className='border-4 border-blue-500 bg-gradient-to-r from-slate-500 to-slate-800 dark:bg-gray-600 p-5 sm:p-48  rounded-xl'>
-                            <div className='flex align-end my-3 ml-5 justify-end absolute top-1 right-0 md:max-w-2xl max-w-sm sm:px-8 px-8'>
+                        <div className='border-4 border-blue-500 bg-gradient-to-r from-slate-500 to-slate-800 dark:bg-gray-600 p-5 sm:p-48 min-w-[300px] h-full rounded-xl'>
+                            <div className='flex align-end my-3 ml-5 mb-10 justify-end absolute top-1 right-0 md:max-w-2xl max-w-sm sm:px-8 px-8'>
                                 <w3m-button />
                             </div>
                             {isPending || isConfirming ? (
