@@ -56,6 +56,14 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
           onChange={handleInputChange}
           value={input.customDonation}
         />
+
+        {/* <input 
+         name="uiMode" 
+          className='text-black max-w-[100px]'
+          type='text' 
+          value={formatAmountForDisplay(input.customDonation,  config.CURRENCY)} 
+          onChange={handleInputChange}
+          /> */}
         
         <button
           className="checkout-style-background bg-blue-500 hover:bg-blue-400 hover:border-2 hover:border-white border-2 border-black p-2 rounded-full m-4 "

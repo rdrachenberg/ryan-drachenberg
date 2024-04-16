@@ -3,18 +3,21 @@ import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 import { cookieStorage, createStorage } from 'wagmi'
 import { mainnet, sepolia, bsc, bscTestnet } from 'wagmi/chains'
 
+
 // Get projectId at https://cloud.walletconnect.com
 export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
+const host = process.env.NODE_ENV == 'development' ? 'http://localhost:3000/' : 'https://ryan-drachenberg.vercel.app/'; 
 
 if (!projectId) throw new Error('Project ID is not defined')
 
 const metadata = {
   name: 'Ryan Drachenberg Dev',
   description: 'Web3Modal',
-  url: 'http://localhost:3000/' || 'https://ryan-drachenberg.vercel.app/', // origin must match your domain & subdomain
+  url: host, // origin must match your domain & subdomain
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
+console.log(host);
 // Create wagmiConfig
 const chains = [mainnet, sepolia, bsc, bscTestnet] as const
 export const config = defaultWagmiConfig({

@@ -179,13 +179,7 @@ export default function CryptoPage() {
                                                             </Link>
                                                             
                                                         </div>
-                                                    }
-                                                    {/* {logsState && 
-                                                        <div>
-                                                            <div>{JSON.parse(logsState)[0].logIndex}</div>
-                                                            <div>{JSON.parse(logsState)[0].transactionHash}</div>
-                                                        </div>
-                                                    } */}
+                                                    }   
                                                 </div>
                                             </div>
                                         ) : (

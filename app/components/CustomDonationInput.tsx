@@ -21,8 +21,7 @@ export default function CustomDonationInput({
 }): JSX.Element {
   return (
     <label>
-      Donation ({formatAmountForDisplay(min, currency)}-
-      {formatAmountForDisplay(max, currency)}):
+    
       <input
         type="range"
         name={name}
