@@ -6,10 +6,13 @@ import { getChainId } from '@wagmi/core';
 import { config } from '@/config';
 import { parseEther, Address } from 'viem'
 import { abi } from '../../abi/abi';
-import { Loader2Icon, CheckCircleIcon } from 'lucide-react';
+import { Loader2Icon, CheckCircleIcon, ArrowLeftCircle, CopyIcon, CopyCheck } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import toast from 'react-hot-toast';  
+import Link from 'next/link';
+import { Tooltip } from "@nextui-org/react";
+import { Button } from "@nextui-org/button";
 
 export default function CryptoPage() {
     const {address, isConnecting, isDisconnected, isConnected} = useAccount();
@@ -18,9 +21,11 @@ export default function CryptoPage() {
     const [logsState, setLogsState] = useState<any>([])
     const [contract, setContract] = useState('');
     const [chain, setChain] = useState('');
+    const [copied, setCopied] = useState(false)
     const isNotNumberBro = isNaN(Number(valueToSend)); 
     let contractAddress = `0x45b54e6AedeE2d73d9F09934C7C4973f6B6Cd41E` as string; // bsctest sepolia testnet deployed
     //const contractAddress = `0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9` as string; // mainnet bsc deployed
+    const [explorer, setExplorer] = useState('');
     
     const { data: hash, writeContract, isPending } = useWriteContract();
     const {isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
@@ -36,23 +41,27 @@ export default function CryptoPage() {
             setChain('bsc');
             contractAddress = '0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9'
             setContract(contractAddress);
+            setExplorer('https://bscscan.com/tx/');
 
         } else if(chainGang == '97')  {
             contractAddress = '0x45b54e6AedeE2d73d9F09934C7C4973f6B6Cd41E'
             setContract(contractAddress);
-            setChain('bsc-test')
+            setChain('bsc-test');
+            setExplorer('https://testnet.bscscan.com/tx/');
         
         } else if(chainGang == '1'){
             console.log('Etherum Network detected');
             setChain('eth');
             contractAddress = '0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9';
             setContract(contractAddress);
+            setExplorer('https://etherscan.io/tx/');
         
         } else if(chainGang == '11155111'){
             console.log('Sepolia Test Network detected');
             setChain('eth Sepolia')
             contractAddress = '0x45b54e6AedeE2d73d9F09934C7C4973f6B6Cd41E'
             setContract(contractAddress);
+            setExplorer('https://sepolia.etherscan.io/tx/');
         }
 
         return chain
@@ -80,6 +89,17 @@ export default function CryptoPage() {
         setValueToSend(e.target.value);
     };
 
+    const handleCopyClick = (textToCopy: string) => {
+        setCopied(!copied);
+        console.log('Copy clicked! ');
+        navigator.clipboard.writeText(textToCopy);
+        console.log(textToCopy);
+        setTimeout(() => {
+            setCopied(false);
+            // console.log('we ever getting here>?')
+        }, 2000)
+    }
+
     useWatchContractEvent({
             address: contractAddress as Address,
             abi,
@@ -88,6 +108,8 @@ export default function CryptoPage() {
                 setLogsState(() => JSON.stringify(logs, (_, v) => typeof v === 'bigint' ? v.toString() : v));
                 console.log(logsState)
                 console.log('Logs have changed \n', logs);
+                console.log(logsState[0].transactionHash);
+                () => setExplorer(explorer + `${logsState[0].transactionHash}`)
                 toast.success('Transaction successful')
             }
         });
@@ -105,14 +127,14 @@ export default function CryptoPage() {
     }, [])
     
     return (
-        <div className='container xl:max-w-screen-xl min-w-full'>
+        <div className='flex flex-col relative min-h-screen'>
             {loading ? (  
                 <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
             ) : (
-                <div className=''>
+                <div className='relative flex flex-col'>
                     {isConnected ? ( 
-                        <div className='border-4 border-blue-500 container xl:max-w-screen-xl min-w-full min-h-full bg-gray-600 p-48  rounded-xl'>
-                            <div className='flex align-end my-3 mx-6 justify-end absolute top-0 right-0 md:max-w-2xl max-w-lg sm:px-8 px-8'>
+                        <div className='border-4 border-blue-500 bg-gradient-to-r from-slate-500 to-slate-800 dark:bg-gray-600 p-5 sm:p-48  rounded-xl'>
+                            <div className='flex align-end my-3 ml-5 justify-end absolute top-1 right-0 md:max-w-2xl max-w-sm sm:px-8 px-8'>
                                 <w3m-button />
                             </div>
                             {isPending || isConfirming ? (
@@ -120,21 +142,46 @@ export default function CryptoPage() {
                             ) : (
                                 <div className='flex flex-row min-w-screen min-h-full'>
                                     {isConfirmed ? (
-                                            <div className='flex flex-col justify-start truncate overscroll-contain'>
-                                                {hash && <div className='grid grid-col-1 min-w-[150%]'>Transaction Hash: {hash}</div>}
+                                            <div className='flex flex-col justify-start truncate space-y-4'>
+                                                {hash && 
+                                                    <div className='flex flex-row'>
+                                                        <Tooltip content={hash}>
+                                                            <Button radius='none' className='px-0 py-0'>Transaction Hash: {hash}</Button>
+                                                        </Tooltip>
+                                                        <div className='flex flex-col justify-center align-middle ml-2' onClick={() => handleCopyClick(hash)}>
+                                                            {copied ? 
+                                                                <CopyCheck className='w-5 h-5 text-green-500'/> 
+                                                                : 
+                                                                <CopyIcon className='w-5 h-5 '/>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                }
+                                                
                                                 <div className='space-y-4 rounded-md '>
                                                     
                                                     {isConfirmed && 
                                                     <div>
-                                                        <div className='grid grid-cols-2 gap-1'>
+                                                        <div className='flex flex-row'>
                                                             <div className='text-green-400'>Transaction confirmed.</div>
                                                             <div>
-                                                                <CheckCircleIcon className='flex w-6 h-6 flex-shrink-0 text-green-400 ' />
+                                                                <CheckCircleIcon className='flex w-6 h-6 flex-shrink-0 text-green-400 ml-2' />
                                                             </div>    
                                                         </div>
                                                         <div className='flex flex-col'>
                                                             
                                                         </div>
+                                                        </div>
+                                                    }
+                                                    {logsState && 
+                                                        <div>
+                                                            <Link href={explorer+hash} target='_blank'>
+                                                                <div className='flex flex-row hover:text-blue-500'>
+                                                                Transaction Block Explorer <ArrowLeftCircle className='ml-2 hover:text-blue-500'/>
+                                                                </div>
+                                                                
+                                                            </Link>
+                                                            
                                                         </div>
                                                     }
                                                     {/* {logsState && 
@@ -146,10 +193,10 @@ export default function CryptoPage() {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div>
-                                                <div className='flex flex-row p-2 '>
-                                                    <div className='flex flex-col text-start m-5 text-white'>Amount</div>
-                                                    <div className='flex flex-col justify-center align-top w-60'>
+                                            <div className='flex flex-col justify-center mt-8 mb-8'>
+                                                <div className='flex flex-row p-2'>
+                                                    <div className='flex flex-col text-start m-5 text-white  ms-0'>Amount</div>
+                                                    <div className='flex flex-col justify-center align-top sm:w-60 max-w-sm w-[50%] dark:text-black'>
                                                         <input type='text'
                                                             value={valueToSend}
                                                             onChange={handleValueInput}
@@ -167,8 +214,8 @@ export default function CryptoPage() {
                                                         
                                                     </div>
                                                 </div>
-                                                <div className='flex p-2 '>
-                                                    <button disabled={isPending} onClick={handleSubmit} className='rounded-full p-2 w-[60%] border-2 border-black bg-blue-500 mx-auto text-white shadow-lg'>{isPending ? 'Confirming' : 'Submit' }</button>
+                                                <div className='flex p-2'>
+                                                    <button disabled={isPending} onClick={handleSubmit} className='rounded-full p-2 w-full sm:w-[60%] border-2 border-black bg-blue-500 mx-auto text-white shadow-lg'>{isPending ? 'Confirming' : 'Submit' }</button>
                                                 </div>
                                             </div>
                                         )
