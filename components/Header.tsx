@@ -31,8 +31,8 @@ export default function Header() {
     return (
         <header className='w-full relative top-8'>
             <div className=' flex flex-row sm:flex items-center mx-auto justify-between md:max-w-2xl max-w-max sm:px-8 '>
-                <Link href={'/'} className='rounded-full shadow border dark:border-gray-700 p-2'>
-                    <HomeIcon className='text-black dark:text-white w-3 h-3 sm:w-5 sm:h-5'/>
+                <Link href={'/'} className='rounded-full shadow border dark:border-gray-700 p-2 hidden sm:flex'>
+                    <HomeIcon className='text-black dark:text-white w-3 h-3 sm:w-5 sm:h-5 hidden sm:flex'/>
                 </Link>
                 <ul className='flex rounded-full px-3 dark:text-white text-black font-medium shadow dark:border-gray-700 border'>
                 {links.map(link => (
