@@ -21,9 +21,9 @@ export default function CustomDonationInput({
 }): JSX.Element {
   return (
     <label>
-    
+      
       <input
-        type="range"
+        type="number"
         name={name}
         min={min}
         max={max}
@@ -31,6 +31,7 @@ export default function CustomDonationInput({
         onChange={onChange}
         value={value}
         className={className}
+        
       ></input>
     </label>
   );

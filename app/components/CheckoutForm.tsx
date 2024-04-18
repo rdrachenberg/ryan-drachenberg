@@ -14,13 +14,16 @@ import { EmbeddedCheckout, EmbeddedCheckoutProvider,} from "@stripe/react-stripe
 
 interface CheckoutFormProps {
   uiMode: Stripe.Checkout.SessionCreateParams.UiMode;
+  testtoggle: boolean,
+
 }
 
 export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
   const [loading] = useState<boolean>(false);
   const [input, setInput] = useState<{ customDonation: number }>({
-    customDonation: Math.round(config.MAX_AMOUNT / config.AMOUNT_STEP),
+    customDonation: Math.round(10),
   });
+  const testMode = props.testtoggle;
   const [clientSecret, setClientSecret] = useState<string | null>(null);
 
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (
@@ -35,7 +38,8 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
     const uiMode = data.get(
       "uiMode",
     ) as Stripe.Checkout.SessionCreateParams.UiMode;
-    const { client_secret, url } = await createCheckoutSession(data);
+     
+    const { client_secret, url } = await createCheckoutSession(data, testMode);
 
     if (uiMode === "embedded") return setClientSecret(client_secret);
 
@@ -43,11 +47,11 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
   };
 
   return (
-    <div className='flex flex-col justify-center items-center place-items-center'>
+    <div className='flex flex-row justify-center items-center place-items-center'>
       <form action={formAction}>
         <input type="hidden" name="uiMode" value={props.uiMode} />
         <CustomDonationInput
-          className="checkout-style"
+          className="checkout-style dark:text-black rounded"
           name="customDonation"
           min={config.MIN_AMOUNT}
           max={config.MAX_AMOUNT}
@@ -56,15 +60,6 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
           onChange={handleInputChange}
           value={input.customDonation}
         />
-
-        {/* <input 
-         name="uiMode" 
-          className='text-black max-w-[100px]'
-          type='text' 
-          value={formatAmountForDisplay(input.customDonation,  config.CURRENCY)} 
-          onChange={handleInputChange}
-          /> */}
-        
         <button
           className="checkout-style-background bg-blue-500 hover:bg-blue-400 hover:border-2 hover:border-white border-2 border-black p-2 rounded-full m-4 "
           type="submit"

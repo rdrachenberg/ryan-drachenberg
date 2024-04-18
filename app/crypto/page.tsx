@@ -199,7 +199,7 @@ export default function CryptoPage() {
                                                         {chain == 'bsc' || chain == 'bsc-test' ? (
                                                             <Image src={'/bsc-nobg.png'} width={20} height={20} alt='Binance Smart Chain' />
                                                         ) : (
-                                                            <Image src={'/eth.png'} width={30} height={30} alt='Binance Smart Chain' />
+                                                            <Image src={'/eth.png'} width={30} height={30} alt='Etherum Smart Chain' />
                                                         )}
                                                         
                                                     </div>
