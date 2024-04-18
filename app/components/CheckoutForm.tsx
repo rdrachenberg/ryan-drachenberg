@@ -70,7 +70,7 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
       </form>
       {clientSecret ? (
         <EmbeddedCheckoutProvider
-          stripe={getStripe()}
+          stripe={getStripe(testMode)}
           options={{ clientSecret }}
         >
           <EmbeddedCheckout />
