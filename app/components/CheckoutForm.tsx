@@ -61,7 +61,7 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
           value={input.customDonation}
         />
         <button
-          className="checkout-style-background bg-blue-500 hover:bg-blue-400 hover:border-2 hover:border-white border-2 border-black p-2 rounded-full m-4 "
+          className="checkout-style-background bg-blue-500 hover:bg-blue-600 hover:border-2 hover:border-blue-500 border-2 border-black p-2 rounded-full m-4 "
           type="submit"
           disabled={loading}
         >
