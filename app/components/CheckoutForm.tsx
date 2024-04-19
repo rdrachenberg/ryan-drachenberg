@@ -52,10 +52,10 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
       
         <input type="hidden" name="uiMode" value={props.uiMode} />
         <div className='flex flex-col-3 justify-center'>
-          <div className="flex flex-col h-0 w-0 border-y-8 border-x-transparent border-b-[16px] border-b-blue-600"></div>
-          <div className="flex flex-col w-20 justify-center items-end ml-10 pr-2">$</div>  
+          <div className="flex flex-col h-0 w-0"></div>
+          <div className="flex flex-col w-20 justify-center items-end ml-28 pr-2">$</div>  
           <CustomDonationInput
-            className="checkout-style dark:text-black rounded flex flex-col px-auto justify-end items-end place-items-end object-right"
+            className="checkout-style dark:text-black rounded flex flex-col px-auto justify-end items-end place-items-end object-right w-[110px]"
             name="customDonation"
             min={config.MIN_AMOUNT}
             max={config.MAX_AMOUNT}
@@ -72,7 +72,7 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
           rounded-full 
           m-4 
           mt-[550px]
-          sm:mt-10
+          sm:mt-28
           w-[300px] sm:w-[350px]
           shadow-[0_8px_30px_rgb(0,0,0,0.12)]
           text-white
