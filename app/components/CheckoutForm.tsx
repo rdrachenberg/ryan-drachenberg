@@ -47,21 +47,36 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
   };
 
   return (
-    <div className='flex flex-row justify-center items-center place-items-center'>
+    <div className='flex flex-col mx-auto justify-center items-center place-items-center'>
       <form action={formAction}>
+      
         <input type="hidden" name="uiMode" value={props.uiMode} />
-        <CustomDonationInput
-          className="checkout-style dark:text-black rounded"
-          name="customDonation"
-          min={config.MIN_AMOUNT}
-          max={config.MAX_AMOUNT}
-          step={config.AMOUNT_STEP}
-          currency={config.CURRENCY}
-          onChange={handleInputChange}
-          value={input.customDonation}
-        />
+        <div className='flex flex-col-3 justify-center'>
+          <div className="flex flex-col h-0 w-0 border-y-8 border-x-transparent border-b-[16px] border-b-blue-600"></div>
+          <div className="flex flex-col w-20 justify-center items-end ml-10 pr-2">$</div>  
+          <CustomDonationInput
+            className="checkout-style dark:text-black rounded flex flex-col px-auto justify-end items-end place-items-end object-right"
+            name="customDonation"
+            min={config.MIN_AMOUNT}
+            max={config.MAX_AMOUNT}
+            step={config.AMOUNT_STEP}
+            currency={config.CURRENCY}
+            onChange={handleInputChange}
+            value={input.customDonation}
+          />
+        </div>
+        
         <button
-          className="checkout-style-background bg-blue-500 hover:bg-blue-600 hover:border-2 hover:border-blue-500 border-2 border-black p-2 rounded-full m-4 "
+          className="checkout-style-background 
+          bg-blue-500 hover:bg-blue-600 hover:border-2 hover:border-blue-500 border-2 border-black p-2 
+          rounded-full 
+          m-4 
+          mt-[550px]
+          sm:mt-10
+          w-[300px] sm:w-[350px]
+          shadow-[0_8px_30px_rgb(0,0,0,0.12)]
+          text-white
+          "
           type="submit"
           disabled={loading}
         >

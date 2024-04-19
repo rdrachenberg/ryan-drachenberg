@@ -21,7 +21,6 @@ export default function CustomDonationInput({
 }): JSX.Element {
   return (
     <label>
-      
       <input
         type="number"
         name={name}
