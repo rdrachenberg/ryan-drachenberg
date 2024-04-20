@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { Tooltip } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
+import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 
 export default function CryptoPage() {
     const {address, isConnecting, isDisconnected, isConnected} = useAccount();
@@ -218,6 +219,12 @@ export default function CryptoPage() {
                     ) : (
                         <div>
                             <w3m-button />
+                            <div className='container'>
+                                <div className='flex flex-col-2 mt-28 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
+                                    <h2 className='hover:text-blue-600'>Instructions</h2>
+                                    <QuestionMarkCircleIcon className='w-5 h-5 ml-1 justify-center align-bottom '/>
+                                </div>
+                            </div>
                         </div>
                     )
                     }

@@ -71,7 +71,7 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
           bg-blue-500 hover:bg-blue-600 hover:border-2 hover:border-blue-500 border-2 border-black p-2 
           rounded-full 
           m-4 
-          mt-[550px]
+          mt-[400px]
           sm:mt-28
           w-[300px] sm:w-[350px]
           shadow-[0_8px_30px_rgb(0,0,0,0.12)]
