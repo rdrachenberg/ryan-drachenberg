@@ -49,13 +49,12 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
   return (
     <div className='flex flex-col mx-auto justify-center items-center place-items-center'>
       <form action={formAction}>
-      
         <input type="hidden" name="uiMode" value={props.uiMode} />
         <div className='flex flex-col-3 justify-center'>
-          <div className="flex flex-col h-0 w-0"></div>
-          <div className="flex flex-col w-20 justify-center items-end ml-28 pr-2">$</div>  
+          
+          <div className="flex flex-col w-5 justify-center items-end pr-2">$</div>  
           <CustomDonationInput
-            className="checkout-style dark:text-black rounded flex flex-col px-auto justify-end items-end place-items-end object-right w-[110px]"
+            className="checkout-style dark:text-black rounded flex flex-col px-auto justify-start items-start place-items-start object-left w-[260px] focus"
             name="customDonation"
             min={config.MIN_AMOUNT}
             max={config.MAX_AMOUNT}
@@ -65,7 +64,7 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
             value={input.customDonation}
           />
         </div>
-        
+        <div className="flex flex-col h-0 w-20"></div>
         <button
           className="checkout-style-background bg-blue-500 hover:bg-blue-600 hover:border-2 hover:border-blue-500 border-2 border-gray-200 dark:border-black p-2 rounded-full m-4 mt-[350px] sm:mt-28 w-[300px] sm:w-[350px] shadow-[0_8px_30px_rgb(0,0,0,0.12)] text-white"
           type="submit"
