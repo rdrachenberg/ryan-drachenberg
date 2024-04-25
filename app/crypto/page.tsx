@@ -218,13 +218,16 @@ export default function CryptoPage() {
                         </div>
                     ) : (
                         <div>
-                            <w3m-button />
                             <div className='container'>
-                                <div className='flex flex-col-2 mt-28 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
-                                    <h2 className='hover:text-blue-600'>Instructions</h2>
-                                    <QuestionMarkCircleIcon className='w-5 h-5 ml-1 justify-center align-bottom '/>
+                                <Link href={'/instructions'}>
+                                <div className='flex flex-col-2 mb-16 mt-0 sm:-mt-16 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
+                                    <h2 className='hover:text-blue-600 text-xs'>Instructions</h2>
+                                    <QuestionMarkCircleIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
                                 </div>
+                                </Link>
                             </div>
+                            <w3m-button />
+                            
                         </div>
                     )
                     }
