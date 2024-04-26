@@ -220,8 +220,8 @@ export default function CryptoPage() {
                         <div>
                             <div className='container'>
                                 <Link href={'/instructions'}>
-                                <div className='flex flex-col-2 mb-16 mt-0 sm:-mt-16 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
-                                    <h2 className='hover:text-blue-600 text-xs'>Instructions</h2>
+                                <div className='flex flex-col-2 mb-16 -mt-8 sm:-mt-16 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
+                                    <h2 className='hover:text-blue-600 text-xs'>Help</h2>
                                     <QuestionMarkCircleIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
                                 </div>
                                 </Link>

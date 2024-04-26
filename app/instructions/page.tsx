@@ -2,15 +2,26 @@
 import Image from "next/image"
 import toast from "react-hot-toast";
 import useOnScreen from '../api/utils/useOnScreen';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+
 
 export default function Instructions() {
 
+    const [show, setShow] = useState(false);
+
     const endTrigger = useRef(null);
+    const middleTrigger = useRef(null);
+
     const visible = useOnScreen(endTrigger, '-100px')
+    const visibleMiddle = useOnScreen(middleTrigger, '-50px');
 
     const trigger = () => {
         toast.success('🥳🥳🥳 Congrats! If you have finished these onboarding instructions and should have a new crypto wallet.',{duration: 5000});
+    }
+
+    const triggerMiddle = () => {
+        console.log('Middle trigger hit');
+        setShow(true);
     }
 
     useEffect(() => {
@@ -19,20 +30,26 @@ export default function Instructions() {
         }
     },[visible])
     
+    useEffect(() => {
+        if(visibleMiddle){
+            triggerMiddle();
+        }
+    },[visibleMiddle])
+    
 
     return (
         <div>
             <div className='text-xl text-white border-2 dark:border-black bg-gradient-to-r from-blue-500 to-black rounded p-2'>Instructions</div>
-            <div className='text-lg mb-4 mt-4 darK:bg-gradient-to-l from-blue-400 to-black'>First click on the connect button</div>
-            <Image src='/explainer.png' alt='where to connect' width={500} height={200} className='border-3 border-gradient-to-l from-blue-400 to-black'/>
-            <div className='text-lg mb-4 mt-8 border-3 dark:bg-gradient-to-l from-blue-400 to-black'>Are you a new user or exsisting user?</div>
-            <div className='mb-4 mt-4 dark:bg-gradient-to-r from-gray-700 to-black rounded p-2'>
-                <div className='text-sm '>If you are a new user or email user, enter your email on the top line.</div>
+            <div className='text-lg mb-4 mt-4 darK:bg-gradient-to-l from-blue-400 to-black animate-in slide-in-from-left delay-100 duration-1800'>First click on the connect button</div>
+            <Image src='/explainer.png' alt='where to connect' width={500} height={200} className='animate-in slide-in-from-right border-3 border-gradient-to-l from-blue-400 to-black'/>
+            <div className='text-lg mb-4 mt-8 border-3 dark:bg-gradient-to-l from-blue-400 to-black animate-in ease-in slide-in-from-bottom'>Are you a new user or exsisting user?</div>
+            <div className='mb-4 mt-4 dark:bg-gradient-to-r from-gray-700 to-black rounded p-2 animate-in ease-in slide-in-from-bottom'>
+                <div className='text-sm'>If you are a new user or email user, enter your email on the top line.</div>
                 <div className='text-sm '>If you already have a wallet, you can connect with your wallet provider below</div>
             </div>
-            <Image src='/explainer-two.png' alt='modal login view' width={500} height={200}/>
-            <div className='text-lg mb-4 mt-8'>Then you will receive an email from Wallet Connect with a Login code</div>
-            <Image src='/explainer-three.png' alt='confirmation email' width={500} height={200}/>
+            <Image src='/explainer-two.png' alt='modal login view' width={500} height={200} className='animate-in ease-in slide-in-from-right'/>
+            <div className='text-lg mb-4 mt-8' ref={middleTrigger}>Then you will receive an email from Wallet Connect with a Login code</div>
+            <Image src='/explainer-three.png' alt='confirmation email' width={500} height={200} className='animate-in ease-in slide-in-from-bottom delay-1000'/>
             <div className='text-lg mb-4 mt-8'>Enter this code in the App</div>
             <Image src='/explainer-five.png' alt='enter code view' width={500} height={200}/>
             <div className='text-lg mb-4 mt-8'>Click on your wallet address</div>
