@@ -125,7 +125,7 @@ export default function CryptoPage() {
         setTimeout(() => {
             isLoading(false);
         }, 400)
-    }, [])
+    }, [chain, chainId, chainName])
     
     return (
         <div className='flex flex-col relative min-h-screen max-h-fit'>
@@ -227,7 +227,6 @@ export default function CryptoPage() {
                                 </Link>
                             </div>
                             <w3m-button />
-                            
                         </div>
                     )
                     }
