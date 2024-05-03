@@ -1,6 +1,4 @@
-
 'use client';
-
 import { useAccount, useWriteContract, useWaitForTransactionReceipt, useWatchContractEvent } from 'wagmi';
 import { getChainId } from '@wagmi/core';
 import { config } from '@/config';
@@ -14,14 +12,19 @@ import Link from 'next/link';
 import { Tooltip } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
+import Withdrawal from '../components/Withdrawal';
+
+interface Contract {
+    contract: string;
+}
 
 export default function CryptoPage() {
     const {address, isConnecting, isDisconnected, isConnected} = useAccount();
     const [loading, isLoading] = useState(true);
-    const [valueToSend, setValueToSend] = useState('');
+    const [valueToSend, setValueToSend] = useState<any>('');
     const [logsState, setLogsState] = useState<any>([])
     const [contract, setContract] = useState('');
-    const [chain, setChain] = useState('');
+    const [chain, setChain] = useState<any>('');
     const [copied, setCopied] = useState(false)
     const isNotNumberBro = isNaN(Number(valueToSend)); 
     let contractAddress = `0x45b54e6AedeE2d73d9F09934C7C4973f6B6Cd41E` as string; // bsctest sepolia testnet deployed
@@ -31,12 +34,10 @@ export default function CryptoPage() {
     const { data: hash, writeContract, isPending } = useWriteContract();
     const {isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
         hash,
-    })
-
+    });
     const chainId = getChainId(config);
     
-
-    const chainName = async (chainGang: string) => {
+    const chainName = (chainGang: string) => {
         if(chainGang == '56') {
             console.log('Binance Smart Chain detected');
             setChain('bsc');
@@ -71,10 +72,10 @@ export default function CryptoPage() {
     async function handleSubmit() {
         console.log('Submit clicked');
         let parsedEther = parseEther(valueToSend);
-        console.log(valueToSend);
-        console.log('parsed -->')
-        console.log(parsedEther);
-        await chainName(chainId.toString());
+        // console.log(valueToSend);
+        // console.log('parsed -->')
+        // console.log(parsedEther);
+        chainName(chainId.toString());
 
         writeContract({
             address: contract as Address,
@@ -113,7 +114,7 @@ export default function CryptoPage() {
                 () => setExplorer(explorer + `${logsState[0].transactionHash}`)
                 toast.success('Transaction successful')
             }
-        });
+    });
     
 
     useEffect(() => {
@@ -121,11 +122,11 @@ export default function CryptoPage() {
         console.log(chainId);
         chainName(chainId.toString());
         
-        
         setTimeout(() => {
             isLoading(false);
         }, 400)
-    }, [chain, chainId, chainName])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [chain, chainId])
     
     return (
         <div className='flex flex-col relative min-h-screen max-h-fit'>
@@ -134,16 +135,16 @@ export default function CryptoPage() {
             ) : (
                 <div className='relative flex flex-col'>
                     {isConnected ? ( 
-                        <div className='border-4 border-blue-500 bg-gradient-to-r from-slate-500 to-slate-800 dark:bg-gray-600 p-5 sm:p-48 min-w-[300px] h-full rounded-xl'>
+                        <div className='border-4 border-blue-500 bg-gradient-to-r from-slate-500 to-slate-800 dark:bg-gray-600 p-5 sm:p-48 min-w-[300px] h-full sm:h-[500px] rounded-xl'>
                             <div className='flex align-end my-3 ml-5 mb-10 justify-end absolute top-1 right-0 md:max-w-2xl max-w-sm sm:px-8 px-8'>
                                 <w3m-button />
                             </div>
                             {isPending || isConfirming ? (
                                 <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
                             ) : (
-                                <div className='flex flex-row justify-center items-center mt-10'>
+                                <div className='flex flex-row justify-center items-center mt-1'>
                                     {isConfirmed ? (
-                                            <div className='flex flex-col justify-start truncate max-w-[300px] space-y-4'>
+                                            <div className='clear flex flex-col justify-start max-w-[300px] sm:max-w-[500px] space-y-4'>
                                                 <div className='flex flex-row'>
                                                     <div className='text-green-400'>Transaction confirmed.</div>
                                                     <div>
@@ -153,7 +154,7 @@ export default function CryptoPage() {
                                                 {hash && 
                                                     <div className='flex flex-row'>
                                                         <Tooltip content={hash} color='foreground' className='bg-black p-4 rounded-lg'>
-                                                            <Button radius='none' className='px-0 py-0 text-white'>Transaction Hash: {hash}...</Button>
+                                                            <Button radius='none' className='px-0 py-0 text-white truncate'>Transaction Hash: {hash}...</Button>
                                                         </Tooltip>
                                                         <div className='flex flex-col justify-center align-middle ml-2' onClick={() => handleCopyClick(hash)}>
                                                             {copied ? 
@@ -184,8 +185,8 @@ export default function CryptoPage() {
                                                 </div>
                                             </div>
                                         ) : (
-                                            <div className='flex flex-col justify-center mt-8 mb-8'>
-                                                <div className='flex flex-row p-2'>
+                                            <div className='flex flex-col justify-center mt-8 mb-8 sm:mt-0 sm:mb-0 my-auto'>
+                                                <div className='flex flex-row p-2 sm:mb-8 mx-auto'>
                                                     <div className='flex flex-col text-start m-5 text-white  ms-0'>Amount</div>
                                                     <div className='flex flex-col justify-center align-top sm:w-60 max-w-sm w-[50%] dark:text-black'>
                                                         <input type='text'
@@ -206,7 +207,11 @@ export default function CryptoPage() {
                                                     </div>
                                                 </div>
                                                 <div className='flex p-2'>
-                                                    <button disabled={isPending} onClick={handleSubmit} className='rounded-full p-2 w-full sm:w-[60%] border-2 border-black bg-blue-500 mx-auto text-white shadow-lg'>{isPending ? 'Confirming' : 'Submit' }</button>
+                                                    <button disabled={isPending} onClick={handleSubmit} className='rounded-full p-2 w-full sm:w-[90%] border-2 border-black bg-blue-500 mx-auto text-white shadow-lg'>{isPending ? 'Confirming' : 'Submit' }</button>
+                                                </div>
+                                                <div>
+                                                    <Withdrawal contract={contract} />
+                                                    
                                                 </div>
                                             </div>
                                         )

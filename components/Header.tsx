@@ -8,7 +8,7 @@ const links = [
     {
         icon: PencilIcon,
         href: '/',
-        text: 'Writing'
+        text: 'Insights'
     },
     {
         icon: CogIcon,

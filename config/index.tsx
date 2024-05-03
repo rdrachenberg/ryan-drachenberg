@@ -1,6 +1,6 @@
 import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
 
-import { cookieStorage, createStorage } from 'wagmi'
+import { cookieStorage, createStorage, http } from 'wagmi'
 import { mainnet, sepolia, bsc, bscTestnet } from 'wagmi/chains'
 
 
@@ -22,6 +22,12 @@ console.log(host);
 const chains = [mainnet, sepolia, bsc, bscTestnet] as const
 export const config = defaultWagmiConfig({
   chains,
+  transports: {
+    [mainnet.id]: http(),
+    [sepolia.id]: http(),
+    [bsc.id]: http(),
+    [bscTestnet.id]: http(),
+  },
   projectId,
   metadata,
   enableEmail: true,
