@@ -12,18 +12,15 @@ import Link from 'next/link';
 import { Tooltip } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
-import Withdrawal from '../components/Withdrawal';
-
-interface Contract {
-    contract: string;
-}
+import Withdrawal  from '../components/Withdrawal';
+import ContractBalance  from '../components/ContractBalance';
 
 export default function CryptoPage() {
     const {address, isConnecting, isDisconnected, isConnected} = useAccount();
     const [loading, isLoading] = useState(true);
     const [valueToSend, setValueToSend] = useState<any>('');
     const [logsState, setLogsState] = useState<any>([])
-    const [contract, setContract] = useState('');
+    const [contract, setContract] = useState<string>('');
     const [chain, setChain] = useState<any>('');
     const [copied, setCopied] = useState(false)
     const isNotNumberBro = isNaN(Number(valueToSend)); 
@@ -134,7 +131,7 @@ export default function CryptoPage() {
                 <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
             ) : (
                 <div className='relative flex flex-col'>
-                    {isConnected ? ( 
+                    {isConnected && !isDisconnected ? ( 
                         <div className='border-4 border-blue-500 bg-gradient-to-r from-slate-500 to-slate-800 dark:bg-gray-600 p-5 sm:p-48 min-w-[300px] h-full sm:h-[500px] rounded-xl'>
                             <div className='flex align-end my-3 ml-5 mb-10 justify-end absolute top-1 right-0 md:max-w-2xl max-w-sm sm:px-8 px-8'>
                                 <w3m-button />
@@ -186,6 +183,9 @@ export default function CryptoPage() {
                                             </div>
                                         ) : (
                                             <div className='flex flex-col justify-center mt-8 mb-8 sm:mt-0 sm:mb-0 my-auto'>
+                                                <div className='flex flex-row justify-end align-middle justify-items-end text-right mr-3'>
+                                                    <ContractBalance contract={contract}/>
+                                                </div>
                                                 <div className='flex flex-row p-2 sm:mb-8 mx-auto'>
                                                     <div className='flex flex-col text-start m-5 text-white  ms-0'>Amount</div>
                                                     <div className='flex flex-col justify-center align-top sm:w-60 max-w-sm w-[50%] dark:text-black'>

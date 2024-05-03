@@ -7,7 +7,11 @@ import { readContract } from '@wagmi/core';
 import { abi } from '../../abi/abi';
 import { config } from '@/config';
 import toast from 'react-hot-toast';  
-export default function Withdrawal(contract: string) {
+
+interface Contract {
+    contract: string,
+}
+export default function Withdrawal(contract: Contract): JSX.Element {
     const [isOwner, setIsOwner] = useState(false);
     const [contractOwner, setContractOwner] = useState('');
     const { address } = useAccount();
