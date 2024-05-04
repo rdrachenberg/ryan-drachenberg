@@ -1,12 +1,12 @@
 'use client'
-import { CogIcon, HomeIcon, InfoIcon, PencilIcon, CircleDollarSignIcon } from "lucide-react";
+import { CogIcon, HomeIcon, InfoIcon, PencilIcon, CircleDollarSignIcon, LightbulbIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 
 const links = [
     {
-        icon: PencilIcon,
+        icon: LightbulbIcon,
         href: '/',
         text: 'Insights'
     },

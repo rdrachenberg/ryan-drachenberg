@@ -1,7 +1,7 @@
-import { defaultWagmiConfig } from '@web3modal/wagmi/react/config'
-
-import { cookieStorage, createStorage, http } from 'wagmi'
-import { mainnet, sepolia, bsc, bscTestnet } from 'wagmi/chains'
+import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
+import { cookieStorage, createStorage, http } from 'wagmi';
+import { mainnet, sepolia, bsc, bscTestnet } from 'wagmi/chains';
+import { walletConnect } from 'wagmi/connectors';
 
 
 // Get projectId at https://cloud.walletconnect.com
@@ -22,6 +22,9 @@ console.log(host);
 const chains = [mainnet, sepolia, bsc, bscTestnet] as const
 export const config = defaultWagmiConfig({
   chains,
+  connectors: [
+    walletConnect({projectId}),
+  ],
   transports: {
     [mainnet.id]: http(),
     [sepolia.id]: http(),

@@ -11,10 +11,9 @@ export default function HomePage() {
 
   useEffect(() => {
     isLoading(true);
-    
     // dbSync(); // call to seed from db
-    
     isLoading(false);
+    
   }, [])
   
   

@@ -14,6 +14,7 @@ import { Button } from "@nextui-org/button";
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 import Withdrawal  from '../components/Withdrawal';
 import ContractBalance  from '../components/ContractBalance';
+import ConnectButton from '@/components/ConnectButton';
 
 export default function CryptoPage() {
     const {address, isConnecting, isDisconnected, isConnected} = useAccount();
@@ -134,14 +135,14 @@ export default function CryptoPage() {
                     {isConnected && !isDisconnected ? ( 
                         <div className='border-4 border-blue-500 bg-gradient-to-r from-slate-500 to-slate-800 dark:bg-gray-600 p-5 sm:p-48 min-w-[300px] h-full sm:h-[500px] rounded-xl'>
                             <div className='flex align-end my-3 ml-5 mb-10 justify-end absolute top-1 right-0 md:max-w-2xl max-w-sm sm:px-8 px-8'>
-                                <w3m-button />
+                                <ConnectButton />
                             </div>
                             {isPending || isConfirming ? (
                                 <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
                             ) : (
                                 <div className='flex flex-row justify-center items-center mt-1'>
                                     {isConfirmed ? (
-                                            <div className='clear flex flex-col justify-start max-w-[300px] sm:max-w-[500px] space-y-4'>
+                                            <div className='clear flex flex-col justify-start max-w-[300px] sm:max-w-[500px] space-y-4 mt-9 sm:mt-1'>
                                                 <div className='flex flex-row'>
                                                     <div className='text-green-400'>Transaction confirmed.</div>
                                                     <div>
@@ -231,7 +232,7 @@ export default function CryptoPage() {
                                 </div>
                                 </Link>
                             </div>
-                            <w3m-button />
+                            <ConnectButton />
                         </div>
                     )
                     }
