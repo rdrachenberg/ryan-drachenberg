@@ -21,19 +21,19 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const initialState = cookieToInitialState(config, headers().get('cookie'))
+  const initialState = cookieToInitialState(config, headers().get('cookie')) || undefined;
   
   
   return (
-    <html lang="en" suppressHydrationWarning={true}>
-      <Web3ModalProvider initialState={initialState}>
-        <body className={`${inter.className} flex h-full bg-blue-600 dark:bg-black`} suppressHydrationWarning={true}>  
-          <SharedLayout>
-            <Toaster />
-            {children}
-          </SharedLayout>
-        </body>
-      </Web3ModalProvider>
-    </html>
+    <Web3ModalProvider initialState={initialState}>
+      <html lang="en" suppressHydrationWarning={true}>
+          <body className={`${inter.className} flex h-full bg-blue-600 dark:bg-black`} suppressHydrationWarning={true}>  
+            <SharedLayout>
+              <Toaster />
+              {children}
+            </SharedLayout>
+          </body>
+      </html>
+    </Web3ModalProvider>
   );
 }

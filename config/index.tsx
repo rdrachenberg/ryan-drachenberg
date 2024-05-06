@@ -4,6 +4,7 @@ import { mainnet, sepolia, bsc, bscTestnet } from 'wagmi/chains';
 import { walletConnect } from 'wagmi/connectors';
 
 
+
 // Get projectId at https://cloud.walletconnect.com
 export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
 const host = process.env.NODE_ENV == 'development' ? 'http://localhost:3000/' : 'https://ryan-drachenberg.vercel.app/'; 
@@ -20,6 +21,7 @@ const metadata = {
 console.log(host);
 // Create wagmiConfig
 const chains = [mainnet, sepolia, bsc, bscTestnet] as const
+
 export const config = defaultWagmiConfig({
   chains,
   connectors: [
@@ -34,12 +36,12 @@ export const config = defaultWagmiConfig({
   projectId,
   metadata,
   enableEmail: true,
-  ssr: true,
   storage: createStorage({
     storage: cookieStorage
   }),
+  ssr: true,
   // ...wagmiOptions // Optional - Override createConfig parameters
-})
+});
 
 export const CURRENCY = "usd";
 // Set your amount limits: Use float for decimal currencies and

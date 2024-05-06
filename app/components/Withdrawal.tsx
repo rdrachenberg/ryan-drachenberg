@@ -24,10 +24,7 @@ export default function Withdrawal(contract: Contract): JSX.Element {
 
     async function handleWithdrawal() {
         console.log('Withdrawal clicked');
-        // let parsedEther = parseEther(0);
-        // console.log(valueToSend);
-        // console.log('parsed -->')
-        // console.log(parsedEther);
+        // console.log(valueToSend); // console.log('parsed -->')
         // chainName(chainId.toString());
 
         writeContract({
@@ -61,9 +58,11 @@ export default function Withdrawal(contract: Contract): JSX.Element {
                 functionName: 'owner',
             })
             // console.log(result);
-            setContractOwner(result)
-
-            if( result == address){
+            if(result){
+                setContractOwner(result)
+            }
+            
+            if(result == address){
                 setIsOwner(true);
             } else {
                 setIsOwner(false);
@@ -86,7 +85,7 @@ export default function Withdrawal(contract: Contract): JSX.Element {
             {isOwner ? (
                 <div>
                     <div className='flex p-2'>
-                        <button onClick={handleWithdrawal} className='rounded-full p-2 w-full sm:w-[90%] border-2 border-yellow-100 hover:border-green-400 bg-yellow-500 mx-auto text-white hover:text-black shadow-lg'>Withdrawal</button>
+                        <button disabled={isPending} onClick={handleWithdrawal} className='rounded-full p-2 w-full sm:w-[90%] border-2 border-yellow-100 hover:border-3 hover:border-green-400 bg-yellow-500 mx-auto text-white hover:text-black shadow-lg'>Withdrawal</button>
                     </div> 
                     <div className='flex flex-row'>
                     {hash && <div className='truncate max-w-[70%] mx-auto'>{hash}</div>}
@@ -102,5 +101,5 @@ export default function Withdrawal(contract: Contract): JSX.Element {
     )
 }
 
-// ** TODO: need to read owner of contract
-// ** TODO: need to implement withdraw function 
+// ** TODO: need to read owner of contract DONE 
+// ** TODO: need to implement withdraw function DONE
