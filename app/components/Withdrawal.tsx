@@ -58,15 +58,13 @@ export default function Withdrawal(contract: Contract): JSX.Element {
                 functionName: 'owner',
             })
             // console.log(result);
-            if(result){
-                setContractOwner(result)
-            }
             
-            if(result == address){
-                setIsOwner(true);
-            } else {
-                setIsOwner(false);
-            }
+            // if we have a contract owner from the owner function call, set it to contractOwner, if not, set it to null 
+            result ? setContractOwner(result) : null; 
+
+            // If the result (which is the contract owner) address is the same as the connected wallet address, set isOwner to true, if not; false
+            result == address ? setIsOwner(true) : setIsOwner(false); 
+
             return result
         }
        getOwnerAddressFromContract();
