@@ -16,6 +16,7 @@ import Withdrawal  from '../components/Withdrawal';
 import ContractBalance  from '../components/ContractBalance';
 import ConnectButton from '@/components/ConnectButton';
 
+
 export default function CryptoPage() {
     const {address, isConnecting, isDisconnected, isConnected} = useAccount();
     const [loading, isLoading] = useState(true);
@@ -100,18 +101,39 @@ export default function CryptoPage() {
         }, 2000)
     }
 
+    const handleEmail = async () => {
+        const body = {
+            to: 'ryandrachenberg@gmail.com',
+            from: 'tssinvestments@gmail.com',
+            subject: 'You received a donation',
+            text: `You received a donation! \nHere is a link to the transaction: ${explorer}${hash}`,
+            html: `<h1>You received a donation!</h1><h2>${explorer}${hash}</h2>`,
+        };
+
+        let res = await fetch('/api/email/', {
+            method: 'POST',
+            headers: {'content-type': 'application/json'},
+            body: JSON.stringify(body),
+            
+        })
+        let data = await res.json();
+        console.log(data);
+
+        return JSON.stringify(data);
+    }
+
     useWatchContractEvent({
-            address: contractAddress as Address,
-            abi,
-            eventName: 'PaymentReceived',
-            onLogs(logs) {
-                setLogsState(() => JSON.stringify(logs, (_, v) => typeof v === 'bigint' ? v.toString() : v));
-                console.log(logsState)
-                console.log('Logs have changed \n', logs);
-                console.log(logsState[0].transactionHash);
-                () => setExplorer(explorer + `${logsState[0].transactionHash}`)
-                toast.success('Transaction successful')
-            }
+        address: contractAddress as Address,
+        abi,
+        eventName: 'PaymentReceived',
+        onLogs(logs) {
+            setLogsState(() => JSON.stringify(logs, (_, v) => typeof v === 'bigint' ? v.toString() : v));
+            console.log(logsState)
+            console.log('Logs have changed \n', logs);
+            console.log(logsState[0].transactionHash);
+            () => setExplorer(explorer + `${logsState[0].transactionHash}`)
+            toast.success('Transaction successful')
+        }
     });
     
 
@@ -119,12 +141,13 @@ export default function CryptoPage() {
         isLoading(true);
         console.log(chainId);
         chainName(chainId.toString());
-        
+        hash ? handleEmail() : null;
+
         setTimeout(() => {
             isLoading(false);
         }, 400)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [chain, chainId])
+    }, [chain, chainId, hash])
     
     return (
         <div className='flex flex-col relative min-h-screen max-h-fit'>
@@ -165,6 +188,7 @@ export default function CryptoPage() {
                                                                 </Tooltip>
                                                             }
                                                         </div>
+                                                        
                                                     </div>
                                                 }
                                                 
@@ -208,7 +232,7 @@ export default function CryptoPage() {
                                                     </div>
                                                 </div>
                                                 <div className='flex p-2'>
-                                                    <button disabled={isPending} onClick={handleSubmit} className='rounded-full p-2 w-full sm:w-[90%] border-2 border-black bg-blue-500 mx-auto text-white shadow-lg'>{isPending ? 'Confirming' : 'Submit' }</button>
+                                                    <button disabled={isPending} onClick={handleSubmit} className='rounded-full p-2 w-full sm:w-[90%] border-2 border-white hover:border-blue-500 bg-blue-500 hover:bg-blue-600 mx-auto text-white shadow-lg'>{isPending ? 'Confirming' : 'Submit' }</button>
                                                 </div>
                                                 <div>
                                                     <Withdrawal contract={contract} />

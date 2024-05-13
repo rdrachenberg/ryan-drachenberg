@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Address, formatEther } from 'viem';
-import { useBalance, useReadContract } from 'wagmi';
+import { useBalance } from 'wagmi';
 
 interface Contract {
     contract: string,
@@ -12,12 +12,9 @@ export default function ContractBalance (contract: Contract): JSX.Element {
     const result = useBalance({
             address: castAddress,
     });
-
-   
-   console.log(result.data?.value.toString());
+//    console.log(result.data?.value.toString());
 
    useEffect(() => {
-
         if(result.data){
             setBalanceState(formatEther(result.data?.value))
         }
@@ -25,7 +22,7 @@ export default function ContractBalance (contract: Contract): JSX.Element {
    }, [result])
 
     return (
-        <div className='flex flex-col-2 text-lg '>
+        <div className='flex flex-col-2 text-lg text-white'>
             Contract Balance: {balanceState && <div className='ml-5 text-green-400 '>{balanceState}</div>}
         </div>
     )
