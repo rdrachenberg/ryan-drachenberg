@@ -11,6 +11,7 @@ const nextConfig = {
       ignoreBuildErrors: true,
     },
     swcMinify: true,
-  };;
+    transpilePackages: ['lucide-react'],
+  };
 
 module.exports = withContentlayer(nextConfig);

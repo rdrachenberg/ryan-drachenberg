@@ -4,7 +4,7 @@ import { getChainId } from '@wagmi/core';
 import { config } from '@/config';
 import { parseEther, Address } from 'viem'
 import { abi } from '../../abi/abi';
-import { Loader2Icon, CheckCircleIcon, ArrowLeftCircle, CopyIcon, CopyCheck } from 'lucide-react';
+import { Loader2Icon, CheckCircleIcon, ArrowLeftCircle, CopyIcon, CopyCheck, FileTextIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import toast from 'react-hot-toast';  
@@ -15,6 +15,7 @@ import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 import Withdrawal  from '../components/Withdrawal';
 import ContractBalance  from '../components/ContractBalance';
 import ConnectButton from '@/components/ConnectButton';
+import ContractDeploymentSpecs from '../components/ContractDeploymentSpecs';
 
 
 export default function CryptoPage() {
@@ -26,7 +27,7 @@ export default function CryptoPage() {
     const [chain, setChain] = useState<any>('');
     const [copied, setCopied] = useState(false)
     const isNotNumberBro = isNaN(Number(valueToSend)); 
-    let contractAddress = `0x45b54e6AedeE2d73d9F09934C7C4973f6B6Cd41E` as string; // bsctest sepolia testnet deployed
+    let contractAddress = `0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9` as string; // bsctest sepolia testnet deployed
     //const contractAddress = `0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9` as string; // mainnet bsc deployed
     const [explorer, setExplorer] = useState('');
     
@@ -250,13 +251,20 @@ export default function CryptoPage() {
                         <div>
                             <div className='container'>
                                 <Link href={'/instructions'}>
-                                <div className='flex flex-col-2 mb-16 -mt-8 sm:-mt-16 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
-                                    <h2 className='hover:text-blue-600 text-xs'>Help</h2>
-                                    <QuestionMarkCircleIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
-                                </div>
+                                    <div className='flex flex-col-2 -mt-8 sm:-mt-16 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
+                                        <h2 className='hover:text-blue-600 text-xs'>Help</h2>
+                                        <QuestionMarkCircleIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
+                                    </div>
                                 </Link>
+                                <Link href={'/contracts'}>
+                                    <div className='flex flex-col-2 mb-16 mt-4  hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
+                                        <h2 className='hover:text-blue-600 text-xs'>Contracts</h2>
+                                        <FileTextIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
+                                    </div>
+                                </Link>
+                                <ConnectButton />
                             </div>
-                            <ConnectButton />
+                            
                         </div>
                     )
                     }

@@ -1,5 +1,6 @@
 /** @type import('hardhat/config').HardhatUserConfig */
 require("@nomiclabs/hardhat-ethers");
+require("@nomicfoundation/hardhat-verify");
 require("dotenv").config();
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3");
 const { task } = require("hardhat/config");
@@ -50,5 +51,8 @@ module.exports = {
       url: API_URL_MAINNET,
       accounts: [`0x${process.env.PRIVATE_KEY}`]
     }
+  },
+  etherscan: {
+    apiKey: process.env.BSCSCAN_API_KEY
   }
 };
