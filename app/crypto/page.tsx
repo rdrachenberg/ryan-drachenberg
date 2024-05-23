@@ -249,23 +249,29 @@ export default function CryptoPage() {
                         </div>
                     ) : (
                         <div>
-                            <div className='container'>
-                                <Link href={'/instructions'}>
-                                    <div className='flex flex-col-2 -mt-8 sm:-mt-16 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
-                                        <h2 className='hover:text-blue-600 text-xs'>Help</h2>
-                                        <QuestionMarkCircleIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
-                                    </div>
-                                </Link>
-                                <Link href={'/contracts'}>
-                                    <div className='flex flex-col-2 mb-16 mt-4  hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
-                                        <h2 className='hover:text-blue-600 text-xs'>Contracts</h2>
-                                        <FileTextIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
-                                    </div>
-                                </Link>
-                                <ConnectButton />
+                            <div className='flex flex-row items-center mx-auto justify-between md:max-w-2xl max-w-max sm:px-8 mb-16 -mt-7 sm:-mt-16'>
+                                <div className='mr-3'>
+                                    <Link href={'/instructions'}>
+                                        <div className='flex flex-col-2 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
+                                            <h2 className='hover:text-blue-600 text-xs'>Help</h2>
+                                            <QuestionMarkCircleIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
+                                        </div>
+                                    </Link>
+                                </div>
+                                <div className='ml-3'>
+                                    <Link href={'/contracts'}>
+                                        <div className='flex flex-col-2  hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
+                                            <h2 className='hover:text-blue-600 text-xs'>Contracts</h2>
+                                            <FileTextIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
+                                        </div>
+                                    </Link>
+                                </div>
+                                
+                                
                             </div>
-                            
+                            <ConnectButton />    
                         </div>
+                        
                     )
                     }
                 </div>

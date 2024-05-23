@@ -1,7 +1,6 @@
 
-import { GithubIcon, MailCheckIcon, BitcoinIcon, DollarSignIcon } from "lucide-react";
+import { DollarSignIcon } from "lucide-react";
 import Link from "next/link";
-import { FaEthereum } from "react-icons/fa6";
 import { SiBnbchain } from "react-icons/si";
 
 const paymentLinks = [
