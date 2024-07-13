@@ -5,6 +5,7 @@ import {
   RabbitIcon,
   ShieldCheckIcon,
   ShoppingCartIcon,
+  Cable,
 } from "lucide-react";
 
 export const projects = [
@@ -84,5 +85,20 @@ export const projects = [
       icon: GithubIcon
     },
     icon: RabbitIcon,
+  }, 
+  {
+    name: "Rip Cord",
+    description:
+      "An app that works on any EVM compatiable blockchain and allows you to load all available functions and call them.",
+    link: { 
+      href: "https://rip-cord.vercel.app/", 
+      label: "Rip Cord" 
+    },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/rip-cord", 
+      label: "GitHub",
+      icon: GithubIcon
+    },
+    icon: Cable,
   },
 ];

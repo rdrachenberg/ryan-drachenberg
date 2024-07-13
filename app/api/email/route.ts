@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { NextResponse, NextRequest } from 'next/server';
 // import { sendEmail } from '../../../lib/sendgrid';
-import {sendEmail} from '../../../lib/nodemailer';
+import { sendEmail } from '../../../lib/nodemailer';
 
 
 type RequestBody = {
