@@ -4,7 +4,9 @@ const { withContentlayer } = require('next-contentlayer');
 
 const nextConfig = {
     webpack: config => {
-      config.externals.push('pino-pretty', 'lokijs', 'encoding')
+      config.resolve.fallback = { fs: false, net: false, tls: false };
+      config.externals.push('pino-pretty', 'lokijs', 'encoding');
+      config.module.unknownContextCritical = false;
       return config
     },
     typescript: {
@@ -12,6 +14,7 @@ const nextConfig = {
     },
     swcMinify: true,
     transpilePackages: ['lucide-react'],
+    experimental: {webpackBuildWorker: true},
   };
 
 module.exports = withContentlayer(nextConfig);

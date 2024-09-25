@@ -1,7 +1,7 @@
 'use client'
 import { allPosts } from '@/.contentlayer/generated';
 import PostCard from '@/components/PostCard';
-import dbSync from '@/lib/dbSync';
+
 import { Loader2Icon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
@@ -11,7 +11,7 @@ export default function HomePage() {
 
   useEffect(() => {
     isLoading(true);
-    // dbSync(); // call to seed from db
+    
     isLoading(false);
     
   }, [])
