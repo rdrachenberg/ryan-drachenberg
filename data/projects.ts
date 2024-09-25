@@ -6,9 +6,26 @@ import {
   ShieldCheckIcon,
   ShoppingCartIcon,
   Cable,
+  Factory,
+  PlaneTakeoffIcon
 } from "lucide-react";
 
 export const projects = [
+  {
+    name: "Solana Mint Forge",
+    description:
+      "A dApp that allows users to mint their own tokens on the Solana Network",
+    link: { 
+      href: "https://SolanaMintForge.com/", 
+      label: "SolanaMintForge.com" 
+    },
+    gitHubLink: {
+      href: "https://solanamintforge.com", 
+      label: "App",
+      icon: PlaneTakeoffIcon,
+    },
+    icon: Factory,
+  },
   {
     name: "aEComSolution.com",
     description:
@@ -101,4 +118,5 @@ export const projects = [
     },
     icon: Cable,
   },
+  
 ];
