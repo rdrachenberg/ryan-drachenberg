@@ -9,8 +9,6 @@ const nextConfig = {
     },
     experimental: {
       webpackBuildWorker: false, 
-      // serverComponentsExternalPackages: ['@web3modal'], 
-      
     },
     typescript: {
       ignoreBuildErrors: true,
