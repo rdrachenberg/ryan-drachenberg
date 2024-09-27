@@ -4,17 +4,19 @@ const { withContentlayer } = require('next-contentlayer');
 
 const nextConfig = {
     webpack: config => {
-      config.resolve.fallback = { fs: false, net: false, tls: false };
-      config.externals.push('pino-pretty', 'lokijs', 'encoding');
-      config.module.unknownContextCritical = false;
+      config.externals.push('pino-pretty', 'lokijs', 'encoding')
       return config
+    },
+    experimental: {
+      webpackBuildWorker: false, 
+      // serverComponentsExternalPackages: ['@web3modal'], 
+      
     },
     typescript: {
       ignoreBuildErrors: true,
     },
     swcMinify: true,
     transpilePackages: ['lucide-react'],
-    experimental: {webpackBuildWorker: true},
   };
 
-module.exports = withContentlayer(nextConfig);
+module.exports = async () => withContentlayer(nextConfig);
