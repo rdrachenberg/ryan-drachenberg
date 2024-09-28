@@ -3,7 +3,7 @@
 import CheckoutForm from "../components/CheckoutForm";
 import { useState } from "react";
 export default function FiatPage() {
-  const [ testToggle, setTestToggle ] = useState(true);
+  const [ testToggle, setTestToggle ] = useState(false);
 
   const handleTestToggle = () => {
     setTestToggle(testToggle ? false : true);
