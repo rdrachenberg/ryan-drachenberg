@@ -2,7 +2,7 @@
 
 import type Stripe from "stripe";
 
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 
 import CustomDonationInput from "./CustomDonationInput";
 
@@ -17,6 +17,7 @@ import { EmbeddedCheckout, EmbeddedCheckoutProvider,} from "@stripe/react-stripe
 interface CheckoutFormProps {
   uiMode: Stripe.Checkout.SessionCreateParams.UiMode;
   testtoggle: boolean,
+  setTestToggle: any,
 
 }
 
@@ -48,13 +49,17 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
     window.location.assign(url as string);
   };
 
+  const handleClick = () => {
+    props.setTestToggle(!props.testtoggle);
+  }
+
   return (
     <div className='flex flex-col mx-auto justify-center items-center place-items-center'>
       <form action={formAction}>
         <input type="hidden" name="uiMode" value={props.uiMode} />
         <div className='flex flex-col-3 justify-center'>
           
-          <div className={`flex flex-col w-5 justify-center items-end pr-2 ${props.testtoggle ? '': 'text-blue-400'}`}>$</div>  
+          <div className={`flex flex-col w-5 justify-center items-end pr-2 ${props.testtoggle ? '': 'text-blue-400'}`} onClick={handleClick}>$</div>  
           <CustomDonationInput
             className="checkout-style dark:text-black rounded flex flex-col px-auto justify-start items-start place-items-start object-left w-[260px] focus"
             name="customDonation"
