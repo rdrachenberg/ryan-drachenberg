@@ -29,7 +29,7 @@ export default function FiatPage() {
             </div>
 
             <div className='flex flex-col'>
-                <CheckoutForm uiMode="hosted" testtoggle={testToggle}/>
+                <CheckoutForm uiMode="hosted" testtoggle={testToggle} />
                 
             </div>
              

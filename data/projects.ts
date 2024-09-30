@@ -21,7 +21,7 @@ export const projects = [
     },
     gitHubLink: {
       href: "https://solanamintforge.com", 
-      label: "App",
+      label: "Deployed App",
       icon: PlaneTakeoffIcon,
     },
     icon: Factory,

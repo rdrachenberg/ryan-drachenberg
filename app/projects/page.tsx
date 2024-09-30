@@ -38,7 +38,7 @@ export default function ProjectsPage() {
                             <div className='relative z-10 flex'>
                                 <Link href={project.gitHubLink.href} target="_blank">
                                     <p className='relative z-10 mt-3 flex text-sm font-medium text-zinc-400 transition group-hover:text-blue-500 items-center dark:text-zinc-200 hover:scale-125'>
-                                        <GithubIcon className='w-3 h-3 group-hover:text-black dark:group-hover:text-white'/>
+                                        <project.gitHubLink.icon className='w-3 h-3 group-hover:text-black dark:group-hover:text-white'/>
                                         <span className='ml-2'>{project.gitHubLink.label}</span>
                                     </p>
                                 </Link>

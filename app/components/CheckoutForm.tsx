@@ -12,6 +12,8 @@ import { createCheckoutSession } from "@/app/actions/stripe";
 import getStripe from "@/utils/get-stripe";
 import { EmbeddedCheckout, EmbeddedCheckoutProvider,} from "@stripe/react-stripe-js";
 
+
+
 interface CheckoutFormProps {
   uiMode: Stripe.Checkout.SessionCreateParams.UiMode;
   testtoggle: boolean,
@@ -52,7 +54,7 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
         <input type="hidden" name="uiMode" value={props.uiMode} />
         <div className='flex flex-col-3 justify-center'>
           
-          <div className="flex flex-col w-5 justify-center items-end pr-2">$</div>  
+          <div className={`flex flex-col w-5 justify-center items-end pr-2 ${props.testtoggle ? '': 'text-blue-400'}`}>$</div>  
           <CustomDonationInput
             className="checkout-style dark:text-black rounded flex flex-col px-auto justify-start items-start place-items-start object-left w-[260px] focus"
             name="customDonation"
