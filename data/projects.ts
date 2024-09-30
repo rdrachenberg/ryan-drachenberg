@@ -1,6 +1,5 @@
 import {
   CodeIcon,
-  GithubIcon,
   HeartHandshakeIcon,
   RabbitIcon,
   ShieldCheckIcon,
@@ -9,6 +8,8 @@ import {
   Factory,
   PlaneTakeoffIcon
 } from "lucide-react";
+
+import { SiGithub } from "react-icons/si";
 
 export const projects = [
   {
@@ -37,7 +38,7 @@ export const projects = [
     gitHubLink: {
       href: "https://github.com/rdrachenberg/automated-e-solutions", 
       label: "GitHub",
-      icon: GithubIcon
+      icon: SiGithub
     },
     icon: HeartHandshakeIcon,
   },
@@ -52,7 +53,7 @@ export const projects = [
     gitHubLink: {
       href: "https://github.com/rdrachenberg/any-store", 
       label: "GitHub",
-      icon: GithubIcon
+      icon: SiGithub
     },
     
     icon: ShoppingCartIcon,
@@ -69,7 +70,7 @@ export const projects = [
     gitHubLink: {
       href: "https://github.com/rdrachenberg/code-buddy", 
       label: "GitHub",
-      icon: GithubIcon
+      icon: SiGithub
     },
     icon: CodeIcon,
   },
@@ -84,7 +85,7 @@ export const projects = [
     gitHubLink: {
       href: "https://github.com/rdrachenberg/next-protector", 
       label: "GitHub",
-      icon: GithubIcon
+      icon: SiGithub
     },
     icon: ShieldCheckIcon,
   },
@@ -99,7 +100,7 @@ export const projects = [
     gitHubLink: {
       href: "https://github.com/rdrachenberg/dashey", 
       label: "GitHub",
-      icon: GithubIcon
+      icon: SiGithub
     },
     icon: RabbitIcon,
   }, 
@@ -114,7 +115,7 @@ export const projects = [
     gitHubLink: {
       href: "https://github.com/rdrachenberg/rip-cord", 
       label: "GitHub",
-      icon: GithubIcon
+      icon: SiGithub
     },
     icon: Cable,
   },
