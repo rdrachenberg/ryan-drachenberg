@@ -8,7 +8,7 @@ const nextConfig = {
       return config
     },
     experimental: {
-      webpackBuildWorker: false, 
+      webpackBuildWorker: true, 
     },
     typescript: {
       ignoreBuildErrors: true,
