@@ -16,12 +16,11 @@ export default function ThemeToggle() {
     }
 
     return (
-        <button onClick={() => setTheme(theme === 'light' ? 'dark': 'light')} className='rounded-full shadow border dark:border-gray-700 p-2 flex items-center justify-center' suppressHydrationWarning>
-            {theme === 'light' ? 
-            (
-            <MoonIcon className='w-3 h-3 sm:w-5 sm:h-5'/>
-            ) : (
-            <SunIcon className='w-3 h-3 sm:w-5 sm:h-5'/>
+        <button onClick={() => setTheme(theme === 'light' ? 'dark': 'light')} aria-labelledby="light vs dark mode toggle" className='rounded-full shadow border dark:border-gray-700 p-2 flex items-center justify-center' suppressHydrationWarning>
+            {theme === 'light' ? (
+                    <MoonIcon className='w-3 h-3 sm:w-5 sm:h-5'/>
+                ) : (
+                    <SunIcon className='w-3 h-3 sm:w-5 sm:h-5'/>
             )}
             
         </button>
