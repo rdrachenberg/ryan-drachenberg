@@ -33,11 +33,11 @@ export default function AboutPage() {
     }
 
     return (
-        <div className='mt-8'>
+        <div className='sm:mt-8'>
             <div className='grid grid-col-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12'>
                 <div className='lg:pl-20'>
-                    <div className='max-w-xs px-3 lg:max-w-none'>
-                        <Image src={page.image} alt='portrait' width={400} height={400} className='aspect-square rotate-[-3deg] hover:rotate-[360deg] rounded-2xl bg-zinc-100 dark:bg-zinc-800'/>
+                    <div className='  lg:max-w-none flex justify-center align-middle items-center sm:justify-start mx-auto'>
+                        <Image src={page.image} alt='portrait' width={300} height={300} className='w-[200px] md:w-[250px] aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-800'/>
                     </div>
                 </div>
                 <div className='lg:order-first lg:row-span-2'>
