@@ -6,7 +6,8 @@ import {
   ShoppingCartIcon,
   Cable,
   Factory,
-  PlaneTakeoffIcon
+  PlaneTakeoffIcon,
+  QrCode
 } from "lucide-react";
 
 import { SiGithub } from "react-icons/si";
@@ -73,6 +74,22 @@ export const projects = [
       icon: SiGithub
     },
     icon: CodeIcon,
+  },
+  {
+    name: "QR Pal",
+    description:
+      "User provides a link that they want to turn into a QR Code and returns it. Nexjs with Python Flask App",
+    link: { 
+      // href: "https://code-buddy-ten.vercel.app/", // hobby deployment that is has 10 sec timeout casuing api request to timeout
+      href: "https://qr-pal.vercel.app/", 
+      label: "QR Pal" 
+    },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/qr-pal", 
+      label: "GitHub",
+      icon: SiGithub
+    },
+    icon: QrCode,
   },
   {
     name: "Next-Protector",
