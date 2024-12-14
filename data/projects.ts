@@ -107,21 +107,6 @@ export const projects = [
     icon: ShieldCheckIcon,
   },
   {
-    name: "Dashey",
-    description:
-      "A Next Auth app with Railway Postgres db, Prisma(ORM), Tremor(charts & graphs)",
-    link: { 
-      href: "https://dashey.vercel.app/", 
-      label: "dashey.vercel.app" 
-    },
-    gitHubLink: {
-      href: "https://github.com/rdrachenberg/dashey", 
-      label: "GitHub",
-      icon: SiGithub
-    },
-    icon: RabbitIcon,
-  }, 
-  {
     name: "Rip Cord",
     description:
       "An app that works on any EVM compatiable blockchain and allows you to load all available functions and call them.",
