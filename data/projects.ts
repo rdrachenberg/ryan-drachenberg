@@ -33,7 +33,7 @@ export const projects = [
     description:
       "I was tasked with building a Nextjs app to dirve online bookings with Calendly.",
     link: {
-      href: "http://www.aecomsolution.com",
+      href: "https://automated-e-solutions-odtj522a2-tssinvestments.vercel.app/",
       label: "aecomsolution.com",
     },
     gitHubLink: {
