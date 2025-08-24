@@ -1,22 +1,33 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
+/**
+ * Usage:
+ *   const ref = useRef(null)
+ *   const onScreen = useOnScreen(ref, '-100px')
+ */
 export default function useOnScreen(ref, rootMargin = '0px') {
-    const [visible, setVisable] = useState(false);
+  const [isIntersecting, setIntersecting] = useState(false);
 
-    useEffect(() => {
-      if(ref.current == null) return 
-      const observer = new IntersectionObserver(
-        ([entry]) => setVisable(entry.isIntersecting), 
-        { rootMargin }
-      )
-    
-      observer.observe(ref.current)
-      return () => {
-        if(ref.current == null) return 
-        observer.unobserve(ref.current)
+  useEffect(() => {
+    const node = ref?.current; // capture once for cleanup correctness
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIntersecting(entry.isIntersecting),
+      { rootMargin }
+    );
+
+    observer.observe(node);
+    return () => {
+      try {
+        observer.unobserve(node);
+      } finally {
+        observer.disconnect();
       }
-    }, [ref.current, rootMargin])
+    };
+    // We intentionally don't include `ref` (mutable) as a dep.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rootMargin]);
 
-    return visible
-    
+  return isIntersecting;
 }

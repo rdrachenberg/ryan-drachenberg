@@ -1,31 +1,33 @@
-import { defaultWagmiConfig } from '@web3modal/wagmi/react/config';
-import { cookieStorage, createStorage, http } from 'wagmi';
-import { mainnet, sepolia, bsc, bscTestnet } from 'wagmi/chains';
-import { walletConnect } from 'wagmi/connectors';
+// /config/index.tsx
+import { createConfig, http, cookieStorage, createStorage } from 'wagmi'
+import { injected, walletConnect, coinbaseWallet } from 'wagmi/connectors'
+import { mainnet, sepolia, bsc, bscTestnet } from 'wagmi/chains'
 
+// Public values
+export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID ?? ''
+export const host =
+  process.env.NODE_ENV === 'development'
+    ? 'http://localhost:3000'
+    : 'https://ryan-drachenberg.vercel.app'
 
-
-// Get projectId at https://cloud.walletconnect.com
-export const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
-const host = process.env.NODE_ENV == 'development' ? 'http://localhost:3000/' : 'https://ryan-drachenberg.vercel.app/'; 
-
-if (!projectId) throw new Error('Project ID is not defined')
-
-const metadata = {
+export const metadata = {
   name: 'Ryan Drachenberg Dev',
   description: 'Web3Modal',
-  url: host, // origin must match your domain & subdomain
-  icons: ['https://avatars.githubusercontent.com/u/37784886']
-}
+  url: host, // must match your domain/origin
+  icons: ['https://avatars.githubusercontent.com/u/37784886'],
+} as const
 
-console.log(host);
-// Create wagmiConfig
-const chains = [mainnet, sepolia, bsc, bscTestnet] as const
+// Keep Web3Modal creation *out* of this file.
+// This file must remain server-safe (no '@web3modal/*' imports).
+export const chains = [mainnet, sepolia, bsc, bscTestnet] as const
 
-export const config = defaultWagmiConfig({
+export const config = createConfig({
   chains,
   connectors: [
-    walletConnect({projectId}),
+    // No modal here; the modal is created client-side only.
+    walletConnect({ projectId, showQrModal: false }),
+    injected(),
+    coinbaseWallet({ appName: metadata.name }),
   ],
   transports: {
     [mainnet.id]: http(),
@@ -33,19 +35,12 @@ export const config = defaultWagmiConfig({
     [bsc.id]: http(),
     [bscTestnet.id]: http(),
   },
-  projectId,
-  metadata,
-  enableEmail: true,
-  storage: createStorage({
-    storage: cookieStorage
-  }),
   ssr: true,
-  // ...wagmiOptions // Optional - Override createConfig parameters
-});
+  storage: createStorage({ storage: cookieStorage }),
+})
 
-export const CURRENCY = "usd";
-// Set your amount limits: Use float for decimal currencies and
-// Integer for zero-decimal currencies: https://stripe.com/docs/currencies#zero-decimal.
-export const MIN_AMOUNT = 5.0;
-export const MAX_AMOUNT = 5000.0;
-export const AMOUNT_STEP = 5.0;
+// Payments constants
+export const CURRENCY = 'usd'
+export const MIN_AMOUNT = 5.0
+export const MAX_AMOUNT = 5000.0
+export const AMOUNT_STEP = 5.0

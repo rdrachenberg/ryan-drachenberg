@@ -1,0 +1,20 @@
+{
+  "title": "Are Meme Coins Here to Stay in 2025?",
+  "description": "Meme coins thrive in mid-2025 as both cultural phenomena and onramps into the broader ecosystem.",
+  "date": "2025-07-09T00:00:00.000Z",
+  "body": {
+    "raw": "\n# Are Meme Coins Here to Stay in 2025?\n\nLove them or hate them, meme coins refuse to die. July 2025 has made it clear: they’re not just noise—they’re part of crypto culture.\n\n## The Case for Staying Power\n\n- **Community.** Meme coins are grassroots movements disguised as assets.  \n- **Liquidity funnels.** They often onboard new users who later explore DeFi and NFTs.  \n- **Experimentation.** Some meme projects are launching real products and DAOs.  \n\n## The Skeptics’ View\n\nCritics argue meme coins are still a distraction, siphoning capital from serious projects. They remain volatile, risky, and often short-lived.\n\n## The Truth?\n\nMaybe meme coins don’t need to be “serious” to matter. Their cultural weight ensures they’ll always have a place in the ecosystem—even if just as entry points.",
+    "code": "var Component=(()=>{var d=Object.create;var o=Object.defineProperty;var u=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var y=Object.getPrototypeOf,g=Object.prototype.hasOwnProperty;var f=(n,e)=>()=>(e||n((e={exports:{}}).exports,e),e.exports),x=(n,e)=>{for(var r in e)o(n,r,{get:e[r],enumerable:!0})},a=(n,e,r,s)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let i of p(e))!g.call(n,i)&&i!==r&&o(n,i,{get:()=>e[i],enumerable:!(s=u(e,i))||s.enumerable});return n};var j=(n,e,r)=>(r=n!=null?d(y(n)):{},a(e||!n||!n.__esModule?o(r,\"default\",{value:n,enumerable:!0}):r,n)),M=n=>a(o({},\"__esModule\",{value:!0}),n);var l=f((C,h)=>{h.exports=_jsx_runtime});var v={};x(v,{default:()=>m,frontmatter:()=>T});var t=j(l()),T={title:\"Are Meme Coins Here to Stay in 2025?\",description:\"Meme coins thrive in mid-2025 as both cultural phenomena and onramps into the broader ecosystem.\",date:\"2025-07-09\"};function c(n){let e={h1:\"h1\",h2:\"h2\",li:\"li\",p:\"p\",strong:\"strong\",ul:\"ul\",...n.components};return(0,t.jsxs)(t.Fragment,{children:[(0,t.jsx)(e.h1,{children:\"Are Meme Coins Here to Stay in 2025?\"}),`\n`,(0,t.jsx)(e.p,{children:\"Love them or hate them, meme coins refuse to die. July 2025 has made it clear: they\\u2019re not just noise\\u2014they\\u2019re part of crypto culture.\"}),`\n`,(0,t.jsx)(e.h2,{children:\"The Case for Staying Power\"}),`\n`,(0,t.jsxs)(e.ul,{children:[`\n`,(0,t.jsxs)(e.li,{children:[(0,t.jsx)(e.strong,{children:\"Community.\"}),\" Meme coins are grassroots movements disguised as assets.\"]}),`\n`,(0,t.jsxs)(e.li,{children:[(0,t.jsx)(e.strong,{children:\"Liquidity funnels.\"}),\" They often onboard new users who later explore DeFi and NFTs.\"]}),`\n`,(0,t.jsxs)(e.li,{children:[(0,t.jsx)(e.strong,{children:\"Experimentation.\"}),\" Some meme projects are launching real products and DAOs.\"]}),`\n`]}),`\n`,(0,t.jsx)(e.h2,{children:\"The Skeptics\\u2019 View\"}),`\n`,(0,t.jsx)(e.p,{children:\"Critics argue meme coins are still a distraction, siphoning capital from serious projects. They remain volatile, risky, and often short-lived.\"}),`\n`,(0,t.jsx)(e.h2,{children:\"The Truth?\"}),`\n`,(0,t.jsx)(e.p,{children:\"Maybe meme coins don\\u2019t need to be \\u201Cserious\\u201D to matter. Their cultural weight ensures they\\u2019ll always have a place in the ecosystem\\u2014even if just as entry points.\"})]})}function m(n={}){let{wrapper:e}=n.components||{};return e?(0,t.jsx)(e,{...n,children:(0,t.jsx)(c,{...n})}):c(n)}return M(v);})();\n;return Component;"
+  },
+  "_id": "posts/Are_Meme_Coins_Here_to_Stay_in_2025.mdx",
+  "_raw": {
+    "sourceFilePath": "posts/Are_Meme_Coins_Here_to_Stay_in_2025.mdx",
+    "sourceFileName": "Are_Meme_Coins_Here_to_Stay_in_2025.mdx",
+    "sourceFileDir": "posts",
+    "contentType": "mdx",
+    "flattenedPath": "posts/Are_Meme_Coins_Here_to_Stay_in_2025"
+  },
+  "type": "Post",
+  "slug": "/posts/Are_Meme_Coins_Here_to_Stay_in_2025",
+  "slugAsParams": "Are_Meme_Coins_Here_to_Stay_in_2025"
+}

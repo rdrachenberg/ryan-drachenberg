@@ -1,28 +1,31 @@
 'use client'
-import { MoonIcon, SunIcon } from "lucide-react";
-import { useTheme } from "next-themes";
-import { useState, useEffect } from "react";
+import { MoonIcon, SunIcon } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { useState, useEffect } from 'react'
 
 export default function ThemeToggle() {
-    const {theme, setTheme} = useTheme();
-    const [mounted, setMounted] = useState(false);
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
-    useEffect(() => {
-        setMounted(true);
-    }, [])
+  useEffect(() => setMounted(true), [])
+  if (!mounted) return null
 
-    if(!mounted) {
-        return null 
-    }
+  const isDark = resolvedTheme === 'dark'
+  const next = isDark ? 'light' : 'dark'
 
-    return (
-        <button onClick={() => setTheme(theme === 'light' ? 'dark': 'light')} aria-labelledby="light vs dark mode toggle" className='rounded-full shadow border dark:border-gray-700 p-2 flex items-center justify-center' suppressHydrationWarning>
-            {theme === 'light' ? (
-                    <MoonIcon className='w-3 h-3 sm:w-5 sm:h-5'/>
-                ) : (
-                    <SunIcon className='w-3 h-3 sm:w-5 sm:h-5'/>
-            )}
-            
-        </button>
-    )
+  return (
+    <button
+      type="button"
+      onClick={() => setTheme(next)}
+      aria-label={`Switch to ${next} mode`}
+      aria-pressed={isDark}
+      className="rounded-full shadow border border-border p-2 flex items-center justify-center"
+    >
+      {isDark ? (
+        <SunIcon className="w-3 h-3 sm:w-5 sm:h-5" />
+      ) : (
+        <MoonIcon className="w-3 h-3 sm:w-5 sm:h-5" />
+      )}
+    </button>
+  )
 }

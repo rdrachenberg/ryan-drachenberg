@@ -1,5 +1,5 @@
 // contentlayer.config.js
-import { defineDocumentType, makeSource } from "contentlayer/source-files";
+import { defineDocumentType, makeSource } from "contentlayer2/source-files";
 var computedFields = {
   slug: {
     type: "string",
@@ -52,4 +52,4 @@ var contentlayer_config_default = makeSource({
 export {
   contentlayer_config_default as default
 };
-//# sourceMappingURL=compiled-contentlayer-config-7HD4GTB5.mjs.map
+//# sourceMappingURL=compiled-contentlayer-config-P7U5HGKI.mjs.map

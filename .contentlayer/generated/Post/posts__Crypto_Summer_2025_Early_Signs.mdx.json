@@ -1,0 +1,20 @@
+{
+  "title": "Crypto Summer 2025: Early Signs",
+  "description": "June 2025 shows sparks of a new ‘crypto summer’ as liquidity, memes, and markets heat up.",
+  "date": "2025-06-08T00:00:00.000Z",
+  "body": {
+    "raw": "\nIf you’ve been around since 2020, you remember DeFi Summer. June 2025 has that same electric feeling. Memes are flowing, TVL is climbing, and the markets are heating up.\n\n## Why Now?\n\n- **Ethereum’s upgrade.** Lower gas fees are onboarding new users.  \n- **Bitcoin halving momentum.** The supply shock is fueling bullish sentiment.  \n- **Altcoin season.** Layer-1s and Layer-2s are rallying in tandem.  \n\n## Cultural Vibes\n\nCrypto Twitter is loud again. Telegram groups are buzzing. Even mainstream media is cautiously covering the market’s rise. The mood isn’t euphoric yet, but it’s shifting.\n\n## Can It Last?\n\nEvery summer boom risks overheating. But builders are shipping real products this time—NFT infra, DeFi protocols, gaming economies. If sustained, this could be the beginning of a cycle that makes 2020 look small.",
+    "code": "var Component=(()=>{var h=Object.create;var s=Object.defineProperty;var d=Object.getOwnPropertyDescriptor;var g=Object.getOwnPropertyNames;var p=Object.getPrototypeOf,y=Object.prototype.hasOwnProperty;var f=(n,e)=>()=>(e||n((e={exports:{}}).exports,e),e.exports),b=(n,e)=>{for(var r in e)s(n,r,{get:e[r],enumerable:!0})},o=(n,e,r,a)=>{if(e&&typeof e==\"object\"||typeof e==\"function\")for(let t of g(e))!y.call(n,t)&&t!==r&&s(n,t,{get:()=>e[t],enumerable:!(a=d(e,t))||a.enumerable});return n};var x=(n,e,r)=>(r=n!=null?h(p(n)):{},o(e||!n||!n.__esModule?s(r,\"default\",{value:n,enumerable:!0}):r,n)),k=n=>o(s({},\"__esModule\",{value:!0}),n);var m=f((C,l)=>{l.exports=_jsx_runtime});var _={};b(_,{default:()=>c,frontmatter:()=>w});var i=x(m()),w={title:\"Crypto Summer 2025: Early Signs\",description:\"June 2025 shows sparks of a new \\u2018crypto summer\\u2019 as liquidity, memes, and markets heat up.\",date:\"2025-06-08\"};function u(n){let e={h2:\"h2\",li:\"li\",p:\"p\",strong:\"strong\",ul:\"ul\",...n.components};return(0,i.jsxs)(i.Fragment,{children:[(0,i.jsx)(e.p,{children:\"If you\\u2019ve been around since 2020, you remember DeFi Summer. June 2025 has that same electric feeling. Memes are flowing, TVL is climbing, and the markets are heating up.\"}),`\n`,(0,i.jsx)(e.h2,{children:\"Why Now?\"}),`\n`,(0,i.jsxs)(e.ul,{children:[`\n`,(0,i.jsxs)(e.li,{children:[(0,i.jsx)(e.strong,{children:\"Ethereum\\u2019s upgrade.\"}),\" Lower gas fees are onboarding new users.\"]}),`\n`,(0,i.jsxs)(e.li,{children:[(0,i.jsx)(e.strong,{children:\"Bitcoin halving momentum.\"}),\" The supply shock is fueling bullish sentiment.\"]}),`\n`,(0,i.jsxs)(e.li,{children:[(0,i.jsx)(e.strong,{children:\"Altcoin season.\"}),\" Layer-1s and Layer-2s are rallying in tandem.\"]}),`\n`]}),`\n`,(0,i.jsx)(e.h2,{children:\"Cultural Vibes\"}),`\n`,(0,i.jsx)(e.p,{children:\"Crypto Twitter is loud again. Telegram groups are buzzing. Even mainstream media is cautiously covering the market\\u2019s rise. The mood isn\\u2019t euphoric yet, but it\\u2019s shifting.\"}),`\n`,(0,i.jsx)(e.h2,{children:\"Can It Last?\"}),`\n`,(0,i.jsx)(e.p,{children:\"Every summer boom risks overheating. But builders are shipping real products this time\\u2014NFT infra, DeFi protocols, gaming economies. If sustained, this could be the beginning of a cycle that makes 2020 look small.\"})]})}function c(n={}){let{wrapper:e}=n.components||{};return e?(0,i.jsx)(e,{...n,children:(0,i.jsx)(u,{...n})}):u(n)}return k(_);})();\n;return Component;"
+  },
+  "_id": "posts/Crypto_Summer_2025_Early_Signs.mdx",
+  "_raw": {
+    "sourceFilePath": "posts/Crypto_Summer_2025_Early_Signs.mdx",
+    "sourceFileName": "Crypto_Summer_2025_Early_Signs.mdx",
+    "sourceFileDir": "posts",
+    "contentType": "mdx",
+    "flattenedPath": "posts/Crypto_Summer_2025_Early_Signs"
+  },
+  "type": "Post",
+  "slug": "/posts/Crypto_Summer_2025_Early_Signs",
+  "slugAsParams": "Crypto_Summer_2025_Early_Signs"
+}

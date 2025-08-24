@@ -61,7 +61,7 @@ export default function CheckoutForm(props: CheckoutFormProps): JSX.Element {
           
           <div className={`flex flex-col w-5 justify-center items-end pr-2 ${props.testtoggle ? '': 'text-blue-400'}`} onClick={handleClick}>$</div>  
           <CustomDonationInput
-            className="checkout-style dark:text-black rounded flex flex-col px-auto justify-start items-start place-items-start object-left w-[260px] focus"
+            className="checkout-style dark:text-white rounded flex flex-col px-auto justify-start items-start place-items-start object-left w-[260px] focus"
             name="customDonation"
             min={config.MIN_AMOUNT}
             max={config.MAX_AMOUNT}
