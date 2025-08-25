@@ -1,26 +1,26 @@
-import Header from './Header'
+// app/layout.tsx (snippet)
+import Web3ModalInit from '@/components/Web3ModalInit'
+import { WagmiProvider } from 'wagmi'
+import { config } from '@/config'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import ThemeProvider from '@/components/ThemeProvider'
 
-export default function SharedLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+const queryClient = new QueryClient()
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
-      {/* decorative background shell */}
-      <div className="fixed inset-0 flex justify-center sm:px-8">
-        <div className="flex w-full max-w-7xl lg:px-8">
-          <div className="w-full bg-gray-100 shadow ring-2 ring-black dark:bg-gray-900 dark:ring-blue-500" />
-        </div>
-      </div>
-
-      {/* content */}
-      <div className="relative flex flex-col w-full">
-        <Header />
-        <div className="relative sm:px-12 mt-20 sm:mt-32 mx-auto max-w-2xl lg:max-w-4xl px-4">
-          {children}
-        </div>
-      </div>
-    </>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <WagmiProvider config={config}>
+            <QueryClientProvider client={queryClient}>
+              {/* Initialize Web3Modal once at the root */}
+              <Web3ModalInit />
+              {children}
+            </QueryClientProvider>
+          </WagmiProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   )
 }
