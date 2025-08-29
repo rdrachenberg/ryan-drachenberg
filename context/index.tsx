@@ -1,23 +1,18 @@
 'use client'
 
-import React, { ReactNode, useState, useEffect } from 'react'
+import { ReactNode, useState } from 'react'
 import { State, WagmiProvider } from 'wagmi'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { reconnect } from '@wagmi/core'
 import { config } from '@/config'
 
-export default function Web3ModalProvider({
-  children,
-  initialState,
-}: {
+type Props = {
   children: ReactNode
   initialState?: State | undefined
-}) {
-  const [queryClient] = useState(() => new QueryClient())
+}
 
-  useEffect(() => {
-    reconnect(config)
-  }, [])
+export default function Web3ModalProvider({ children, initialState }: Props) {
+  // Create once per provider mount (stable across re-renders/HMR)
+  const [queryClient] = useState(() => new QueryClient())
 
   return (
     <WagmiProvider config={config} initialState={initialState}>
