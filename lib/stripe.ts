@@ -1,9 +1,7 @@
 import "server-only";
-import { headers } from "next/headers";
+import { host as origin } from "@/config";
 
 import Stripe from "stripe";
-
-const origin: string = headers().get("origin") as string;
 
 export const stripeTester = new Stripe(process.env.STRIPE_SECRET_KEY_TEST as string, {
   // https://github.com/stripe/stripe-node#configuration

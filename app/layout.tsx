@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   description: 'Ryan Drachenberg projects'
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   // Server component only:
-  const cookie = headers().get('cookie') ?? ''
+  const cookie = (await headers()).get('cookie') ?? ''
   const initialState = cookieToInitialState(config, cookie) || undefined
 
   return (
