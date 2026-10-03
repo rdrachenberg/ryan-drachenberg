@@ -1,4 +1,4 @@
-export default function StripeTestCards(): JSX.Element {
+export default function StripeTestCards(): React.JSX.Element {
   return (
     <div className="test-card-notice">
       Use any of the{" "}

@@ -11,22 +11,18 @@ type RequestBody = {
     text: string;     
 }
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
         const body: RequestBody = await req.json();
         // console.log(body);
         try {
             await sendEmail(body.to, body.from, body.subject, body.text);
-            
-            // if(res.ok) res.status:(Number(200)).json({message: 'Email sent successfully '});
-            res.ok ?  console.log(res.body) : null;
-            
+
             return NextResponse.json({success: true}, {status: 200});
 
         } catch (error) {
             console.log('Is this the error')
             console.log(error)
-            // res.status(500).json({message: 'Internal Server Error'});
-            return NextResponse.json({status: 500})
+            return NextResponse.json({success: false}, {status: 500})
         }
     
    
