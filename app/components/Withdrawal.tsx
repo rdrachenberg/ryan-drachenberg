@@ -1,103 +1,73 @@
-
-// @ts-nocheck
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAccount, useWriteContract, useWatchContractEvent } from 'wagmi';
-import { parseEther, Address } from 'viem'
+import { Address } from 'viem';
 import { readContract } from '@wagmi/core';
 import { abi } from '../../abi/abi';
 import { config } from '@/config';
-import toast from 'react-hot-toast';  
+import toast from 'react-hot-toast';
+import { Loader2Icon, WalletIcon } from 'lucide-react';
 
-interface Contract {
-    contract: string,
+interface Props {
+    contract: string;
 }
-export default function Withdrawal(contract: Contract): JSX.Element {
+
+// Only rendered for the contract owner: lets me sweep the tip jar to my wallet.
+export default function Withdrawal({ contract }: Props) {
     const [isOwner, setIsOwner] = useState(false);
-    const [contractOwner, setContractOwner] = useState('');
     const { address } = useAccount();
     const { data: hash, writeContract, isPending } = useWriteContract();
-    const [receiptHash, setReceiptHash] = useState('');
-    // console.log('This here account');
-    // console.log(address)
 
-    const contractAddress = contract.contract;
-
-    async function handleWithdrawal() {
-        console.log('Withdrawal clicked');
-        // console.log(valueToSend); // console.log('parsed -->')
-        // chainName(chainId.toString());
-
+    function handleWithdrawal() {
         writeContract({
-            address: contractAddress as Address,
+            address: contract as Address,
             abi,
             functionName: 'withdraw',
         });
-    };
-    
+    }
+
     useWatchContractEvent({
-        address: contractAddress as Address,
+        address: contract as Address,
         abi,
         eventName: 'Withdraw',
+        enabled: isOwner,
         onLogs(logs) {
-            // setLogsState(() => JSON.stringify(logs, (_, v) => typeof v === 'bigint' ? v.toString() : v));
-            // console.log(logsState)
-            
-            console.log('Logs have changed \n', logs);
-            console.log(logsState[0].transactionHash);
-            setReceiptHash(logsState[0].transactionHash);
-            // () => setExplorer(explorer + `${logsState[0].transactionHash}`)
-            () => toast.success('Withdrawl successful');
-        }
+            if (logs.length) toast.success('Withdrawal confirmed');
+        },
     });
 
     useEffect(() => {
-        const getOwnerAddressFromContract = async () => {
-            const result = await readContract(config, {
-                abi, 
-                address: contractAddress,
-                functionName: 'owner',
+        if (!contract || !address) {
+            setIsOwner(false);
+            return;
+        }
+        let cancelled = false;
+        readContract(config, { abi, address: contract as Address, functionName: 'owner' })
+            .then(owner => {
+                if (!cancelled) setIsOwner(String(owner).toLowerCase() === address.toLowerCase());
             })
-            // console.log(result);
-            
-            // if we have a contract owner from the owner function call, set it to contractOwner, if not, set it to null 
-            result ? setContractOwner(result) : null; 
+            .catch(() => !cancelled && setIsOwner(false));
+        return () => { cancelled = true; };
+    }, [contract, address]);
 
-            // If the result (which is the contract owner) address is the same as the connected wallet address, set isOwner to true, if not; false
-            result == address ? setIsOwner(true) : setIsOwner(false); 
+    useEffect(() => {
+        if (hash) toast.success('Withdrawal submitted', { duration: 4000 });
+    }, [hash]);
 
-            return result
-        }
-       getOwnerAddressFromContract();
-        // setContractOwner(`${owner}`);
-        console.log(`contractOwner var: ${contractOwner}`);
-        console.log(`address var: ${address}`);
-
-        if(hash){
-            toast.success('Withdrawl successful!', 4000)
-        }
-        
-    }, [contractAddress, address, contractOwner, hash])
+    if (!isOwner) return null;
 
     return (
-        <div>
-            {isOwner ? (
-                <div>
-                    <div className='flex p-2'>
-                        <button disabled={isPending} onClick={handleWithdrawal} className='rounded-full p-2 w-full sm:w-[90%] border-2 border-yellow-100 hover:border-3 hover:border-green-400 bg-yellow-500 mx-auto text-white hover:text-black shadow-lg'>Withdrawal</button>
-                    </div> 
-                    <div className='flex flex-row'>
-                    {hash && <div className='truncate max-w-[70%] mx-auto'>{hash}</div>}
-                    </div>
-                </div>
-            ) : ( 
-                <>
-                </>
-            )}
-        
-            
+        <div className='mt-8 border-t border-zinc-200 pt-6 dark:border-white/10'>
+            <p className='text-xs font-semibold uppercase tracking-wide text-zinc-500'>Owner</p>
+            <button
+                type='button'
+                disabled={isPending}
+                onClick={handleWithdrawal}
+                className='mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full bg-amber-500 px-6 py-2.5 text-sm font-semibold text-black transition hover:bg-amber-400 disabled:opacity-60'
+            >
+                {isPending ? <Loader2Icon className='h-4 w-4 animate-spin' /> : <WalletIcon className='h-4 w-4' />}
+                Withdraw balance to my wallet
+            </button>
+            {hash && <p className='mt-2 truncate text-center font-mono text-xs text-zinc-500' title={hash}>{hash}</p>}
         </div>
-    )
+    );
 }
-
-// ** TODO: need to read owner of contract DONE 
-// ** TODO: need to implement withdraw function DONE

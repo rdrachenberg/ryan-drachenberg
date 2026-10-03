@@ -40,7 +40,7 @@ export async function createCheckoutSession(
       ],
       ...(ui_mode === "hosted" && {
         success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}&amount=${data.get("customDonation") as string}`,
-        cancel_url: `${origin}/`,
+        cancel_url: `${origin}/fiat`,
       }),
       ...(ui_mode === "embedded" && {
         return_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,
@@ -67,7 +67,7 @@ export async function createCheckoutSession(
       ],
       ...(ui_mode === "hosted" && {
         success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}&amount=${data.get("customDonation") as string}`,
-        cancel_url: `${origin}/`,
+        cancel_url: `${origin}/fiat`,
       }),
       ...(ui_mode === "embedded" && {
         return_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,

@@ -1,38 +1,37 @@
-'use client'
-
+import Link from "next/link";
+import type { Metadata } from "next";
+import { ArrowLeftIcon } from "lucide-react";
 import CheckoutForm from "../components/CheckoutForm";
-import { useState } from "react";
+
+export const metadata: Metadata = {
+    title: 'Tip with card | Ryan Drachenberg',
+    description: 'Leave a tip securely by credit or debit card via Stripe.',
+}
+
 export default function FiatPage() {
-  const [ testToggle, setTestToggle ] = useState(false);
-
-  const handleTestToggle = () => {
-    setTestToggle(testToggle ? false : true);
-    console.log('That test button was clicked')
-  }
-
     return (
-        <div className='flex items-center flex-col'>  
-            <div className='flex flex-row justify-between'>
-                <div className='flex flex-col w-20'></div>
-                <div className='flex flex-col w-20'></div> 
-                <div className='flex flex-col w-30 mb-6'>
-                <button className={`flex flex-col max-h-5 ml-10
-                rounded-full p-2 text-[11px] justify-center my-auto justify-items-center align-middle items-end border-2 stroke-2
-                ${testToggle ? 'dark:text-black dark:border-green-700 bg-gradient-to-r from-green-400 to-green-700' : 'hidden text-blue-500 dark:text-blue-400 dark:border-blue-400'}
-                `}
-                onClick={() => handleTestToggle()}
-                >
-                   {testToggle ? 'test mode' : 'live mode'}
-                </button>
-                </div>
-               
-            </div>
+        <div className='mx-auto w-full max-w-xl pb-16'>
+            <Link
+                href='/tip'
+                className='inline-flex items-center text-sm font-medium text-zinc-600 transition hover:text-blue-600 dark:text-zinc-400 dark:hover:text-blue-400'
+            >
+                <ArrowLeftIcon className='mr-1 h-4 w-4' aria-hidden='true' />
+                All tip options
+            </Link>
 
-            <div className='flex flex-col'>
-                <CheckoutForm uiMode="hosted" testtoggle={testToggle} setTestToggle={setTestToggle}/>
-                
+            <header className='mt-6'>
+                <h1 className='text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl'>
+                    Tip with a card
+                </h1>
+                <p className='mt-4 text-base text-zinc-600 dark:text-zinc-400'>
+                    Pick an amount and you&apos;ll be sent to Stripe&apos;s secure checkout to finish up.
+                    Thank you. It genuinely means a lot.
+                </p>
+            </header>
+
+            <div className='mt-10'>
+                <CheckoutForm uiMode="hosted" />
             </div>
-             
         </div>
     )
-} 
+}

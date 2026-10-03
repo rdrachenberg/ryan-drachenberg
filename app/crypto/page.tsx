@@ -1,283 +1,325 @@
 'use client';
-import { useAccount, useWriteContract, useWaitForTransactionReceipt, useWatchContractEvent } from 'wagmi';
-import { getChainId } from '@wagmi/core';
-import { config } from '@/config';
-import { parseEther, Address } from 'viem'
+import { useAccount, useChainId, useWriteContract, useWaitForTransactionReceipt, useWatchContractEvent } from 'wagmi';
+import { parseEther, Address } from 'viem';
 import { abi } from '../../abi/abi';
-import { Loader2Icon, CheckCircleIcon, ArrowLeftCircle, CopyIcon, CopyCheck, FileTextIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import {
+    AlertTriangleIcon, ArrowLeftIcon, CheckCircle2Icon, CopyCheckIcon, CopyIcon,
+    ExternalLinkIcon, FileTextIcon, HelpCircleIcon, Loader2Icon, ShieldCheckIcon,
+} from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
-import toast from 'react-hot-toast';  
+import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { Tooltip } from "@nextui-org/react";
-import { Button } from "@nextui-org/button";
-import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
-import Withdrawal  from '../components/Withdrawal';
-import ContractBalance  from '../components/ContractBalance';
+import Withdrawal from '../components/Withdrawal';
+import ContractBalance from '../components/ContractBalance';
 import ConnectButton from '@/components/ConnectButton';
-import ContractDeploymentSpecs from '../components/ContractDeploymentSpecs';
 
+type Network = {
+    label: string;
+    symbol: 'ETH' | 'BNB';
+    icon: string;
+    contract: Address;
+    explorer: string;
+    testnet: boolean;
+};
+
+const MAINNET_CONTRACT = '0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9' as Address;
+const TESTNET_CONTRACT = '0x45b54e6AedeE2d73d9F09934C7C4973f6B6Cd41E' as Address;
+
+const NETWORKS: Record<number, Network> = {
+    1: { label: 'Ethereum', symbol: 'ETH', icon: '/eth.png', contract: MAINNET_CONTRACT, explorer: 'https://etherscan.io/tx/', testnet: false },
+    56: { label: 'BNB Smart Chain', symbol: 'BNB', icon: '/bsc-nobg.png', contract: MAINNET_CONTRACT, explorer: 'https://bscscan.com/tx/', testnet: false },
+    11155111: { label: 'Sepolia', symbol: 'ETH', icon: '/eth.png', contract: TESTNET_CONTRACT, explorer: 'https://sepolia.etherscan.io/tx/', testnet: true },
+    97: { label: 'BSC Testnet', symbol: 'BNB', icon: '/bsc-nobg.png', contract: TESTNET_CONTRACT, explorer: 'https://testnet.bscscan.com/tx/', testnet: true },
+};
+
+const QUICK_AMOUNTS = ['0.005', '0.01', '0.05', '0.1'];
+
+const STEPS = [
+    { title: 'Connect your wallet', body: 'MetaMask, Coinbase Wallet, or any WalletConnect wallet.' },
+    { title: 'Pick an amount', body: 'Send ETH or BNB on mainnet, or try it out on a testnet first.' },
+    { title: 'Confirm in your wallet', body: 'Funds go straight to the verified Donate contract. No middleman.' },
+];
+
+const cardClass = 'rounded-2xl bg-white p-6 shadow-sm ring-1 ring-zinc-900/10 dark:bg-gray-800/50 dark:ring-white/10 sm:p-8';
+
+function isValidAmount(value: string) {
+    if (!value || Number.isNaN(Number(value)) || Number(value) <= 0) return false;
+    try {
+        parseEther(value);
+        return true;
+    } catch {
+        return false;
+    }
+}
 
 export default function CryptoPage() {
-    const {address, isConnecting, isDisconnected, isConnected} = useAccount();
-    const [loading, isLoading] = useState(true);
-    const [valueToSend, setValueToSend] = useState<any>('');
-    const [logsState, setLogsState] = useState<any>([])
-    const [contract, setContract] = useState<string>('');
-    const [chain, setChain] = useState<any>('');
-    const [copied, setCopied] = useState(false)
-    const isNotNumberBro = isNaN(Number(valueToSend)); 
-    let contractAddress = `0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9` as string; // bsctest sepolia testnet deployed
-    //const contractAddress = `0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9` as string; // mainnet bsc deployed
-    const [explorer, setExplorer] = useState('');
-    
-    const { data: hash, writeContract, isPending } = useWriteContract();
-    const {isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
-        hash,
-    });
-    const chainId = getChainId(config);
-    
-    const chainName = (chainGang: string) => {
-        if(chainGang == '56') {
-            console.log('Binance Smart Chain detected');
-            setChain('bsc');
-            contractAddress = '0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9'
-            setContract(contractAddress);
-            setExplorer('https://bscscan.com/tx/');
+    const { isConnected } = useAccount();
+    const chainId = useChainId();
+    const network: Network | undefined = NETWORKS[chainId];
 
-        } else if(chainGang == '97')  {
-            contractAddress = '0x45b54e6AedeE2d73d9F09934C7C4973f6B6Cd41E'
-            setContract(contractAddress);
-            setChain('bsc-test');
-            setExplorer('https://testnet.bscscan.com/tx/');
-        
-        } else if(chainGang == '1'){
-            console.log('Etherum Network detected');
-            setChain('eth');
-            contractAddress = '0x3348791E931c0a9Fc6E40De3242B46ec5272C1b9';
-            setContract(contractAddress);
-            setExplorer('https://etherscan.io/tx/');
-        
-        } else if(chainGang == '11155111'){
-            console.log('Sepolia Test Network detected');
-            setChain('eth Sepolia')
-            contractAddress = '0x45b54e6AedeE2d73d9F09934C7C4973f6B6Cd41E'
-            setContract(contractAddress);
-            setExplorer('https://sepolia.etherscan.io/tx/');
-        }
+    const [valueToSend, setValueToSend] = useState('');
+    const [copied, setCopied] = useState(false);
+    const emailedHash = useRef<string | null>(null);
 
-        return chain
-    }
+    const { data: hash, writeContract, isPending, error, reset } = useWriteContract();
+    const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
 
-    async function handleSubmit() {
-        console.log('Submit clicked');
-        let parsedEther = parseEther(valueToSend);
-        // console.log(valueToSend);
-        // console.log('parsed -->')
-        // console.log(parsedEther);
-        chainName(chainId.toString());
+    const amountOk = isValidAmount(valueToSend);
+    const canSubmit = !!network && amountOk && !isPending && !isConfirming;
 
+    function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        if (!network || !amountOk) return;
         writeContract({
-            address: contract as Address,
+            address: network.contract,
             abi,
             functionName: 'deposit',
-            value: BigInt(parsedEther),
+            value: parseEther(valueToSend),
         });
-        
-    };
-
-    const  handleValueInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault();
-        setValueToSend(e.target.value);
-    };
-
-    const handleCopyClick = (textToCopy: string) => {
-        setCopied(!copied);
-        console.log('Copy clicked! ');
-        navigator.clipboard.writeText(textToCopy);
-        console.log(textToCopy);
-        setTimeout(() => {
-            setCopied(false);
-            // console.log('we ever getting here>?')
-        }, 2000)
     }
 
-    const handleEmail = async () => {
-        const body = {
-            to: 'ryandrachenberg@gmail.com',
-            from: 'tssinvestments@gmail.com',
-            subject: 'You received a donation',
-            text: `You received a donation! \nHere is a link to the transaction: ${explorer}${hash}`,
-            html: `<h1>You received a donation!</h1><h2>${explorer}${hash}</h2>`,
-        };
+    function handleCopy(text: string) {
+        navigator.clipboard.writeText(text);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    }
 
-        let res = await fetch('/api/email/', {
+    function handleSendAnother() {
+        reset();
+        setValueToSend('');
+    }
+
+    // Notify me by email once per transaction hash.
+    useEffect(() => {
+        if (!hash || !network || emailedHash.current === hash) return;
+        emailedHash.current = hash;
+        fetch('/api/email/', {
             method: 'POST',
-            headers: {'content-type': 'application/json'},
-            body: JSON.stringify(body),
-            
-        })
-        let data = await res.json();
-        console.log(data);
-
-        return JSON.stringify(data);
-    }
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({
+                to: 'ryandrachenberg@gmail.com',
+                from: 'tssinvestments@gmail.com',
+                subject: 'You received a donation',
+                text: `You received a donation! \nHere is a link to the transaction: ${network.explorer}${hash}`,
+                html: `<h1>You received a donation!</h1><h2>${network.explorer}${hash}</h2>`,
+            }),
+        }).catch(err => console.error('Donation email failed', err));
+    }, [hash, network]);
 
     useWatchContractEvent({
-        address: contractAddress as Address,
+        address: network?.contract,
         abi,
         eventName: 'PaymentReceived',
+        enabled: isConnected && !!network,
         onLogs(logs) {
-            setLogsState(() => JSON.stringify(logs, (_, v) => typeof v === 'bigint' ? v.toString() : v));
-            console.log(logsState)
-            console.log('Logs have changed \n', logs);
-            console.log(logsState[0].transactionHash);
-            () => setExplorer(explorer + `${logsState[0].transactionHash}`)
-            toast.success('Transaction successful')
-        }
+            if (logs.length) toast.success('Tip received on-chain. Thank you!');
+        },
     });
-    
 
-    useEffect(() => {
-        isLoading(true);
-        console.log(chainId);
-        chainName(chainId.toString());
-        hash ? handleEmail() : null;
-
-        setTimeout(() => {
-            isLoading(false);
-        }, 400)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [chain, chainId, hash])
-    
     return (
-        <div className='flex flex-col relative min-h-screen max-h-fit'>
-            {loading ? (  
-                <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
-            ) : (
-                <div className='relative flex flex-col'>
-                    {isConnected && !isDisconnected ? ( 
-                        <div className='border-4 border-blue-500 bg-gradient-to-r from-slate-500 to-slate-800 dark:bg-gray-600 p-5 sm:p-48 min-w-[300px] h-full sm:h-[500px] rounded-xl'>
-                            <div className='flex align-end my-3 ml-5 mb-10 justify-end absolute top-1 right-0 md:max-w-2xl max-w-sm sm:px-8 px-8'>
-                                <ConnectButton />
-                            </div>
-                            {isPending || isConfirming ? (
-                                <div><Loader2Icon className='animate-spin justify-center items-center text-blue-400 dark:text-white w-10 h-10'/></div>
+        <div className='mx-auto w-full max-w-xl pb-16'>
+            <Link
+                href='/tip'
+                className='inline-flex items-center text-sm font-medium text-zinc-600 transition hover:text-blue-600 dark:text-zinc-400 dark:hover:text-blue-400'
+            >
+                <ArrowLeftIcon className='mr-1 h-4 w-4' aria-hidden='true' />
+                All tip options
+            </Link>
+
+            <header className='mt-6'>
+                <h1 className='text-3xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-4xl'>
+                    Tip with crypto
+                </h1>
+                <p className='mt-4 text-base text-zinc-600 dark:text-zinc-400'>
+                    Send ETH or BNB directly to my Donate smart contract, verified on Etherscan and BscScan.
+                </p>
+            </header>
+
+            <div className='mt-10'>
+                {!isConnected ? (
+                    <div className={cardClass}>
+                        <ol className='space-y-5'>
+                            {STEPS.map((step, i) => (
+                                <li key={step.title} className='flex gap-4'>
+                                    <span className='flex h-8 w-8 flex-none items-center justify-center rounded-full bg-blue-50 text-sm font-semibold text-blue-600 ring-1 ring-blue-500/20 dark:bg-blue-500/10 dark:text-blue-400'>
+                                        {i + 1}
+                                    </span>
+                                    <div>
+                                        <p className='text-sm font-semibold text-zinc-800 dark:text-zinc-100'>{step.title}</p>
+                                        <p className='mt-0.5 text-sm text-zinc-600 dark:text-zinc-400'>{step.body}</p>
+                                    </div>
+                                </li>
+                            ))}
+                        </ol>
+                        <div className='mt-8'>
+                            <ConnectButton />
+                        </div>
+                        <div className='mt-6 flex items-center justify-center gap-6 text-sm'>
+                            <Link href='/instructions' className='inline-flex items-center gap-1 text-zinc-600 transition hover:text-blue-600 dark:text-zinc-400 dark:hover:text-blue-400'>
+                                <HelpCircleIcon className='h-4 w-4' aria-hidden='true' /> How it works
+                            </Link>
+                            <Link href='/contracts' className='inline-flex items-center gap-1 text-zinc-600 transition hover:text-blue-600 dark:text-zinc-400 dark:hover:text-blue-400'>
+                                <FileTextIcon className='h-4 w-4' aria-hidden='true' /> View contracts
+                            </Link>
+                        </div>
+                    </div>
+                ) : (
+                    <div className={cardClass}>
+                        {/* Network + wallet */}
+                        <div className='flex flex-wrap items-center justify-between gap-3'>
+                            {network ? (
+                                <span className='inline-flex items-center gap-2 rounded-full bg-zinc-100 px-3 py-1.5 text-sm font-medium text-zinc-700 dark:bg-gray-700/60 dark:text-zinc-200'>
+                                    <Image src={network.icon} width={18} height={18} alt='' />
+                                    {network.label}
+                                    {network.testnet && (
+                                        <span className='rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-800 dark:bg-amber-500/20 dark:text-amber-300'>
+                                            Testnet
+                                        </span>
+                                    )}
+                                </span>
                             ) : (
-                                <div className='flex flex-row justify-center items-center mt-1'>
-                                    {isConfirmed ? (
-                                            <div className='clear flex flex-col justify-start max-w-[300px] sm:max-w-[500px] space-y-4 mt-9 sm:mt-1'>
-                                                <div className='flex flex-row'>
-                                                    <div className='text-green-400'>Transaction confirmed.</div>
-                                                    <div>
-                                                        <CheckCircleIcon className='flex w-6 h-6 flex-shrink-0 text-green-400 ml-2 transition-opacity ease-in-out delay-150 duration-300' />
-                                                    </div>    
-                                                </div>
-                                                {hash && 
-                                                    <div className='flex flex-row'>
-                                                        <Tooltip content={hash} color='foreground' className='bg-black p-4 rounded-lg'>
-                                                            <Button radius='none' className='px-0 py-0 text-white truncate'>Transaction Hash: {hash}...</Button>
-                                                        </Tooltip>
-                                                        <div className='flex flex-col justify-center align-middle ml-2' onClick={() => handleCopyClick(hash)}>
-                                                            {copied ? 
-                                                                <Tooltip content={'Copied'}>
-                                                                    <CopyCheck className='w-5 h-5 text-green-500'/> 
-                                                                </Tooltip>
-                                                                : 
-                                                                <Tooltip content={'Copy'}>
-                                                                    <CopyIcon className='w-5 h-5 text-white'/>
-                                                                </Tooltip>
-                                                            }
-                                                        </div>
-                                                        
-                                                    </div>
-                                                }
-                                                
-                                                <div className='space-y-4 rounded-md '>
-                                                    {logsState && 
-                                                        <div>
-                                                            <Link href={explorer+hash} target='_blank'>
-                                                                <div className='flex flex-row text-white hover:text-blue-500'>
-                                                                Transaction Block Explorer <ArrowLeftCircle className='ml-2 hover:text-blue-500'/>
-                                                                </div>
-                                                                
-                                                            </Link>
-                                                            
-                                                        </div>
-                                                    }   
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <div className='flex flex-col justify-center mt-8 mb-8 sm:mt-0 sm:mb-0 my-auto'>
-                                                <div className='flex flex-row justify-end align-middle justify-items-end text-right mr-3'>
-                                                    <ContractBalance contract={contract}/>
-                                                </div>
-                                                <div className='flex flex-row p-2 sm:mb-8 mx-auto'>
-                                                    <div className='flex flex-col text-start m-5 text-white  ms-0'>Amount</div>
-                                                    <div className='flex flex-col justify-center align-top sm:w-60 max-w-sm w-[50%] dark:text-black'>
-                                                        <input type='text'
-                                                            value={valueToSend}
-                                                            onChange={handleValueInput}
-                                                            className=' p-1'
-                                                        >
-                                                        </input>
-                                                        
-                                                    </div>
-                                                    <div className='flex flex-col w-5 h-5 border border-black rounded justify-center align-middle mx-auto my-auto ml-2'>
-                                                        {chain == 'bsc' || chain == 'bsc-test' ? (
-                                                            <Image src={'/bsc-nobg.png'} width={20} height={20} alt='Binance Smart Chain' />
-                                                        ) : (
-                                                            <Image src={'/eth.png'} width={30} height={30} alt='Etherum Smart Chain' />
-                                                        )}
-                                                        
-                                                    </div>
-                                                </div>
-                                                <div className='flex p-2'>
-                                                    <button disabled={isPending} onClick={handleSubmit} className='rounded-full p-2 w-full sm:w-[90%] border-2 border-white hover:border-blue-500 bg-blue-500 hover:bg-blue-600 mx-auto text-white shadow-lg'>{isPending ? 'Confirming' : 'Submit' }</button>
-                                                </div>
-                                                <div>
-                                                    <Withdrawal contract={contract} />
-                                                    
-                                                </div>
-                                            </div>
-                                        )
-                                    }
-                                    
-                                </div> 
-                            )
-                            }
+                                <span className='inline-flex items-center gap-2 rounded-full bg-rose-50 px-3 py-1.5 text-sm font-medium text-rose-700 dark:bg-rose-500/10 dark:text-rose-300'>
+                                    <AlertTriangleIcon className='h-4 w-4' aria-hidden='true' /> Unsupported network
+                                </span>
+                            )}
+                            <ConnectButton />
                         </div>
-                    ) : (
-                        <div>
-                            <div className='flex flex-row items-center mx-auto justify-between md:max-w-2xl max-w-max sm:px-8 mb-16 -mt-7 sm:-mt-16'>
-                                <div className='mr-3'>
-                                    <Link href={'/instructions'}>
-                                        <div className='flex flex-col-2 hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
-                                            <h2 className='hover:text-blue-600 text-xs'>Help</h2>
-                                            <QuestionMarkCircleIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
-                                        </div>
-                                    </Link>
+
+                        {!network && (
+                            <p className='mt-4 text-sm text-zinc-600 dark:text-zinc-400'>
+                                Switch your wallet to Ethereum, BNB Smart Chain, Sepolia, or BSC Testnet to continue.
+                            </p>
+                        )}
+
+                        {network && isConfirmed && hash ? (
+                            /* Success */
+                            <div className='mt-8 text-center'>
+                                <CheckCircle2Icon className='mx-auto h-14 w-14 text-green-500' aria-hidden='true' />
+                                <h2 className='mt-4 text-xl font-semibold text-zinc-800 dark:text-zinc-100'>Thank you!</h2>
+                                <p className='mt-2 text-sm text-zinc-600 dark:text-zinc-400'>
+                                    Your tip of {valueToSend} {network.symbol} is confirmed on {network.label}.
+                                </p>
+                                <div className='mt-6 flex items-center gap-2 rounded-xl bg-zinc-50 p-3 text-left ring-1 ring-zinc-900/10 dark:bg-gray-900/60 dark:ring-white/10'>
+                                    <span className='min-w-0 flex-1 truncate font-mono text-xs text-zinc-700 dark:text-zinc-300' title={hash}>{hash}</span>
+                                    <button
+                                        type='button'
+                                        onClick={() => handleCopy(hash)}
+                                        className='rounded-lg p-1.5 text-zinc-500 transition hover:bg-zinc-200 hover:text-zinc-800 dark:hover:bg-gray-700 dark:hover:text-white'
+                                        aria-label={copied ? 'Copied' : 'Copy transaction hash'}
+                                    >
+                                        {copied ? <CopyCheckIcon className='h-4 w-4 text-green-500' /> : <CopyIcon className='h-4 w-4' />}
+                                    </button>
                                 </div>
-                                <div className='ml-3'>
-                                    <Link href={'/contracts'}>
-                                        <div className='flex flex-col-2  hover:underline hover:text-blue-400 mx-auto align-middle justify-center'>
-                                            <h2 className='hover:text-blue-600 text-xs'>Contracts</h2>
-                                            <FileTextIcon className='w-4 h-4 ml-1 justify-center align-bottom '/>
-                                        </div>
+                                <div className='mt-6 flex flex-col gap-3 sm:flex-row'>
+                                    <Link
+                                        href={`${network.explorer}${hash}`}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        className='inline-flex flex-1 items-center justify-center gap-2 rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-500'
+                                    >
+                                        View on explorer <ExternalLinkIcon className='h-4 w-4' aria-hidden='true' />
                                     </Link>
+                                    <button
+                                        type='button'
+                                        onClick={handleSendAnother}
+                                        className='flex-1 rounded-full px-5 py-2.5 text-sm font-semibold text-zinc-700 ring-1 ring-zinc-900/10 transition hover:bg-zinc-100 dark:text-zinc-200 dark:ring-white/10 dark:hover:bg-gray-700/60'
+                                    >
+                                        Send another
+                                    </button>
                                 </div>
-                                
-                                
                             </div>
-                            <ConnectButton />    
-                        </div>
-                        
-                    )
-                    }
-                </div>
-            )
-            }
-            
+                        ) : network && (isPending || isConfirming) ? (
+                            /* In-flight */
+                            <div className='mt-10 flex flex-col items-center text-center'>
+                                <Loader2Icon className='h-10 w-10 animate-spin text-blue-500' aria-hidden='true' />
+                                <p className='mt-4 font-semibold text-zinc-800 dark:text-zinc-100'>
+                                    {isPending ? 'Confirm the transaction in your wallet…' : 'Waiting for network confirmation…'}
+                                </p>
+                                {hash && (
+                                    <Link
+                                        href={`${network.explorer}${hash}`}
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        className='mt-2 inline-flex items-center gap-1 text-sm text-blue-600 hover:underline dark:text-blue-400'
+                                    >
+                                        Track it on the explorer <ExternalLinkIcon className='h-3.5 w-3.5' aria-hidden='true' />
+                                    </Link>
+                                )}
+                            </div>
+                        ) : network ? (
+                            /* Form */
+                            <form onSubmit={handleSubmit} className='mt-8'>
+                                <ContractBalance contract={network.contract} symbol={network.symbol} />
+
+                                <label htmlFor='crypto-amount' className='mt-6 block text-sm font-semibold text-zinc-800 dark:text-zinc-100'>
+                                    Amount
+                                </label>
+                                <div className='mt-2 flex items-center rounded-xl bg-zinc-50 ring-1 ring-zinc-900/10 focus-within:ring-2 focus-within:ring-blue-500 dark:bg-gray-900/60 dark:ring-white/10'>
+                                    <input
+                                        id='crypto-amount'
+                                        type='text'
+                                        inputMode='decimal'
+                                        autoComplete='off'
+                                        placeholder='0.00'
+                                        value={valueToSend}
+                                        onChange={e => setValueToSend(e.target.value.trim())}
+                                        className='w-full bg-transparent py-3 pl-4 text-lg font-semibold text-zinc-900 outline-none placeholder:text-zinc-400 dark:text-white'
+                                    />
+                                    <span className='flex items-center gap-1.5 pr-4 text-sm font-semibold text-zinc-600 dark:text-zinc-300'>
+                                        <Image src={network.icon} width={18} height={18} alt='' />
+                                        {network.symbol}
+                                    </span>
+                                </div>
+                                <div className='mt-3 grid grid-cols-4 gap-2'>
+                                    {QUICK_AMOUNTS.map(q => (
+                                        <button
+                                            key={q}
+                                            type='button'
+                                            onClick={() => setValueToSend(q)}
+                                            aria-pressed={valueToSend === q}
+                                            className={`rounded-lg px-2 py-2 text-xs font-semibold transition ${
+                                                valueToSend === q
+                                                    ? 'bg-blue-600 text-white'
+                                                    : 'bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-gray-700/60 dark:text-zinc-200 dark:hover:bg-gray-700'
+                                            }`}
+                                        >
+                                            {q}
+                                        </button>
+                                    ))}
+                                </div>
+                                {valueToSend && !amountOk && (
+                                    <p className='mt-2 text-xs text-rose-600 dark:text-rose-400'>Enter a positive number, like 0.01.</p>
+                                )}
+
+                                {error && (
+                                    <p className='mt-4 rounded-xl bg-rose-50 p-3 text-sm text-rose-700 ring-1 ring-rose-500/20 dark:bg-rose-500/10 dark:text-rose-300'>
+                                        {(error as { shortMessage?: string }).shortMessage ?? error.message}
+                                    </p>
+                                )}
+
+                                <button
+                                    type='submit'
+                                    disabled={!canSubmit}
+                                    className='mt-8 inline-flex w-full items-center justify-center rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-blue-600/20 transition hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-60'
+                                >
+                                    {amountOk ? `Send ${valueToSend} ${network.symbol}` : 'Enter an amount'}
+                                </button>
+
+                                <p className='mt-4 flex items-center justify-center gap-1.5 text-center text-xs text-zinc-500 dark:text-zinc-500'>
+                                    <ShieldCheckIcon className='h-3.5 w-3.5 flex-none' aria-hidden='true' />
+                                    Sent to{' '}
+                                    <Link href='/contracts' className='font-mono underline decoration-dotted hover:text-blue-600'>
+                                        {network.contract.slice(0, 6)}…{network.contract.slice(-4)}
+                                    </Link>
+                                </p>
+
+                                <Withdrawal contract={network.contract} />
+                            </form>
+                        ) : null}
+                    </div>
+                )}
+            </div>
         </div>
-    )
-} 
+    );
+}

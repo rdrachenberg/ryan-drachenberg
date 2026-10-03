@@ -1,10 +1,7 @@
-import { formatAmountForDisplay } from "@/utils/stripe-helpers";
-
 export default function CustomDonationInput({
   name,
   min,
   max,
-  currency,
   step,
   onChange,
   value,
@@ -16,22 +13,22 @@ export default function CustomDonationInput({
   currency: string;
   step: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: number;
+  value: number | string;
   className?: string;
-}): JSX.Element {
+}) {
   return (
-    <label>
-      <input
-        type="number"
-        name={name}
-        min={min}
-        max={max}
-        step={step}
-        onChange={onChange}
-        value={value}
-        className={className}
-        
-      ></input>
-    </label>
+    <input
+      id={name}
+      type="number"
+      inputMode="decimal"
+      name={name}
+      min={min}
+      max={max}
+      step={step}
+      onChange={onChange}
+      value={value}
+      className={className}
+      required
+    />
   );
 }
