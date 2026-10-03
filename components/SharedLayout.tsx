@@ -1,4 +1,5 @@
 import Header from './Header'
+import Footer from './Footer'
 
 export default function SharedLayout({
   children,
@@ -14,12 +15,13 @@ export default function SharedLayout({
         </div>
       </div>
 
-      {/* content */}
-      <div className="relative flex flex-col w-full">
+      {/* content: min-h-screen + flex-1 keeps the footer at the bottom on short pages */}
+      <div className="relative flex min-h-screen w-full flex-col">
         <Header />
-        <div className="relative sm:px-12 mt-20 sm:mt-32 mx-auto max-w-2xl lg:max-w-4xl px-4">
+        <main className="relative mx-auto mt-20 w-full max-w-2xl flex-1 px-4 sm:mt-32 sm:px-12 lg:max-w-4xl">
           {children}
-        </div>
+        </main>
+        <Footer />
       </div>
     </>
   )
