@@ -7,12 +7,76 @@ import {
   Cable,
   Factory,
   PlaneTakeoffIcon,
-  QrCode
+  QrCode,
+  BadgeCheckIcon,
+  EraserIcon,
+  GraduationCapIcon,
+  SunIcon
 } from "lucide-react";
 
 import { SiGithub } from "react-icons/si";
 
 export const projects = [
+  {
+    name: "Sol Kat Boutique",
+    description:
+      "A resale storefront and inventory tracker. Log finds from your phone with photos and purchase price, pull eBay resale comps, and sell through a public shop with Stripe checkout. Next.js, MongoDB Atlas, Vercel Blob",
+    link: {
+      href: "https://www.sol-kat.com/",
+      label: "sol-kat.com"
+    },
+    gitHubLink: {
+      href: "https://www.sol-kat.com/",
+      label: "Deployed App",
+      icon: PlaneTakeoffIcon,
+    },
+    icon: SunIcon,
+  },
+  {
+    name: "BG Remover",
+    description:
+      "Removes photo backgrounds entirely in the browser with an on-device ML model, so images never leave your machine. Supports iPhone HEIC, batch uploads, PNG/JPEG export and ZIP download",
+    link: {
+      href: "https://bg-remover-five-omega.vercel.app/",
+      label: "bg-remover-five-omega.vercel.app"
+    },
+    gitHubLink: {
+      href: "https://bg-remover-five-omega.vercel.app/",
+      label: "Deployed App",
+      icon: PlaneTakeoffIcon,
+    },
+    icon: EraserIcon,
+  },
+  {
+    name: "CCA-F Prep",
+    description:
+      "A 60-question timed, self-scoring mock exam and 2-week study guide for the Claude Certified Architect – Foundations exam. Lightweight static HTML with no build step",
+    link: {
+      href: "https://cca-f-prep-kohl.vercel.app/exam",
+      label: "cca-f-prep-kohl.vercel.app"
+    },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/cca-f-prep",
+      label: "GitHub",
+      icon: SiGithub
+    },
+    icon: GraduationCapIcon,
+  },
+  {
+    name: "Anthropic Credentials",
+    description:
+      "A terminal-styled page showcasing my verified Anthropic course completions, with a built-in form for adding new credentials",
+    link: {
+      href: "https://anthropic-credentials.vercel.app/",
+      label: "anthropic-credentials.vercel.app"
+    },
+    gitHubLink: {
+      href: "https://github.com/rdrachenberg/anthropic-credentials",
+      label: "GitHub",
+      icon: SiGithub
+    },
+    icon: BadgeCheckIcon,
+  },
   {
     name: "Solana Mint Forge",
     description:
