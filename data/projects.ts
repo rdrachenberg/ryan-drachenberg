@@ -38,7 +38,7 @@ export const projects = [
       "Removes photo backgrounds entirely in the browser with an on-device ML model, so images never leave your machine. Supports iPhone HEIC, batch uploads, PNG/JPEG export and ZIP download",
     link: {
       href: "https://bg-remover-five-omega.vercel.app/",
-      label: "bg-remover-five-omega.vercel.app"
+      label: "BG Remover"
     },
     gitHubLink: {
       href: "https://bg-remover-five-omega.vercel.app/",

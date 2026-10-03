@@ -29,9 +29,9 @@ export default function ProjectsPage() {
                                     </Link>
                                 </h2>
                                 <p className='relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400 dark:group-hover:text-white'>{project.description}</p>
-                                <p className='relative z-10 mt-6 flex text-sm font-medium text-zinc-400 transition group-hover:text-blue-500 items-center dark:text-zinc-200'>
-                                    <ArrowRightIcon className='w-3 h-3'/>
-                                    <span className='ml-2'>{project.link.label}</span>
+                                <p className='relative z-10 mt-6 flex max-w-full text-sm font-medium text-zinc-400 transition group-hover:text-blue-500 items-center dark:text-zinc-200'>
+                                    <ArrowRightIcon className='w-3 h-3 shrink-0'/>
+                                    <span className='ml-2 truncate'>{project.link.label}</span>
                                 </p>
                             </li>
                             <li className='group relative flex flex-col items-start'>
