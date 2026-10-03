@@ -97,15 +97,9 @@ export default function CryptoPage() {
         fetch('/api/email/', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
-            body: JSON.stringify({
-                to: 'ryandrachenberg@gmail.com',
-                from: 'tssinvestments@gmail.com',
-                subject: 'You received a donation',
-                text: `You received a donation! \nHere is a link to the transaction: ${network.explorer}${hash}`,
-                html: `<h1>You received a donation!</h1><h2>${network.explorer}${hash}</h2>`,
-            }),
+            body: JSON.stringify({ hash, chainId }),
         }).catch(err => console.error('Donation email failed', err));
-    }, [hash, network]);
+    }, [hash, network, chainId]);
 
     useWatchContractEvent({
         address: network?.contract,
