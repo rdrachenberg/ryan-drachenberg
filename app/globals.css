@@ -50,57 +50,10 @@
   body { @apply bg-background text-foreground; }
 }
 
-/* About page portrait: morph the previous photo into the current one.
-   Faces are aligned by scaling the old photo (face fills ~60% of frame)
-   down to the new one's framing (~39%), and the new one inversely, on the
-   same curve so they stay locked together. The new photo stays fully opaque
-   underneath and the old one fades off the top, so nothing washes out. */
-.portrait-morph-from,
-.portrait-morph-to {
-  --morph-duration: 4.2s;
-}
-.portrait-morph-from {
-  transform-origin: 50% 41%;
-  /* Feathered mask starts oversized (no visible effect) and tightens as the
-     photo shrinks, so its square edge never shows. */
-  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
-  mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: 50% 41%;
-  mask-position: 50% 41%;
-  animation:
-    portrait-from-move var(--morph-duration) linear forwards,
-    portrait-from-fade var(--morph-duration) linear forwards;
-}
-.portrait-morph-to {
-  transform-origin: 53% 39%;
-  animation:
-    portrait-to-move var(--morph-duration) linear forwards,
-    portrait-to-color var(--morph-duration) linear forwards;
-}
-@keyframes portrait-from-move {
-  0%, 18% { transform: none; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
-  100%    { transform: translate(3%, -2%) scale(0.65); }
-}
-@keyframes portrait-from-fade {
-  0%, 18% { opacity: 1; filter: blur(0); -webkit-mask-size: 400% 400%; mask-size: 400% 400%; animation-timing-function: ease-in-out; }
-  32%     { opacity: 1; animation-timing-function: ease-in-out; }
-  40%     { -webkit-mask-size: 105% 105%; mask-size: 105% 105%; }
-  58%     { filter: blur(0.6px); }
-  84%, 100% { opacity: 0; filter: blur(0); -webkit-mask-size: 95% 95%; mask-size: 95% 95%; }
-}
-@keyframes portrait-to-move {
-  0%, 18% { transform: translate(-3%, 2%) scale(1.54); animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
-  100%    { transform: none; }
-}
-@keyframes portrait-to-color {
-  0%, 36% { filter: grayscale(1); animation-timing-function: ease-out; }
-  100%    { filter: grayscale(0); }
-}
+/* About page portrait: PortraitMorph shows the old photo as a cover until its
+   WebGL morph takes over. Skip straight to the new photo for reduced motion. */
 @media (prefers-reduced-motion: reduce) {
-  .portrait-morph-from { animation: none; opacity: 0; }
-  .portrait-morph-to { animation: none; }
+  .portrait-morph-cover { display: none; }
 }
 
 /* Optional: typography defaults that invert nicely */

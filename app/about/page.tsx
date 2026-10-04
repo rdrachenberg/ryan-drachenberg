@@ -1,5 +1,7 @@
 import { allPages } from "@/.contentlayer/generated";
 import Mdx from '@/mdx-components';
+import PortraitMorph from "@/components/PortraitMorph";
+import { portraitLandmarks } from "@/data/portraitLandmarks";
 import { GithubIcon, MailCheckIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -38,10 +40,13 @@ export default function AboutPage() {
                 <div className='lg:pl-20'>
                     <div className='  lg:max-w-none flex justify-center align-middle items-center sm:justify-start mx-auto'>
                         {page.previousImage ? (
-                            <div className='relative w-[200px] md:w-[250px] aspect-square overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800'>
-                                <Image src={page.image} alt='Ryan Drachenberg' fill sizes='250px' priority className='portrait-morph-to object-cover'/>
-                                <Image src={page.previousImage} alt='' aria-hidden fill sizes='250px' priority className='portrait-morph-from object-cover'/>
-                            </div>
+                            <PortraitMorph
+                                from={page.previousImage}
+                                to={page.image}
+                                alt='Ryan Drachenberg'
+                                landmarks={portraitLandmarks}
+                                className='w-[200px] md:w-[250px] aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-800'
+                            />
                         ) : (
                             <Image src={page.image} alt='Ryan Drachenberg' width={300} height={300} className='w-[200px] md:w-[250px] aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-800'/>
                         )}
