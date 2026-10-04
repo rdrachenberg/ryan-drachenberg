@@ -16,6 +16,12 @@ const nextConfig = {
         // Optional React Native dep probed by @metamask/sdk in the browser build
         '@react-native-async-storage/async-storage': false,
       }
+      // ox (via viem) hides a Node-only `import('node:worker_threads')` from bundlers
+      // in its Tempo mining helper, which this site never calls
+      config.ignoreWarnings = [
+        ...(config.ignoreWarnings || []),
+        { module: /ox[\\/]_esm[\\/]tempo[\\/]internal[\\/]virtualMasterPool\.js$/ },
+      ]
       return config
     },
     outputFileTracingRoot: __dirname,

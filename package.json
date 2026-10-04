@@ -17,7 +17,10 @@
     "@walletconnect/sign-client": "2.16.1",
     "@walletconnect/ethereum-provider": "2.16.1",
     "@walletconnect/modal": "2.6.2",
-    "@walletconnect/modal-ui": "2.6.2"
+    "@walletconnect/modal-ui": "2.6.2",
+    "valtio": {
+      "use-sync-external-store": "1.7.0"
+    }
   },
   "dependencies": {
     "@emotion/is-prop-valid": "^1.4.0",
@@ -73,5 +76,14 @@
     "tailwindcss": "^3.4.19",
     "tailwindcss-animate": "^1.0.7",
     "typescript": "^5.9.3"
+  },
+  "allowScripts": {
+    "bufferutil": false,
+    "contentlayer2": false,
+    "esbuild": false,
+    "keccak": false,
+    "protobufjs": false,
+    "unrs-resolver": false,
+    "utf-8-validate": false
   }
 }
