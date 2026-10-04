@@ -24,6 +24,10 @@ const Page = defineDocumentType(()=> ({
             type: 'string',
             required: true,
         },
+        previousImage: {
+            type: 'string',
+            required: false,
+        },
     },
     computedFields
 }));

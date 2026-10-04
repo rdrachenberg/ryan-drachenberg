@@ -37,7 +37,14 @@ export default function AboutPage() {
             <div className='grid grid-col-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12'>
                 <div className='lg:pl-20'>
                     <div className='  lg:max-w-none flex justify-center align-middle items-center sm:justify-start mx-auto'>
-                        <Image src={page.image} alt='portrait' width={300} height={300} className='w-[200px] md:w-[250px] aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-800'/>
+                        {page.previousImage ? (
+                            <div className='relative w-[200px] md:w-[250px] aspect-square overflow-hidden rounded-2xl bg-zinc-100 dark:bg-zinc-800'>
+                                <Image src={page.image} alt='Ryan Drachenberg' fill sizes='250px' priority className='portrait-morph-to object-cover'/>
+                                <Image src={page.previousImage} alt='' aria-hidden fill sizes='250px' priority className='portrait-morph-from object-cover'/>
+                            </div>
+                        ) : (
+                            <Image src={page.image} alt='Ryan Drachenberg' width={300} height={300} className='w-[200px] md:w-[250px] aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-800'/>
+                        )}
                     </div>
                 </div>
                 <div className='lg:order-first lg:row-span-2'>

@@ -50,6 +50,43 @@
   body { @apply bg-background text-foreground; }
 }
 
+/* About page portrait: morph the previous photo into the current one.
+   Faces are aligned by scaling the old photo (face fills ~60% of frame)
+   down to the new one's framing (~39%), and vice versa. */
+.portrait-morph-from {
+  transform-origin: 50% 41%;
+  /* Feathered mask starts oversized (no visible effect) and tightens as the
+     photo shrinks, so its square edge never shows. */
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+  mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: 50% 41%;
+  mask-position: 50% 41%;
+  animation: portrait-morph-from 10s ease-in-out forwards;
+}
+.portrait-morph-to {
+  transform-origin: 53% 39%;
+  animation: portrait-morph-to 10s ease-in-out forwards;
+}
+@keyframes portrait-morph-from {
+  0%, 10% { opacity: 1; transform: none; filter: blur(0); -webkit-mask-size: 400% 400%; mask-size: 400% 400%; }
+  30%     { -webkit-mask-size: 105% 105%; mask-size: 105% 105%; }
+  50%     { opacity: 0.5; filter: blur(1.5px); }
+  75%     { opacity: 0; }
+  90%, 100% { opacity: 0; transform: translate(3%, -2%) scale(0.65); filter: blur(0); -webkit-mask-size: 95% 95%; mask-size: 95% 95%; }
+}
+@keyframes portrait-morph-to {
+  0%, 10% { opacity: 0; transform: translate(-3%, 2%) scale(1.54); filter: grayscale(1) blur(0); }
+  25%     { opacity: 0; }
+  50%     { filter: grayscale(0.7) blur(1.5px); }
+  90%, 100% { opacity: 1; transform: none; filter: grayscale(0) blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-morph-from { animation: none; opacity: 0; }
+  .portrait-morph-to { animation: none; }
+}
+
 /* Optional: typography defaults that invert nicely */
 .prose { @apply max-w-none; }
 .dark .prose { @apply prose-invert; }
