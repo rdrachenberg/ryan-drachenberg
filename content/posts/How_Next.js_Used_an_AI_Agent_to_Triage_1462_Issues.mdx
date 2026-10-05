@@ -1,0 +1,57 @@
+---
+title: "How Next.js Used an AI Agent to Triage 1,462 Issues"
+description: "The Next.js team describes a read-only research agent, human review and a reopen safety net that cut its issue backlog below 1,000."
+date: "2026-10-05"
+---
+
+# How Next.js Used an AI Agent to Triage 1,462 Issues
+
+Maintaining a popular open-source project increasingly means drowning in reports, many now written with help from coding agents. The Next.js team recently published a candid account of how they used an agent of their own to dig out, and the design choices are worth borrowing.
+
+## The problem
+
+According to the Next.js blog post from September 4, 2026, the issue tracker receives an average of 36 new reports a week. The backlog peaked at 3,109 open issues in January 2025 and still stood at 2,244 on August 10, 2026. The team had tried a stale-issue workflow, but they write that inactivity was a poor stand-in for relevance and that some reports they should have kept were closed.
+
+By the post's date, roughly three weeks later, 1,462 issues had been closed across the repository and the backlog was below 1,000, even as 218 new reports arrived. The post notes that figure includes some issues maintainers closed outside this review.
+
+## How the agent works
+
+The team built a research agent called closability on eve, Vercel's open-source agent framework. For each issue it runs in a fresh sandbox containing the Next.js repository, Node.js, Playwright and Chromium. According to the post, it:
+
+- Reads the conversation and checks supported versions.
+- Searches related issues, pull requests, commits, releases and docs.
+- Tries to reproduce the bug on the reported version, the latest stable release and canary when needed.
+- Looks for evidence that contradicts its first conclusion.
+
+It returns structured output with a close-confidence score, a primary reason and linked evidence. The team says they kept the score conservative: a failed reproduction alone is not enough to recommend closing.
+
+## The guardrails
+
+Three design choices stand out:
+
+- The agent is read-only outside its sandbox. It cannot comment, close issues, push code or deploy.
+- It is configured to ignore instructions found in issue text or repository content, as protection against prompt injection.
+- Maintainers read the evidence for every result in a Close Queue before anything is closed.
+
+The post breaks down the closed issues by the agent's primary reason: 543 already fixed (37 percent), 278 duplicates (19 percent), 237 expected behavior (16 percent), 89 no longer reproducible (6 percent), 66 unsupported or obsolete (5 percent) and 249 other (17 percent).
+
+## A safety net for mistakes
+
+Before the review, the team added a GitHub Action that lets people reopen an issue if closing it was the wrong call. The post says the reopening window gave them a way to check results, and that the numbers suggest most decisions were right. We would note that the post presents those reopen figures in a chart, so we are not quoting a specific rate here.
+
+## Where it is going
+
+The post says closability now researches up to 100 open issues each Monday that have had no activity for 30 days. The team has also started letting agents close the clearest cases: scores of 80 or higher go to a second agent that looks for reasons to keep the issue open, and if both agree, an automation closes it. They are starting with up to 25 issues a week. According to the post, every code change still goes through human review before merging.
+
+## Takeaways for builders
+
+- Use agents to gather evidence, not to act. Separating research from action made the system easier to trust.
+- Make mistakes cheap to undo. A reopen path turns an irreversible decision into a reversible one.
+- Prefer evidence over timestamps. Age alone misclassified issues; reproduction on current releases did better.
+- Treat repository content as untrusted input when an agent reads it.
+
+If you maintain a project with a large backlog, the pattern of a sandboxed researcher, a human queue and a cheap undo is a reasonable template.
+
+## Sources
+
+- [How we closed 1,500 GitHub issues in one month, Next.js Blog](https://nextjs.org/blog/how-we-closed-1500-github-issues)

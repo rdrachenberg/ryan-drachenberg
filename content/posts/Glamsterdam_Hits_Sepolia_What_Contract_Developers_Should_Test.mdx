@@ -1,0 +1,58 @@
+---
+title: "Glamsterdam Hits Sepolia: What Contract Developers Should Test"
+description: "Ethereum's Glamsterdam fork activates on Sepolia on October 6, bringing ePBS, block-level access lists and the first gas repricing since 2021."
+date: "2026-10-05"
+---
+
+# Glamsterdam Hits Sepolia: What Contract Developers Should Test
+
+Ethereum's next hard fork, Glamsterdam, is about to get its first run on a long-lived public testnet. For anyone shipping contracts or tooling, the most practical part is not the headline features but the gas repricing that comes with them.
+
+## The schedule
+
+According to the Ethereum Foundation's Glamsterdam testnet announcement, the fork activates on Sepolia at epoch 353,024 (slot 11,296,768), which the post lists as October 6, 2026 at 13:53:36 UTC. The same post says dates for Hoodi and mainnet are still pending. Glamsterdam pairs the Amsterdam execution-layer changes with the Gloas consensus-layer changes.
+
+The announcement lists client releases for the fork, including go-ethereum 1.17.7, Nethermind 2.1.0, Reth 2.7.0, Besu 26.9.0, Erigon 3.7.1, Lighthouse 8.3.0-rc.0, Prysm 7.2.0, Teku 26.9.1, Lodestar 1.49.0 and Nimbus 26.10.0. If you run a Sepolia node, check that post for the exact versions before the activation time.
+
+## What is in the fork
+
+The announcement highlights these changes:
+
+- Enshrined proposer-builder separation (ePBS) via EIP-7732, which separates block proposers from builders inside the consensus protocol.
+- Block-level access lists (BALs) via EIP-7928, which the post says enable parallel state reading and validation.
+- Gas pricing changes via EIP-8037 and EIP-8038.
+
+ePBS and BALs mostly matter to client teams, validators and block builders. The gas changes are what can break your application.
+
+## The repricing is the part to test
+
+A separate Ethereum Foundation post on repricing and testing explains the two proposals. EIP-8037 raises the cost of creating state, meaning new accounts, storage slots and deployed bytecode. EIP-8038 raises the cost of accessing state, including operations such as SSTORE, SLOAD, cold account access and EXTCODESIZE or EXTCODECOPY, to better match measured performance at current state size. The post notes the repricing schedule was last updated in the 2021 Berlin fork.
+
+To gauge impact, the Foundation says it replayed mainnet transactions under the new schedule and sorted them into four outcomes:
+
+1. No change, which covers the majority of transactions.
+2. Succeeds, but execution differs.
+3. Fails for lack of gas originally, but completes with a higher gas limit.
+4. Potentially broken, failing even with substantially raised limits.
+
+According to the post, most flagged issues are fixed with a gas-limit increase.
+
+## What builders should do
+
+The announcement's own guidance is blunt: contracts that rely on fixed gas stipends, hardcoded gas limits, or assumptions about remaining gas may need changes. Practical steps that follow from the two posts:
+
+- Check your contracts against the Foundation's repricing impact tool linked from the repricing post.
+- Audit anywhere you hardcode a gas amount for an external call or a relayer.
+- Refresh gas estimation in wallets, bundlers and scripts. The post warns that cached gas constants will underestimate and lead to failed transactions.
+- Run your test suite against a network that already uses the new schedule. The post points to the Platåberget testnet, glam-devnet-8, for that.
+
+## Why it matters
+
+Gas assumptions tend to be baked into code in quiet ways: a constant in a deployment script, a gas cap in a keeper bot, a stipend in a payment helper. Repricing rarely produces dramatic failures in one place. It produces scattered, hard-to-trace reverts in many. A public testnet fork gives teams a realistic place to find them before mainnet dates are set.
+
+We would treat the Sepolia activation as a deadline for your own testing, not a spectator event. The mainnet date is not announced, so there is time, but the contracts most likely to break are often the old ones nobody has touched in years.
+
+## Sources
+
+- [Glamsterdam Testnet Announcement, Ethereum Foundation Blog](https://blog.ethereum.org/2026/09/17/glamsterdam-testnet-announcement)
+- [Glamsterdam gas repricing and testing, Ethereum Foundation Blog](https://blog.ethereum.org/2026/08/24/glamsterdam-repricing-testing)
