@@ -1,7 +1,5 @@
 import { allPages } from "@/.contentlayer/generated";
 import Mdx from '@/mdx-components';
-import PortraitMorph from "@/components/PortraitMorph";
-import { portraitLandmarks } from "@/data/portraitLandmarks";
 import { GithubIcon, MailCheckIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,17 +37,7 @@ export default function AboutPage() {
             <div className='grid grid-col-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12'>
                 <div className='lg:pl-20'>
                     <div className='  lg:max-w-none flex justify-center align-middle items-center sm:justify-start mx-auto'>
-                        {page.previousImage ? (
-                            <PortraitMorph
-                                from={page.previousImage}
-                                to={page.image}
-                                alt='Ryan Drachenberg'
-                                landmarks={portraitLandmarks}
-                                className='w-[200px] md:w-[250px] aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-800'
-                            />
-                        ) : (
-                            <Image src={page.image} alt='Ryan Drachenberg' width={300} height={300} className='w-[200px] md:w-[250px] aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-800'/>
-                        )}
+                        <Image src={page.image} alt='Ryan Drachenberg' width={300} height={300} priority className='w-[200px] md:w-[250px] aspect-square rounded-2xl bg-zinc-100 dark:bg-zinc-800'/>
                     </div>
                 </div>
                 <div className='lg:order-first lg:row-span-2'>

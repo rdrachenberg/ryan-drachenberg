@@ -50,12 +50,6 @@
   body { @apply bg-background text-foreground; }
 }
 
-/* About page portrait: PortraitMorph shows the old photo as a cover until its
-   WebGL morph takes over. Skip straight to the new photo for reduced motion. */
-@media (prefers-reduced-motion: reduce) {
-  .portrait-morph-cover { display: none; }
-}
-
 /* Optional: typography defaults that invert nicely */
 .prose { @apply max-w-none; }
 .dark .prose { @apply prose-invert; }
