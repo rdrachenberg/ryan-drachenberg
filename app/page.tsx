@@ -6,6 +6,7 @@ export default function HomePage() {
   const sorted = [...allPosts].sort(
     (a, b) => Number(new Date(b.date)) - Number(new Date(a.date))
   );
+  const [latest, ...rest] = sorted;
 
   return (
     <div className="mx-auto w-full max-w-3xl">
@@ -19,13 +20,15 @@ export default function HomePage() {
         </p>
       </header>
 
-      <div className="mt-12 mb-24 sm:mt-20">
-        <div className="md:border-l md:border-zinc-300 md:pl-6 dark:md:border-zinc-700/40">
-          <div className="flex flex-col space-y-12 sm:space-y-16">
-            {sorted.map(post => (
-              <PostCard key={post._id} post={post} />
-            ))}
-          </div>
+      <div className="mt-12 mb-24 sm:mt-16">
+        {latest && <PostCard post={latest} featured />}
+        <h2 className="mt-16 mb-8 border-t border-zinc-200 pt-8 text-sm font-semibold uppercase tracking-wide text-zinc-500 dark:border-zinc-700/60 dark:text-zinc-400">
+          More articles
+        </h2>
+        <div className="flex flex-col space-y-10">
+          {rest.map(post => (
+            <PostCard key={post._id} post={post} />
+          ))}
         </div>
       </div>
     </div>
