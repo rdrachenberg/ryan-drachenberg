@@ -1,0 +1,51 @@
+---
+title: "SEC Opens a Five-Year Window for Tokenized Stock Trading"
+description: "The SEC's September 17 innovation exemption lets tokenized securities venues trade tokenized NMS stock via permissioned AMMs, and Securitize is already launching."
+date: "2026-10-12"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/New_York_Stock_Exchange_Building_2010.jpg/1280px-New_York_Stock_Exchange_Building_2010.jpg"
+imageAlt: "New York Stock Exchange building facade on Wall Street"
+imageCredit: "LeoTar / CC BY-SA 3.0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:New_York_Stock_Exchange_Building_2010.jpg"
+imageQuery: "New York Stock Exchange building"
+---
+
+Tokenized equities have spent years in a regulatory gray zone. On September 17, 2026, the SEC put a temporary, conditional structure around part of it, and within three weeks a tokenization firm announced a product aimed at exactly that space. For anyone building trading, settlement or wallet infrastructure around onchain securities, the details of the order are worth reading closely.
+
+## What the SEC did
+
+According to SEC press release 2026-90, the Commission issued an order granting temporary, conditional exemptive relief from the Exchange Act definition of "exchange" to what it calls Tokenized Securities Venues (TSVs). The relief lets a TSV trade tokenized National Market System (NMS) stock using permissioned automated market makers and liquidity pools, which the release calls AMM Liquidity Pools.
+
+The order also temporarily exempts liquidity providers in those pools from the Exchange Act definition of "dealer," even where they quote prices or commit their own capital. The exemptions expire five years after publication, and the SEC invites public comment on all aspects of the relief. Chairman Paul Atkins described it as a temporary step while the Commission considers whether further action is needed.
+
+## The conditions that matter to builders
+
+The release lists several conditions. Among them:
+
+- Limits on the number of symbols and on trading volume of tokenized NMS stock.
+- The TSV must confirm tokenized shares carry the same rights and privileges as the traditional stock of the same class.
+- If an unaffiliated third party tokenized the stock, the TSV must first give the underlying issuer written notice and a chance to object.
+- Smart contracts must be auditable, public, and deployed on a public, permissionless distributed ledger.
+- Trading must stop when trading in the underlying stock stops on its primary listing exchange.
+- The TSV must publicly disclose its operations and trading activity, including that of its affiliates.
+
+The combination is interesting: the venue is permissioned, but the contracts must live on a public chain and be auditable. That pushes design toward public code with gated participation, and it makes halt-synchronization with traditional markets a real engineering requirement rather than a nice-to-have.
+
+## A product arrives
+
+On October 8, CoinDesk reported that Securitize announced Securitize Stocks: tokens on Solana tied to 12 US-listed stocks, including Apple, Nvidia, Tesla and Microsoft. According to the report, each token is backed one-for-one by an underlying share and is meant to preserve benefits such as dividends and voting rights. CoinDesk notes the tokens are security entitlements, not direct entries on a company's shareholder register.
+
+Per the same report, trading starts on Securitize's Solana-based PropAMM platform with Jump Trading providing liquidity, transactions settle in USDC, and RQD supports clearing, custody and settlement. Initial trading is during extended market hours, with plans for 24/7 access. Expansion to NYSE's planned 24/7 platform and the OKX-ICE tokenized securities venue depends on those venues launching and meeting regulatory requirements. CoinDesk does not tie the Securitize launch to the SEC's exemption directly, so we should not assume it operates under it.
+
+## What to take from this
+
+- Compliance is becoming a design input. Symbol caps, volume limits and halt coordination all need to be expressed in code and monitored.
+- The legal form of the token matters. A security entitlement is different from a shareholder-register entry, and wallets and custodians should present that difference accurately.
+- Transparency requirements imply data pipelines. Venues will need to publish trading activity, so indexing and reporting tooling is part of the product.
+- Everything here is temporary and open to comment, so architectures should tolerate rule changes.
+
+None of this is investment advice; it is a snapshot of how the rules and the first products are lining up.
+
+## Sources
+
+- [SEC press release 2026-90: SEC Issues Innovation Exemption to Facilitate the Trading of Tokenized NMS Stock and Request for Comment](https://www.sec.gov/newsroom/press-releases/2026-90-sec-issues-innovation-exemption-facilitate-trading-tokenized-nms-stock-request-comment)
+- [CoinDesk: Securitize brings Apple, Nvidia and Tesla to Solana with NYSE trading in the works](https://coindesk.com/business/2026/10/08/securitize-brings-apple-nvidia-and-tesla-to-solana-with-nyse-trading-in-the-works)

@@ -1,0 +1,54 @@
+---
+title: "Node.js 26.11 Adds FFI Hardening and Process Timeouts"
+description: "Node.js 26.11.0 ships new buffer, http and perf_hooks APIs, a --process-timeout flag, and a long list of FFI, crypto and permission fixes."
+date: "2026-10-12"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Circuit_board_after_manual_etching.jpg/1280px-Circuit_board_after_manual_etching.jpg"
+imageAlt: "Etched copper circuit board"
+imageCredit: "Tinux / CC0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Circuit_board_after_manual_etching.jpg"
+imageQuery: "circuit board"
+---
+
+Node.js 26.11.0 landed on October 7, 2026, followed the same day by 26.11.1. It is a Current-line release, not LTS, but the changelog is a useful read: a handful of new APIs, one rename to check before upgrading, and an unusually large batch of hardening work.
+
+## New APIs worth a look
+
+According to the official release notes, the semver-minor additions include:
+
+- `buffer.isLatin1` and `Buffer.stringLength()`.
+- `isValidHeaderName()` and `isValidHeaderValue()` in the http module, handy for validating headers before they reach a request.
+- A `connectionWindowSize` option for http2.
+- `histogram.diff()` and `histogram.snapshot()` in perf_hooks, plus fixes so a recordable histogram can record 0 and `monitorEventLoopDelay()` resolution is no longer truncated.
+- `process.ref` and `process.unref` graduating to stable.
+- A new `--process-timeout=N` flag.
+- Heap profile output that exposes size and count.
+
+The release also promotes Alpine Linux to tier 2 support, which matters if you ship slim containers.
+
+## One rename to check
+
+The notes list a change to the sqlite module that renames `DatabaseSync` and `StatementSync`. The page we read does not state the new names, so check the updated sqlite documentation before upgrading code that uses them. The same release adds virtual table support through `createModule()`.
+
+## Hardening work
+
+Much of the changelog is defensive. As described in the commit list:
+
+- **FFI:** pointer range validation in optimized calls, a use-after-free fix in `PrepareFunction`, rejection of unsafe integers as length or offset, and an error on allocation failure in `toArrayBuffer()`. One behavior change deserves attention: permission checks were removed from `dlclose` and `dlsym`.
+- **Permissions:** `Socket(fd)` can no longer bypass the `allow-net` permission.
+- **Crypto:** a batch of validation fixes, including rejecting short AES-KW inputs and duplicate unknown key usages.
+- **HTTP and TLS:** normalized CONNECT request paths, and preserved CN name constraints with OpenSSL 4.1.
+- **sqlite:** rejection of plans with unusable virtual table parameters and of oversized string values.
+
+Dependencies moved too: OpenSSL 3.5.9, NSS root certificates 3.129, undici 8.11.2 and npm 11.20.0, per the notes.
+
+## What to do with it
+
+- If you use the permission model, read the FFI and `Socket(fd)` entries closely, since they change what the sandbox does and does not allow.
+- Run your test suite against the new line before it reaches production, especially if you touch sqlite or crypto APIs directly.
+- Keep production on LTS unless you need a Current feature. The Node.js blog lists 22.23.3 as the latest LTS release from September 23.
+- Treat the release notes as a checklist, not a summary: the commit links show the exact behavior of each change.
+
+## Sources
+
+- [Node.js 26.11.0 (Current) release notes](https://nodejs.org/en/blog/release/v26.11.0)
+- [Node.js blog index](https://nodejs.org/en/blog)
