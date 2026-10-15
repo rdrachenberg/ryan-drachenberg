@@ -1,0 +1,57 @@
+---
+title: "Ethereum Explores Transaction Assertions to Guard Signed Outcomes"
+description: "The Ethereum Foundation outlines native transaction assertions, with EIP-7906 as one draft design, to reject transactions whose final outcome breaks a signed rule."
+date: "2026-10-15"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Liebesschloss.jpg/1280px-Liebesschloss.jpg"
+imageAlt: "Padlocks attached to a fence"
+imageCredit: "Schlurcher / CC BY 4.0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Liebesschloss.jpg"
+imageQuery: "padlock"
+---
+
+A valid signature only proves that a user approved some calldata. It does not prove the result is what they wanted. On October 5, the Ethereum Foundation's Trillion Dollar Security initiative published a post on native transaction assertions, an idea that would let onchain code check a transaction's final outcome and revert it if a rule fails.
+
+## The gap assertions try to close
+
+According to the Foundation's post, a signature commits only to the target, value and calldata. The outcome depends on code and state at execution time, which can differ from what was inspected. The post separates two failure types:
+
+- **Intent mismatch:** the user signs something other than what they believed. The post cites the Bybit and BadgerDAO incidents, where a compromised frontend supplied a different signing request.
+- **Outcome mismatch:** the user signs exactly what they were shown, but the result conflicts with their goal. The post describes an Aave/CoW collateral swap of roughly 50.4 million dollars where thin liquidity and a gas ceiling left one low-value quote, and the user received tokens worth about 36,000 dollars.
+
+## Why existing defenses fall short
+
+The post argues each current layer has limits:
+
+- Clear Signing depends on accurate decoding and on the signer noticing a mismatch.
+- Simulation can go stale before inclusion, and the signed transaction may differ from the simulated one, as in the Radiant Capital case the post mentions.
+- In-contract checks and wallet guards, such as Uniswap's minimum output or Safe's checkAfterExecution, must pick in advance which state to inspect and cannot see all net state changes.
+
+## How EIP-7906 would work
+
+The draft EIP-7906, "Transaction Assertions via State Diff Opcode", is presented as one possible approach. It is listed as a Draft, Standards Track: Core proposal and requires EIP-2929 and EIP-8141. According to the Foundation's post, EIP-8141 (frame transactions) is scheduled for the Hegotá upgrade, while EIP-7906 is only "Considered for Inclusion" and not confirmed for any upgrade.
+
+The design adds a read-only frame at the end of a transaction that can see net changes to ETH balances and storage, plus new contracts and their code hashes. Three opcodes are defined in the EIP:
+
+- `TXTRACE` (0xb6) enumerates the transaction's full state diff.
+- `TXDIFF` (0xb7) reads a single balance, codehash or storage entry by key.
+- `EVENTDATACOPY` (0xb8) copies an event's non-indexed data into memory.
+
+If a rule fails, the execution body reverts but the transaction stays in the block with a failed status and the gas payer is still charged. The post says this deters builders from being forced to run failing transactions for free.
+
+## What builders should take from it
+
+The post is open about the tradeoffs:
+
+- Assertions are not mandatory, so a builder could omit them. Wallets would need to include them in every frame transaction, and protected protocol functions would need to reject calls lacking the exact required assertion.
+- Immutable, already-deployed contracts could not add the check.
+- Guarantees hold within one transaction on one network, so multi-chain routes are not covered.
+- The rule's source must be independent of the transaction builder, since a compromised frontend could write a rule that permits the attack.
+
+Use cases the Foundation lists include constraining what delegated agents may do, protocol-defined safety rules for all callers, solvers that must meet an outcome while choosing their own route, and verifying that a workflow ended with approvals revoked and unused tokens returned.
+
+For wallet and protocol teams, the practical step is feedback: the Foundation is asking for input through trilliondollarsecurity@ethereum.org and the EIP-7906 discussion thread. Nothing here ships soon, but thinking in terms of outcome rules rather than only input validation is useful today.
+
+## Sources
+
+- [How native transaction assertions could enforce a transaction's final outcome, Ethereum Foundation Blog](https://blog.ethereum.org/2026/10/05/transaction-assertions)
+- [EIP-7906: Transaction Assertions via State Diff Opcode](https://eips.ethereum.org/EIPS/eip-7906)
