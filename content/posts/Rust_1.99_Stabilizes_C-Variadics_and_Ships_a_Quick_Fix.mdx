@@ -1,0 +1,51 @@
+---
+title: "Rust 1.99 Stabilizes C-Variadics and Ships a Quick Fix"
+description: "Rust 1.99.0 stabilizes C-variadic functions and raw-pointer layout APIs, and 1.99.1 fixes three regressions including an FFI bool bug."
+date: "2026-10-19"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Tools_in_the_workshop.jpg/1280px-Tools_in_the_workshop.jpg"
+imageAlt: "Hand tools arranged in a workshop"
+imageCredit: "Shixart1985 / CC BY 2.0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Tools_in_the_workshop.jpg"
+imageQuery: "workshop tools"
+---
+
+Rust 1.99.0 landed on October 1, and a point release, 1.99.1, followed on October 15. Together they are a good example of what a steady six-week train looks like: a few long-awaited stabilizations, then a quick patch for regressions that affect people doing low-level work.
+
+## What 1.99.0 stabilizes
+
+According to the Rust blog's release announcement, the headline is support for defining C-variadic functions in Rust. You can now write functions that take `...` using the `"C"` and `"C-unwind"` ABIs, reading arguments through `VaList`, with the `VaArgSafe` trait governing which types can be read. Naked variadic functions with non-"C" ABIs are also stabilized, but they must be written with inline assembly.
+
+The second theme is raw-pointer layout. The release settles the safety requirements for getting size and alignment from raw pointers, including for types that are not `Sized`, and stabilizes `Layout::for_value_raw`, `mem::size_of_val_raw` and `mem::align_of_val_raw`.
+
+Newly stable APIs include:
+
+- `Box::into_non_null` and `Box::from_non_null`
+- `Vec::into_parts` and `Vec::from_parts`
+- `VecDeque::retain_back`
+- `String::from_utf8_lossy_owned` and `FromUtf8Error::into_utf8_lossy`
+- `std::fs::set_times` and `std::fs::set_times_nofollow`
+- `IntoIterator` for `Box<[T; N]>` and references to it
+
+The post notes there are no language semantic changes in this release. It also updates the `Box::leak` documentation to advise against patterns that later deallocate leaked memory, recommending `Box::into_non_null` or `Box::into_raw` instead, and says the same guidance applies to other `leak` functions in the standard library.
+
+## What 1.99.1 fixes
+
+The 1.99.1 announcement describes three regressions:
+
+- **Missing `wcslen` symbol.** LLVM's `loop-idiom-wcslen` pass can introduce calls to `wcslen`, but some targets do not provide it in `libc`. UEFI targets were hit hardest, breaking projects that use `std`. The function is now included in `compiler-builtins` as a fallback.
+- **FFI `bool` returns on x86_64.** Functions returning `bool` through FFI could leave bits 1 to 7 of the return register unspecified, so callers could read values other than 0 or 1. The return type is again marked for zero-extension, as the ABI requires.
+- **`rust-lld` on macOS.** The linker could fail to load `libLLVM` when run without the `rustup` proxy. It is now built with an `rpath` entry pointing at the directory containing `libLLVM.dylib`.
+
+## What to take from it
+
+- **FFI authors get a real feature.** If you wrap C APIs like printf-style functions or expose Rust through a C interface, variadics no longer need workarounds.
+- **Update if you touch FFI or UEFI.** The `bool` return bug is the kind of thing that produces confusing behavior at language boundaries, so anyone on 1.99.0 with FFI code should move to 1.99.1.
+- **Prefer the documented leak patterns.** If you rely on `Box::leak` and later free the memory, revisit that code.
+
+To upgrade, run `rustup update stable`.
+
+## Sources
+
+- [Announcing Rust 1.99.0](https://blog.rust-lang.org/2026/10/01/Rust-1.99.0/)
+- [Announcing Rust 1.99.1](https://blog.rust-lang.org/2026/10/15/Rust-1.99.1/)
+- [The Rust Blog](https://blog.rust-lang.org/)
