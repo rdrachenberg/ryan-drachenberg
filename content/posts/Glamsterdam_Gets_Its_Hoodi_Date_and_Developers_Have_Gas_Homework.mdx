@@ -1,0 +1,51 @@
+---
+title: "Glamsterdam Gets Its Hoodi Date and Developers Have Gas Homework"
+description: "Ethereum's Glamsterdam upgrade activates on Hoodi on October 26 after Sepolia, with gas repricing that can break contracts hardcoding gas."
+date: "2026-10-22"
+image: "https://upload.wikimedia.org/wikipedia/commons/a/a1/EFTA00002518_-_Server_rack_with_multiple_hard_drives_and_network_cables_connected_in_a_data_center_environment.jpg"
+imageAlt: "Server rack with hard drives and network cables in a data center"
+imageCredit: "Federal Bureau of Investigation / Public domain, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:EFTA00002518_-_Server_rack_with_multiple_hard_drives_and_network_cables_connected_in_a_data_center_environment.jpg"
+imageQuery: "server rack data center"
+---
+
+Ethereum's next big upgrade has moved from devnets to public testnets. After Sepolia went first on October 6, the Ethereum Foundation has scheduled Glamsterdam for the Hoodi testnet. For application developers, the more important detail is what the upgrade does to gas costs.
+
+## The schedule so far
+
+According to the Ethereum Foundation's testnet announcements:
+
+- **Sepolia:** epoch 353,024, which the post dates to October 6, 2026 at 13:53:36 UTC.
+- **Hoodi:** epoch 132,352, slot 4,235,264, on October 26, 2026 at 17:42:48 UTC. Hoodi's gas limit rises to 200M at the same epoch via EIP-8261, matching Sepolia.
+- **Mainnet:** no date is set. The Hoodi announcement covers only Hoodi, and says mainnet users and ETH holders need take no action.
+
+Glamsterdam combines the Amsterdam execution-layer upgrade with the Gloas consensus-layer upgrade. The Sepolia post lists enshrined proposer-builder separation (EIP-7732) and block-level access lists (EIP-7928) as the headline changes, alongside gas repricing in EIP-8037 and EIP-8038, ETH transfer logs, a SLOTNUM opcode, a higher maximum contract size, and exit and consolidation churn updates.
+
+## Gas repricing is the part to test
+
+The Foundation's repricing guide explains that EIP-8037 raises and harmonizes the cost of creating state, meaning new accounts, new storage slots and deployed bytecode, and meters that cost separately. EIP-8038 raises the cost of accessing state, including SSTORE, SLOAD, cold account access and EXTCODESIZE and EXTCODECOPY. The post does not give the new numeric costs.
+
+The guide says only a small set of contracts is affected. After replaying mainnet transactions, it sorts contracts into four outcomes: no change, succeeds with changes, fixable with a gas-limit increase, or potentially broken. Potentially broken contracts usually depend on hardcoded gas assumptions:
+
+- Fixed 2,300-gas stipends, such as Solidity's transfer and send
+- Hardcoded gas values in calls
+- Logic that branches on remaining gas
+- Presigned transactions with fixed gas limits
+
+## What to do
+
+- **Contract maintainers:** check your address in the repricing impact tool the guide links, review flagged call sites, and audit any code that hardcodes gas even if you are not listed.
+- **Wallets, RPC providers and tooling:** update gas estimation. The guide warns that cached gas constants will underestimate and cause failed transactions.
+- **Node operators and stakers:** update both execution and consensus clients, and for validators both the beacon node and validator client. Use only releases whose notes explicitly confirm Hoodi Glamsterdam support. The announcement lists candidate versions, including go-ethereum v1.17.9, Nethermind 2.2.0, Reth v2.8.0, Lighthouse v8.3.1 and Prysm v7.3.0, and notes the tables will be updated as releases are confirmed.
+- **Validators:** the Sepolia post notes that some clients default to a 60M gas limit after activation, so proposing at 200M requires explicit configuration.
+
+## Why it matters
+
+A 200M gas limit and parallel-friendly access lists are scaling moves, but repricing means old assumptions about what an operation costs stop holding. Testing on Sepolia and Hoodi now is cheap; discovering a stuck contract after mainnet activation is not. Mainnet timing is still undecided, so treat the testnet window as the time to find problems.
+
+## Sources
+
+- [Glamsterdam Hoodi Testnet Announcement (Ethereum Foundation)](https://blog.ethereum.org/2026/10/16/glamsterdam-hoodi-announcement)
+- [Glamsterdam Testnet Announcement (Ethereum Foundation)](https://blog.ethereum.org/2026/09/17/glamsterdam-testnet-announcement)
+- [Glamsterdam Repricing Impact for Smart Contract Developers (Ethereum Foundation)](https://blog.ethereum.org/2026/08/24/glamsterdam-repricing-testing)
+- [Alchemy: Glamsterdam Ethereum upgrade guide](https://www.alchemy.com/blog/glamsterdam-ethereum-upgrade)
