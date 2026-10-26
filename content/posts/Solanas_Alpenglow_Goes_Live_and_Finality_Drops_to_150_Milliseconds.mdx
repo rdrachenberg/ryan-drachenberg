@@ -1,0 +1,47 @@
+---
+title: "Solanas Alpenglow Goes Live and Finality Drops to 150 Milliseconds"
+description: "Solana replaced TowerBFT with Alpenglow on October 21. Here is how the new consensus works and what builders should watch."
+date: "2026-10-26"
+image: "https://upload.wikimedia.org/wikipedia/commons/b/b7/Robin_Lakes_Sunrise_%283871746834%29.jpg"
+imageAlt: "Sunrise light over a mountain lake"
+imageCredit: "Jeffrey Pang from Berkeley, CA, USA / CC BY 2.0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Robin_Lakes_Sunrise_(3871746834).jpg"
+imageQuery: "sunrise over mountains alpenglow"
+---
+
+On October 21, Solana's mainnet-beta switched from TowerBFT, the consensus protocol it has used since its March 2020 launch, to Alpenglow. According to The Block, the activation happened at slot 459,653,000, around 14:00 UTC. Anza, the team behind the Agave client, says finality falls from roughly 12.8 seconds to about 150 milliseconds. That is a big claim, so it is worth separating what is documented from what is still to be measured.
+
+## How Alpenglow works
+
+Anza's design post describes two main components:
+
+- **Votor** handles voting and finalization. It runs two modes at once and finalizes at whichever completes first: a single round when 80 percent of stake participates, or two rounds when 60 percent of stake is responsive.
+- **Rotor** handles data dissemination. It erasure-codes each block and spreads the pieces across nodes in proportion to stake, using a single relay layer rather than Turbine's multi-layer tree. Rotor is not part of this activation; The Block lists it as a planned follow-up without a confirmed date.
+
+On fault tolerance, Anza describes a "20+20" design that tolerates up to 20 percent adversarial stake plus an additional 20 percent of stake that is simply non-responsive.
+
+## Read the 150 millisecond number carefully
+
+Anza's post says the median finality of about 150 milliseconds, with some blocks near 100 milliseconds, comes from simulations using the current mainnet stake distribution and excludes computation overhead. It also notes that network latency sets a floor: about 65 percent of stake is within 50 milliseconds of the simulated leader, but the long tail exceeds 200 milliseconds.
+
+The Block attributes the mainnet figure to Anza, and I did not find an independent post-switch measurement in the sources I opened. Expect real-world numbers to vary with validator geography and load, and expect third-party measurements to settle the question over the coming weeks.
+
+## Why it matters for builders
+
+Faster finality changes more than a benchmark. A few practical consequences:
+
+- **Confirmation UX.** Apps that wait for a conservative confirmation level before showing success can tighten that flow, but only once you have measured the new behavior on mainnet.
+- **Cross-chain and exchange flows.** Bridges and custodians that wait for finality before crediting deposits may be able to shorten their waiting windows. That is a risk decision for each operator, not something to change blindly.
+- **Assumptions in tests.** Code and tests that encode old timing, such as fixed sleeps waiting for finalization, deserve a review.
+- **Rollout risk.** The Block reports that the upgrade came after red teaming, penetration testing, repeated migration rehearsals and a security competition. The sources I opened do not detail operational changes for validators, so validators should read Anza's own migration documentation.
+
+## What comes next
+
+According to The Block, the follow-on work includes Rotor, geographically aware leader rotations to reduce delays between block producers, and Quantumglow, a research design to replace elliptic-curve cryptography with hash-based signatures for post-quantum security. It also mentions SIMD-0370, a Firedancer team proposal to remove the 60 million compute-unit block limit so capacity can scale with validator hardware. None of those has a confirmed release date.
+
+The sensible stance for now: treat Alpenglow as a major, well-rehearsed change whose headline latency still needs independent verification, and measure your own application's confirmation times before and after.
+
+## Sources
+
+- [The Block: Anza's Alpenglow goes live on Solana, cutting finality to 150 milliseconds](https://theblock.co/news/ecosystems/2026-10-21-anzas-alpenglow-goes-live-on-solana-cutting-finality-to-150-milliseconds-421508)
+- [Anza: Alpenglow, A New Consensus for Solana](https://www.anza.xyz/blog/alpenglow-a-new-consensus-for-solana)
