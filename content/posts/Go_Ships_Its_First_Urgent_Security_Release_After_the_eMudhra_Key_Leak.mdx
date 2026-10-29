@@ -1,0 +1,58 @@
+---
+title: "Go Ships Its First Urgent Security Release After the eMudhra Key Leak"
+description: "Go 1.27.3 and 1.26.10 block eight weak-keyed eMudhra intermediate CAs; here is what happened and which binaries you need to rebuild."
+date: "2026-10-29"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/Padlock_in_Solna.jpg/1280px-Padlock_in_Solna.jpg"
+imageAlt: "Padlock attached to a metal fence"
+imageCredit: "Sniper Zeta / CC BY-SA 4.0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Padlock_in_Solna.jpg"
+imageQuery: "padlock"
+---
+
+Go has published a write-up of the fastest security release in its history. After eight intermediate certificate authorities operated by eMudhra turned out to have trivially recoverable private keys, the Go team shipped patched toolchains within hours. If you build Go services that make TLS connections, this one needs a rebuild.
+
+## What happened
+
+According to the Go Security team's October 26 post, Mozilla added eight eMudhra intermediate certificates to OneCRL on October 17. Six were used for TLS and two for code signing. Go says researchers found the keys were so weak that private keys could be recovered in microseconds. Because the issuing root was in most trusted root programs, an attacker holding those keys could have signed certificates for any domain and intercepted connections.
+
+CSO Online reports that security researcher Scott Helme recovered all eight keys from their public certificates in under a second. It also reports that Google found the keys were generated with insufficient randomness, and that no TLS certificates chaining to the six TLS intermediates appeared in Certificate Transparency logs before the block. eMudhra said the intermediates came from a key-generation ceremony in April 2025, that its root keys and other intermediates were unaffected, and that none of the affected intermediates issued end-entity certificates.
+
+## How fast Go moved
+
+The Go post gives a timeline for October 19, Pacific time:
+
+- 11:45: an outside researcher alerted Go's Security team.
+- 12:30: Mozilla reported the issue independently and asked Go not to disclose immediately.
+- 14:00: Go finalized a patch that blocks certificates chaining to the compromised intermediates.
+- 19:13: Go 1.27.3 and 1.26.10 were published, with deliberately vague wording.
+
+Go says this was its first urgent track security release, and that the patched releases were live less than seven and a half hours after initial notification. Researchers publicly disclosed the weak keys the next morning. The release process itself took just under four and a quarter hours, which Go considers slower than it should be.
+
+One detail matters for platform engineers. Windows and macOS rely on platform APIs for revocation, while Linux has no comparable built-in mechanism, so Go used its own verifier. Go says it will prioritize Linux revocation parity and is investigating the upki project, tracked in Go issue 82402.
+
+## What to do
+
+Go's guidance is to run the latest minor releases and rebuild any binary that makes TLS connections, including those using net/http, crypto/tls, or dependencies such as gRPC. Check your toolchain and your binaries:
+
+```bash
+go version
+go version -m path/to/your/binary
+```
+
+Go also shows how to test a built binary with govulncheck:
+
+```bash
+GOTOOLCHAIN=go1.27.3+auto go install golang.org/x/vuln/cmd/govulncheck@latest
+govulncheck -mode=binary path/to/your/binary
+```
+
+## Why it matters beyond Go
+
+The lesson is that trust stores are part of your supply chain. A statically linked Go binary carries its own verification logic, so a browser update does nothing for it. Container images, CI pipelines and long-lived services all need a path to rebuild quickly.
+
+CSO Online also quotes an analyst who advises enterprises to check payment gateways, vendor integrations, older Java applications, mobile apps and network appliances, since these can use their own trust stores. Go itself says it could have pre-announced the urgent release when the process began, and has changed its release process to be faster.
+
+## Sources
+
+- [Our Response To The eMudhra Key Disclosure Incident, The Go Blog](https://go.dev/blog/emudhra-incident)
+- [Google, Mozilla revoke eMudhra intermediates after private key compromise, CSO Online](https://www.csoonline.com/article/4238338/google-mozilla-revoke-emudhra-intermediates-after-private-key-compromise.html)

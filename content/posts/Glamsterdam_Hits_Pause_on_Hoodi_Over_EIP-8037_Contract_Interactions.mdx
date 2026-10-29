@@ -1,0 +1,59 @@
+---
+title: "Glamsterdam Hits Pause on Hoodi Over EIP-8037 Contract Interactions"
+description: "Ethereum core developers postponed the Hoodi activation of Glamsterdam to study how EIP-8037 state gas affects mainnet contracts."
+date: "2026-10-29"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Excavation%2C_construction_site_of_De_Hallen%2C_Amsterdam.jpg/1280px-Excavation%2C_construction_site_of_De_Hallen%2C_Amsterdam.jpg"
+imageAlt: "Excavation at a construction site in Amsterdam"
+imageCredit: "Fons Heijnsbroek / CC0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Excavation,_construction_site_of_De_Hallen,_Amsterdam.jpg"
+imageQuery: "construction site excavation"
+---
+
+Only a week after the Ethereum Foundation scheduled Glamsterdam for the Hoodi testnet, the date has been pulled. On October 22 the Foundation announced that the October 26 activation is cancelled and that no replacement date exists yet. For anyone building on Ethereum, the stated reason is the interesting part.
+
+## What the Foundation announced
+
+According to the Ethereum Foundation's October 22 blog post, core developers decided on All Core Devs Execution call 248 to delay the upgrade "to allow for further investigation of interactions of EIP-8037 with mainnet smart contracts."
+
+The post lists what was removed from Hoodi's configuration:
+
+- The Amsterdam execution layer activation
+- The Gloas consensus layer activation
+- The gas limit increase to 200M that had been set for the same epoch
+
+The change rolls back the upcoming configuration but does not revert Hoodi's existing chain history. The post also says no Glamsterdam mainnet date has been set, and that mainnet users and ETH holders need to take no action.
+
+## Why EIP-8037 is the sticking point
+
+EIP-8037, titled State Creation Gas Cost Increase, is in Last Call status with a deadline of November 1, 2026, according to the EIP page. It sets a cost per state byte of 1530 gas and meters state creation separately from regular execution, so the block limit applies to whichever dimension is the bottleneck.
+
+The EIP's motivation section argues that state creation is priced inconsistently today. Contract deployment costs about 200 gas per byte, while new storage slots cost about 313 gas per byte. It also reports that daily new state more than tripled after the gas limit rose from 30M to 60M, and projects that a 200M limit would push state growth past a 650 GiB performance threshold in under a year.
+
+The estimated impacts are large: new accounts cost about 7 times more, new storage slots about 5 times more, and a 24 kB contract deployment about 8 times more.
+
+The EIP itself names the risks that make mainnet interactions worth studying:
+
+- **Gas measurement:** Contracts that measure work by subtracting two GAS reads may get a negative result, because gas left can increase when state gas is refilled. This cannot be fixed in contracts already deployed.
+- **Bundlers:** ERC-4337 style bundlers that rely on gasleft differences cannot accurately attribute state gas, and must account for charges and refunds explicitly.
+- **Gas estimation:** Wallets and RPC nodes must update eth_estimateGas for the two-dimensional model, or transactions may underestimate gas and fail.
+- **Deployment factories:** Pre-signed deployments with hardcoded gas limits, such as Nick's method at 100,000 gas, will fail on new networks that activate the EIP from genesis. Existing networks that already have these factories are not affected.
+
+## What operators and builders should do
+
+The Foundation's guidance for node operators is concrete:
+
+- Do not plan Hoodi testing around an October 26 activation.
+- Update execution and consensus clients only to releases whose notes explicitly confirm the October 26 activation has been removed. The post warns that the release tables in the earlier announcement do not confirm the postponement.
+- Validators should update both the beacon node and the validator client.
+- Anyone using external block-building infrastructure should follow their provider's instructions.
+
+The post lists several client releases so far, including go-ethereum v1.17.10, Nethermind 2.2.1, Reth v2.8.1, Lighthouse v8.3.2 and Prysm v7.3.1, and tells readers to verify each against its release notes.
+
+## Our take
+
+A testnet delay is the system working as intended. Testnets exist to surface exactly this kind of problem before mainnet does. The practical lesson for contract developers is the same one the EIP spells out: avoid hardcoded gas assumptions, avoid logic that depends on gas deltas, and run your contracts and tooling against the Sepolia deployment, where Glamsterdam is already active, while the Hoodi schedule is reworked. A new Hoodi schedule will be announced separately.
+
+## Sources
+
+- [Glamsterdam on Hoodi Postponed, Ethereum Foundation Blog](https://blog.ethereum.org/en/2026/10/22/glamsterdam-hoodi-delay)
+- [EIP-8037: State Creation Gas Cost Increase](https://eips.ethereum.org/EIPS/eip-8037)
