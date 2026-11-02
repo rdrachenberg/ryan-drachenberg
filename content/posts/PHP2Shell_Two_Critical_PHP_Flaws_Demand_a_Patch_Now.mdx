@@ -1,0 +1,56 @@
+---
+title: "PHP2Shell: Two Critical PHP Flaws Demand a Patch Now"
+description: "CVE-2026-109618 and CVE-2026-109619 can allow unauthenticated remote code execution in PHP; fixed releases are out."
+date: "2026-11-02"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Home_server_equipment.jpg/1280px-Home_server_equipment.jpg"
+imageAlt: "Home server equipment with cables and network devices"
+imageCredit: "Alan Levine / CC BY 2.0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Home_server_equipment.jpg"
+imageQuery: "server room cables"
+---
+
+If you run PHP anywhere near the internet, this week's to-do list starts with a version check. On October 21 the PHP project disclosed two critical vulnerabilities, nicknamed PHP2Shell, that can lead to remote code execution on web servers.
+
+## The two vulnerabilities
+
+The UK National Cyber Security Centre's alert describes both:
+
+- **CVE-2026-109618:** an out-of-memory interruption can leave request data partly initialised, and request cleanup may then treat the invalid data as valid.
+- **CVE-2026-109619:** request-related state can persist after its memory is freed, so a later request on the same worker may use stale state.
+
+The php-src advisory for CVE-2026-109618 rates it Critical, with a CVSS v4 base score of 9.2. It explains that PHP uses longjmp to exit a request on an out-of-memory error, and in some contexts request memory is reachable before it is fully initialised. Attackers can trigger memory exhaustion through multipart request parsing, for example with requests lacking a usable content length or with parts carrying unlimited headers.
+
+## Who is affected
+
+The advisory lists PHP before 8.2.35, 8.3.36, 8.4.27 and 8.5.12 as affected, with those versions as the fixes. On exposure it says:
+
+- mod_php: confirmed unauthenticated RCE with default limits and prefork configurations.
+- PHP-FPM: source analysis suggests it is susceptible, but no full exploit has been demonstrated.
+- FrankenPHP and LSAPI: likely susceptible based on source analysis, not validated.
+
+The NCSC goes further and says all PHP versions may be affected, so it urges organisations to look beyond outdated installs. Help Net Security reports that PHP 8.1 and earlier are unsupported by the project, and that source patches were backported to 7.4, 8.0 and 8.1.
+
+## What to do
+
+The advisory is clear that updating is the only complete fix. The NCSC's priority order is:
+
+1. Inventory every PHP installation, internet-facing first.
+2. Update, again starting with internet-facing systems.
+3. If you cannot update, apply the PHP Foundation's temporary mitigations.
+4. If that is not feasible, consider taking the system offline.
+5. Check unpatched systems for signs of compromise.
+6. Watch vendors, because appliances and services may bundle PHP.
+
+The advisory lists interim hardening, such as conservative post size limits and limits on multipart parts, headers and uploads, but states these reduce risk rather than replace updating. It also notes that setting memory_limit to -1 is only a partial measure and warns against using RLIMIT_AS and RLIMIT_DATA.
+
+## Why it matters beyond PHP shops
+
+Help Net Security reports that Amazon observed exploitation attempts on October 17, before public disclosure, and that Cloudflare deployed initial WAF rules as a stopgap. It also says some network appliance vendors were still assessing their products, which is the hidden-dependency problem in miniature: you may be running PHP without having chosen it.
+
+The engineering lesson is in the fix itself. The patch removes longjmp-based out-of-memory handling in favour of a delayed, graceful shutdown at the next VM safe point. Error paths that jump out of half-initialised state are a classic source of memory-safety bugs, in any language, and are worth auditing in your own native code.
+
+## Sources
+
+- [UK NCSC: Critical security issue affecting PHP](https://www.ncsc.gov.uk/news/critical-security-issue-affecting-php)
+- [php-src advisory GHSA-w8hw-w9fx-j79w (CVE-2026-109618)](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w)
+- [Help Net Security: PHP2Shell critical PHP vulnerabilities patched](https://www.helpnetsecurity.com/2026/10/21/php2shell-php-vulnerabilities-patched-cve-2026-109618-cve-2026-109619/)
