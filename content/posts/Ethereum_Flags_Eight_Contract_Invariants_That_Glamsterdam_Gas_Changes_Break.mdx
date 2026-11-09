@@ -1,0 +1,54 @@
+---
+title: "Ethereum Flags Eight Contract Invariants That Glamsterdam Gas Changes Break"
+description: "Ethereum's Foundation published a checklist of eight assumptions that EIP-8037 and EIP-8038 invalidate and paused the Hoodi fork until they are resolved."
+date: "2026-11-09"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/Hedge_maze_-_Nokkakivi.jpg/1280px-Hedge_maze_-_Nokkakivi.jpg"
+imageAlt: "A hedge maze with winding paths"
+imageCredit: "Juustila / CC BY-SA 4.0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Hedge_maze_-_Nokkakivi.jpg"
+imageQuery: "hedge maze"
+---
+
+Hard forks usually change the protocol underneath contracts, not the assumptions inside them. Glamsterdam is different. On November 6 the Ethereum Foundation blog said that EIP-8037 and EIP-8038 rework how much gas is charged for certain operations and for state, and that some deployed projects rely on invariants those changes would break.
+
+## What the Foundation said
+
+According to the Foundation's post, ChainSecurity found that some projects depend on invariants the two EIPs would violate, which would leave them vulnerable once Glamsterdam activates. The All Core Developers group chose to delay the hard fork process, and the post states that Hoodi will not be forked until the issues are resolved. Work on the following upgrade, Hegota, continues in parallel.
+
+Cointelegraph's report on the delay adds that Glamsterdam went live on the Sepolia testnet on October 6, and cites ChainSecurity's October 13 report on contracts that make fixed-gas assumptions when external calls fail.
+
+The Foundation is engaging ChainSecurity and Dedaub and running internal audits. It also says audits cannot cover every project, including off-chain code, so it asks contract developers and auditors to check their own systems. Anyone who finds an affected project can write to glamsterdam@ethereum.org.
+
+## The eight invariants
+
+The ethereum/glamsterdam-gas-invariants repository lists eight, each tagged as an accounting or a price change. In short:
+
+- **Failed calls:** a failed call no longer guarantees the whole transaction fails, so code after it can still write storage.
+- **Zero-slot refunds:** setting a zero slot to non-zero and clearing it again in one transaction returns state gas immediately, which matters for locks and flags.
+- **Revert gas:** gas from a reverting call is returned to the caller, and a failed contract creation returns 183,600 gas, so code should check CREATE results rather than infer causes from gas.
+- **Higher prices:** creating storage, accounts and contracts costs several times more, and updating storage costs about 7,200 more per write, so hard-coded gas amounts can fail.
+- **gasleft drift:** gas left can increase during a call and reservoir-paid storage gas is invisible to gasleft(), so billing logic based on its differences can be wrong.
+- **The 1/64 remainder:** after a call runs out of gas, the leftover 1/64 may now be enough to record a failure.
+- **Fixed reserves and the 2,300 stipend:** transfer and send may not cover storage writes after a call.
+- **EIP-7702 delegations:** a delegation that runs out of gas is rolled back but its transaction is still mined, and the signed delegation can be reused.
+
+## What builders should do
+
+None of this is a bug in the protocol. It is a reminder that gas is part of your contract's observable behavior. A practical review pass:
+
+- Search for hard-coded gas values, gas stipends and gas-limited calls.
+- Look for logic that continues after a low-level call fails without reverting.
+- Check any code that measures gasleft() before and after a call to bill or refund users.
+- Replace storage-based locks and flags that flip within one transaction with transient storage or a non-zero resting value, as the repository suggests.
+- Review account setup functions for EIP-7702 wallets that anyone can call.
+- Add tests that run against the Sepolia deployment.
+
+## Why it matters
+
+The Foundation has not published new testnet or mainnet dates in this post, so planning around a specific activation is premature. The safer reading is that the review window is now. Findings reported before the next fork decision are more likely to be acted on, whether by fixing a contract or by informing a change to the EIPs themselves.
+
+## Sources
+
+- [Ethereum Foundation Blog: EIP-8037/EIP-8038 Glamsterdam](https://blog.ethereum.org/en/2026/11/06/glamsterdam-8037-8038)
+- [GitHub: ethereum/glamsterdam-gas-invariants](https://github.com/ethereum/glamsterdam-gas-invariants)
+- [Cointelegraph: Ethereum devs delay Glamsterdam fork on Hoodi over smart contract risks](https://cointelegraph.com/news/ethereum-devs-fork-glamsterdam-hoodi-smart-contract-risks)
