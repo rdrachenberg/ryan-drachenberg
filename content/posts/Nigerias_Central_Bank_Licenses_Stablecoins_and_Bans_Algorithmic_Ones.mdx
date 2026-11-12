@@ -1,0 +1,65 @@
+---
+title: "Nigeria's Central Bank Licenses Stablecoins and Bans Algorithmic Ones"
+description: "Nigeria's new virtual asset regulations create naira and foreign-currency stablecoin licences, ban algorithmic tokens and prohibit yield on holdings."
+date: "2026-11-12"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Lagos_skyline.jpg/1280px-Lagos_skyline.jpg"
+imageAlt: "Skyline of Lagos, Nigeria"
+imageCredit: "Clara Sanchiz / CC BY-SA 2.0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:Lagos_skyline.jpg"
+imageQuery: "Lagos Nigeria skyline"
+---
+
+The Central Bank of Nigeria has issued a full rulebook for stablecoins and other non-security virtual assets. According to The Block, the Regulations for the Operations of Non-Security Virtual Assets in Nigeria took effect on November 5 through a circular to stakeholders. For anyone building payments, wallets or exchange products that touch Nigerian users, this is one of the more detailed stablecoin regimes published anywhere this year.
+
+We read the regulation text on the CBN's website. Here is what stands out.
+
+## Two classes of stablecoin
+
+The regulation sorts stablecoins into classes, and each needs its own licence and per-token approval:
+
+- **Class 1:** naira-referenced stablecoins. They must reference the naira one-to-one and be fully backed by naira-denominated eligible reserve assets.
+- **Class 2:** foreign-currency-referenced stablecoins. These may reach people in Nigeria only when issued through a Nigerian-incorporated entity holding a Foreign Currency Issuer Licence.
+
+The text states there is no offshore issuer exemption from incorporation, licensing or capital. Issuance cannot begin until the Bank grants Token Approval for the specific token.
+
+## Capital and reserves
+
+Paid-up capital requirements in the regulation are:
+
+- Class 1 issuers: 10 billion naira
+- Class 2 issuers: 15 billion naira
+- Other non-security virtual asset service providers: 1 billion naira, in addition to any SEC-set capital where they hold an SEC licence
+
+On reserves, the eligible assets listed for Class 1 include deposits at the CBN, Nigerian Treasury Bills with residual maturity of no more than 90 days, and government bonds with residual maturity of no more than 180 days. Segregated naira deposits at licensed banks are also allowed, and SEC-regulated naira money market funds are capped at 10 percent of total reserves.
+
+## What is prohibited
+
+Section 2.2 names several Prohibited Tokens, including:
+
+- Algorithmic stablecoins, defined as tokens that seek to hold value solely or primarily through algorithmic adjustment of supply or demand rather than full backing by eligible reserve assets
+- Fiat-referenced tokens backed wholly or primarily by other virtual assets
+- Tokens marketed as stablecoins that give holders no enforceable right of redemption at par
+
+Section 13.3 also bars issuers from paying or arranging interest, yield, dividends or other returns to holders by reason of holding or depositing a stablecoin, and says a service provider may not be used to circumvent that. Reserves may not be used for lending or staking, among other uses listed in the next clause.
+
+## Who regulates what
+
+The Block notes the CBN oversees stablecoins and virtual assets used for payments, transfers, remittances, foreign exchange and settlement, while the SEC covers securities and capital-market activity. Firms active in both need approvals from both. The Block also reports the rules apply to activity that affects Nigeria's payments system or foreign exchange market even without a physical presence there, and cover AML obligations including Travel Rule compliance.
+
+## Transition
+
+Section 54 gives existing operators 180 calendar days from commencement to apply for the right licence. During that window they may continue only at existing scale and under interim conditions: register with the Bank within 30 days, follow AML/CFT/CPF requirements from commencement, and begin supervisory reporting within 60 days or an earlier prescribed period. Missing the application deadline means stopping until authorised.
+
+## What builders should take from it
+
+- Treat Nigeria as a licensed market. A foreign stablecoin cannot simply be listed; it needs a local issuing entity and token approval.
+- If your product shows rewards on stablecoin balances, check how it fits Section 13.3 before serving Nigerian users.
+- Design for token-level controls. Approval covers specifics such as the reference currency and reserve arrangements, so changes may need re-approval.
+- Reserve design matters. Short-dated, segregated and CBN-held assets are the pattern the regulation expects.
+
+This is an analysis of the published text, not legal advice, and details such as designations of systemic stablecoins sit in sections we have not covered here.
+
+## Sources
+
+- [Regulations for the Operations of Non-Security Virtual Assets in Nigeria (Central Bank of Nigeria)](https://www.cbn.gov.ng/Out/2026/CCD/REGULATIONS%20FOR%20THE%20OPERATIONS%20OF%20NON-SECURITY%20VIRTUAL%20ASSETS%20IN%20NIGERIA.pdf)
+- [Nigeria's central bank introduces stablecoin licensing rules, bans algorithmic versions (The Block)](https://www.theblock.co/news/regulation/2026-11-06-nigerias-central-bank-introduces-stablecoin-licensing-rules-bans-algorithmic-versions-435867)

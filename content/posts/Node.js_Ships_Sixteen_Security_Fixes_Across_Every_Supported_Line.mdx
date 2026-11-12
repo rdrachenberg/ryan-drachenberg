@@ -1,0 +1,58 @@
+---
+title: "Node.js Ships Sixteen Security Fixes Across Every Supported Line"
+description: "The November 11 Node.js security releases patch 16 CVEs in HTTP/2, TLS and the permission model. Here is what to check before you upgrade."
+date: "2026-11-12"
+image: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/UPS_Power_Management_Module%2C_racks_with_network_cabling_in_NERSC_data_center.jpg/1280px-UPS_Power_Management_Module%2C_racks_with_network_cabling_in_NERSC_data_center.jpg"
+imageAlt: "Server racks with network cabling in a data center"
+imageCredit: "Derrick Coetzee from Berkeley, CA, USA / CC0, via Wikimedia Commons"
+imageSource: "https://commons.wikimedia.org/wiki/File:UPS_Power_Management_Module,_racks_with_network_cabling_in_NERSC_data_center.jpg"
+imageQuery: "data center network cables"
+---
+
+On November 11 the Node.js project shipped security releases for all its supported lines: v22.23.5, v24.22.3 and v26.13.1. According to the project's advisory, the highest severity is high, and the page lists 16 CVEs. If you run Node on a server, this is an upgrade to schedule today rather than next sprint.
+
+## The shape of the release
+
+The advisory splits the fixes by severity: seven high, six medium and three low. The bulk of the high-severity items sit in two areas, HTTP/2 and TLS. Several affect only the 24.x and 26.x lines, while others touch 22.x as well. End-of-life versions are affected and receive no fix, and the advisory gives no official mitigation beyond upgrading.
+
+## HTTP/2 is the hot spot
+
+Four of the high-severity issues involve the HTTP/2 implementation:
+
+- An unauthenticated client can abort a default HTTP/2 server whose handler responds before the request body ends (24.x and 26.x). The advisory calls it a variant of an earlier CVE that the previous fix missed.
+- A protocol error during session shutdown leaves a dangling session, leaking memory and file descriptors (22.x, 24.x, 26.x).
+- Tearing down a stream while a write is backpressured can send freed response memory to the peer, which may include data belonging to other connections.
+- A use-after-free can occur when a stream using respondWithFile or respondWithFD is reset during a pending write (24.x and 26.x).
+
+A medium-severity item is also worth noting: inbound data queued on an undrained stream is not charged to the session memory budget, so the maxSessionMemory limit does not bound growth as intended.
+
+## TLS and HTTPS
+
+The most serious data-exposure issue in the advisory is in HTTPS. A zero-length TLS write can re-enter the HTTP parser and leak server heap memory, which the advisory says could include TLS private keys and other users' requests. The trigger described is a handler that calls flushHeaders before the request body ends and then ends the response with a non-empty chunk, alongside a route that echoes or stores request bodies. Cleartext http is not affected.
+
+Other TLS items include:
+
+- A remotely triggerable uncaught exception in TLS servers that use SNICallback, OCSPRequest, newSession, resumeSession or addContext.
+- TLS 1.2 renegotiation that lets a client change the servername and carry its authentication to a host with a stricter client-certificate policy.
+- A fail-open case where a CA-only per-host override passed to addContext is never installed, so the default client CA is used for mutual TLS.
+- A certificate validation bypass in https.Agent caused by cross-policy session reuse between a request with no ca option and one with an empty ca list.
+
+## Smaller but instructive
+
+- Proxy credentials could appear in error messages for invalid proxy configuration, from where they can reach logs and crash reporting.
+- Under the permission model, recursive fs.watch leaked names of denied files on macOS and Windows, and a wildcard grant could over-grant read access to a path shorter than its prefix.
+- Cancelling a respondWithFile download could crash a server through a null dereference.
+
+## What to do
+
+- Upgrade to the patched version for your line and redeploy.
+- If you are on an end-of-life release, plan a migration; no fix is offered there.
+- Audit handlers that use respondWithFile, per-host TLS contexts or custom client-certificate policies, since the advisory ties several bugs to those patterns.
+- Scrub logs for proxy URLs containing credentials.
+
+One more observation: the advisory credits Chris Rohlf with Claude and Anthropic Research for several of the reports, a reminder that AI-assisted vulnerability research is now producing real fixes in core infrastructure. We take no view beyond what the advisory states.
+
+## Sources
+
+- [Node.js Security Releases: November 11, 2026](https://nodejs.org/en/blog/vulnerability/november-2026-security-releases)
+- [Node.js blog index](https://nodejs.org/en/blog)
